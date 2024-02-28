@@ -11,10 +11,10 @@ import DoneRecipes from './pages/DoneRecipes';
 function App() {
   return (
     <Routes>
-      <Route path="/login" element={ <Login /> } />
+      <Route path="/" element={ <Login /> } />
       <Route element={ <Layout /> }>
-        <Route index path="/" element={ <Home /> } />
-        <Route path="/details/:id" element={ <Details /> } />
+        <Route index path="/:recipeType" element={ <Home /> } />
+        <Route path="/:recipeType/:id" element={ <Details /> } />
         <Route path="/favorites" element={ <Favorites /> } />
         <Route path="/in-progress" element={ <InProgress /> } />
         <Route path="/profile" element={ <Profile /> } />

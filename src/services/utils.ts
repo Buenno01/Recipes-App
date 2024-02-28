@@ -11,6 +11,7 @@ export const formatRecipeType = (data: any): RecipeType => {
   let formattedData;
   if (data?.idDrink) {
     formattedData = {
+      type: 'drinks',
       id: data.idDrink,
       name: data.strDrink,
       drinkAlternate: data.strDrinkAlternate,
@@ -27,6 +28,7 @@ export const formatRecipeType = (data: any): RecipeType => {
     };
   } else {
     formattedData = {
+      type: 'meals',
       id: data.idMeal,
       name: data.strMeal,
       drinkAlternate: data.strDrinkAlternate,

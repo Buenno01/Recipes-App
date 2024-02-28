@@ -17,7 +17,14 @@ function DoneRecipe(props: DoneRecipeProps) {
         Compartilhar
       </button>
       <p>Tags:</p>
-      {doneRecipe.tags.join(', ')}
+      {
+      doneRecipe.tags.map((tagName: string)=>{
+        return(
+        <p key={tagName} data-testid={`${index}-${tagName}-horizontal-tag`}>
+          {tagName}
+        </p>
+        );
+      })}
     </div>
   );
 }

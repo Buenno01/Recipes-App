@@ -1,9 +1,11 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 
 function Details() {
-  const { id, recipeType } = useParams();
+  const { id } = useParams();
+  const location = useLocation();
+  const recipeType = location.pathname.includes('meals') ? 'meals' : 'drinks';
   const {
     recipe,
     loading,

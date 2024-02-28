@@ -3,7 +3,7 @@ export type DoneRecipeType = {
   type: 'meal' | 'drink',
   nationality: string,
   category: string,
-  alcoholicOrNot: 'alcoholic' | 'non-alcoholic' | '',
+  alcoholicOrNot: 'alcoholic' | 'non-alcoholic' | null,
   name: string,
   image: string,
   doneDate: string,

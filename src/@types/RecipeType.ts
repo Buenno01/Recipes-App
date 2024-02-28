@@ -1,4 +1,7 @@
+import { RecipeOptionsType } from './RecipeOptionsType';
+
 export interface RecipeType {
+  type: RecipeOptionsType;
   id: string;
   name: string;
   drinkAlternate: string | null;

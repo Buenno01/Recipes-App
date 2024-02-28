@@ -1,21 +1,17 @@
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 
 function Details() {
-  const { id, recipeType } = useParams();
+  const { id } = useParams();
+  const location = useLocation();
+  const recipeType = location.pathname.includes('meals') ? 'meals' : 'drinks';
   const {
     recipe,
     loading,
     error,
   } = useFetchDrinkOrFoodById(id || '', recipeType as RecipeOptionsType);
 
-  // A foto deve ter o atributo data-testid="recipe-photo".
-  // O título deve ter o atributo data-testid="recipe-title".
-  // O texto da categoria deve ter o atributo data-testid="recipe-category".
-  // Os ingredientes devem ter o atributo data-testid="${index}-ingredient-name-and-measure".
-  // O texto de instruções deve ter o atributo data-testid="instructions".
-  // O vídeo, presente somente na tela de comidas, deve ter o atributo data-testid="video".
   if (loading) return <p>Loading...</p>;
   if (error || !recipe) return <p>Erro ao carregar</p>;
   return (
@@ -23,9 +19,8 @@ function Details() {
       <img data-testid="recipe-photo" src={ recipe.thumb } alt={ recipe.name } />
       <h2 data-testid="recipe-title">{recipe.name}</h2>
       <p data-testid="recipe-category">
-        {
-          recipeType === 'meals' ? recipe.category : recipe?.alcoholic
-        }
+        {recipe.type === 'meals' && recipe.category}
+        {recipe.type === 'drinks' && recipe.alcoholic}
       </p>
       <ul>
         {

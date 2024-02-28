@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { DrinkRecipeType } from '../@types/DrinkRecipeType';
+import { formatRecipeType } from './utils';
 
 type ReturnUseFetchDrinkByIdType = {
   drink: DrinkRecipeType | undefined;
@@ -18,7 +19,14 @@ const useFetchDrinkById = (id: string): ReturnUseFetchDrinkByIdType => {
         setLoading(true);
         const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
         const data = await response.json();
-        setDrink(data.drinks[0]);
+        const baseRecipe = formatRecipeType(data.drinks[0]);
+        setDrink({
+          ...baseRecipe,
+          iba: data.drinks[0].strIBA,
+          alcoholic: data.drinks[0].strAlcoholic,
+          glass: data.drinks[0].strGlass,
+          imageAttribution: data.drinks[0].strImageAttribution,
+        } as DrinkRecipeType);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message ?? 'Error fetching data');

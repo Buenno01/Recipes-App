@@ -24,8 +24,8 @@ function Details() {
       <h2 data-testid="recipe-title">{recipe.name}</h2>
       <p data-testid="recipe-category">
         {
-        recipe.category
-}
+          recipeType === 'meals' ? recipe.category : recipe?.alcoholic
+        }
       </p>
       <ul>
         {

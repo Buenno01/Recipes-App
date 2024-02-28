@@ -1,14 +1,12 @@
-export type DoneRecipeType = {
-  id: string,
-  type: 'meal' | 'drink',
-  nationality: string,
-  category: string,
+import { RecipeType } from './RecipeType';
+
+export interface DoneRecipeType extends RecipeType {
   alcoholicOrNot: 'alcoholic' | 'non-alcoholic' | null,
-  name: string,
-  image: string,
   doneDate: string,
-  tags: string[]
-};
+  nationality: string,
+  tags: string, // alterar para string[]
+  type: 'meal' | 'drink',
+}
 
 export type DoneRecipeProps = {
   doneRecipe: DoneRecipeType,

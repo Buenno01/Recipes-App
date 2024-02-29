@@ -6,7 +6,7 @@ import { DoneRecipeContext } from '../../contexts/DoneRecipeContext';
 
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[] | null>([]);
-  const doneRecipeContext = useContext(DoneRecipeContext);
+  const doneRecipeContext = useDoneRecipeContext();
   // doneRecipeContext.setDoneRecipesContext(doneRecipesMock);
 
   // const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {

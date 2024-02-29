@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
 import DoneRecipe from '../../components/DoneRecipe';
-import { DoneRecipeContext } from '../../contexts/DoneRecipeContext';
+import { useDoneRecipeContext } from '../../contexts/DoneRecipeContext';
 // import { doneRecipesMock } from '../../tests/mock';
 
 function DoneRecipes() {

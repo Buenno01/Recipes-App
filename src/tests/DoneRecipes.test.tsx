@@ -43,9 +43,9 @@ describe('Done Recipes Page Tests - Loaded Elements', () => {
 
   test(('Tags Element loaded.'), () => {
     const index = 0;
-    const tagTeste = mealDoneRecipeLocalStorageMock[index].tags? 
-      mealDoneRecipeLocalStorageMock[index].tags[0]
-    : '';
+    const tagTeste = mealDoneRecipeLocalStorageMock[index].tags
+      ? mealDoneRecipeLocalStorageMock[index].tags[0]
+      : '';
 
     const tagsElement = screen.getByTestId(`${index}-${tagTeste}-horizontal-tag`);
     expect(tagsElement).toBeInTheDocument();

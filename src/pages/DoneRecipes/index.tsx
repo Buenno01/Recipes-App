@@ -7,10 +7,10 @@ function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>([]);
   const doneRecipeContext = useContext(DoneRecipeContext);
 
-  const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {
-    // const filteredDoneRecipes = Lógica de Filtro
-    // return filteredDoneRecipes
-  };
+  // const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {
+  // const filteredDoneRecipes = Lógica de Filtro
+  // return filteredDoneRecipes
+  // };
 
   useEffect(() => {
     // const filteredDoneRecipes = applyFilters(doneRecipeContext.doneRecipes);

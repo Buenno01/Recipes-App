@@ -122,3 +122,15 @@ export const mealSearchedByIDMock = { meals:
         strImageSource: null,
         strCreativeCommonsConfirmed: null,
         dateModified: null }] };
+
+export const mealDoneRecipeLocalStorageMock = [{
+  id: '52772',
+  type: 'meal',
+  nationality: 'Japanese',
+  category: 'Chicken',
+  alcoholicOrNot: null,
+  name: 'Teriyaki Chicken Casserole',
+  image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+  doneDate: '2010-10-22',
+  tags: ['Soup', 'Chicken'],
+}];

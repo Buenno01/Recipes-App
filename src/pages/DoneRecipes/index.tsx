@@ -17,7 +17,7 @@ function DoneRecipes() {
   useEffect(() => {
     applyFilters(doneRecipeContext.doneRecipes);
     setDoneRecipes(doneRecipeContext.doneRecipes);
-  }, []);
+  }, [doneRecipeContext]);
 
   return (
     <div>

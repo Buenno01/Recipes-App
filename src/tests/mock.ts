@@ -1,4 +1,3 @@
-import { doneRecipesMock } from './mock';
 import { DoneRecipeType } from '../@types/DoneRecipeType';
 
 export const mealMock = {

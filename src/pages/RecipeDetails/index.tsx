@@ -3,7 +3,7 @@ import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 import IngredientList from '../../components/IngredientList';
 
-function Details() {
+function RecipeDetails() {
   const { id } = useParams();
   const location = useLocation();
   const recipeType = location.pathname.includes('meals') ? 'meals' : 'drinks';
@@ -58,4 +58,4 @@ function Details() {
   );
 }
 
-export default Details;
+export default RecipeDetails;

@@ -26,9 +26,11 @@ const useFetchDrinkOrFoodByName = (
       try {
         setLoading(true);
         const response = await fetch(fetchUrl + name);
+
         const data = await response.json();
 
         const baseRecipe = formatRecipeListToType(data[type], type);
+
         setRecipes(baseRecipe);
       } catch (err) {
         if (err instanceof Error) {

@@ -13,7 +13,6 @@ function DoneRecipesProvider({ children }: DoneRecipesProviderType) {
     const doneRecipesAux = localStorage.getItem('doneRecipes');
     const doneRecipesLocal = doneRecipesAux ? JSON.parse(doneRecipesAux) : null;
     setDoneRecipes(doneRecipesLocal);
-    console.log('aqui');
   }, []);
 
   const setDoneRecipesContext = (newDoneRecipes: DoneRecipeType[]) => {

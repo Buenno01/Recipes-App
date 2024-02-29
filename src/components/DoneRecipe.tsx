@@ -9,8 +9,10 @@ function DoneRecipe(props: DoneRecipeProps) {
         data-testid={ `${index}-horizontal-image` }
         alt={ doneRecipe.name }
       />
-      <p data-testid={ `${index}-horizontal-top-text` }>{doneRecipe.category}</p>
-      <p data-testid={ `${index}-horizontal-name` }>{doneRecipe.category}</p>
+      <p data-testid={ `${index}-horizontal-top-text` }>
+        {`${doneRecipe.nationality} - ${doneRecipe.category}`}
+      </p>
+      <p data-testid={ `${index}-horizontal-name` }>{doneRecipe.name}</p>
       <p data-testid={ `${index}-horizontal-done-date` }>{doneRecipe.doneDate}</p>
       <button
         id="share-done-recipe-button"

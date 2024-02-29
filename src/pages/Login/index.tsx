@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
@@ -23,6 +25,7 @@ function Login() {
 
   const handleClick = () => {
     localStorage.setItem('user', userData);
+    navigate('/meals');
   };
 
   return (

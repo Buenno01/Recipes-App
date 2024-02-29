@@ -8,15 +8,16 @@ function DoneRecipes() {
   const doneRecipeContext = useContext(DoneRecipeContext);
 
   const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {
+    const filteredDoneRecipes: DoneRecipeType[] = [];
     // const filterN = document.getFiltersN
-    console.log(doneRecipesToFilter);
     // filteredDoneRecipes = filterLogic();
     // setDoneRecipes(filteredDoneRecipes);
+    return filteredDoneRecipes;
   };
 
   useEffect(() => {
-    applyFilters(doneRecipeContext.doneRecipes);
-    setDoneRecipes(doneRecipeContext.doneRecipes);
+    const filteredDoneRecipes = applyFilters(doneRecipeContext.doneRecipes);
+    setDoneRecipes(filteredDoneRecipes);
   }, [doneRecipeContext]);
 
   return (

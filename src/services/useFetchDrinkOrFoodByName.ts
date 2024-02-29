@@ -13,8 +13,8 @@ type UseFetchDrinkOrFoodByNameReturnType = {
 };
 
 const useFetchDrinkOrFoodByName = (
-  type: RecipeOptionsType,
   name: string,
+  type: RecipeOptionsType,
 ): UseFetchDrinkOrFoodByNameReturnType => {
   const [recipes, setRecipes] = useState<AnyRecipeType[]>([]);
   const [loading, setLoading] = useState(true);

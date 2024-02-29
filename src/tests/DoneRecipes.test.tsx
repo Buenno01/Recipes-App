@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import DoneRecipes from '../pages/DoneRecipes';
 import { doneRecipesMock } from './mock';
 import { DoneRecipeContext } from '../contexts/DoneRecipeContext';
@@ -69,4 +69,26 @@ describe(('localStorage: doneRecipes'), () => {
   const index = 1;
   const nullElement = screen.queryByTestId(`${index}-horizontal-top-text`);
   expect(nullElement).toBeNull();
+});
+
+describe(('Copy to clipboard'), () => {
+  beforeEach(() => {
+    render(
+      <DoneRecipeContext.Provider value={ { doneRecipes: doneRecipesMock, setDoneRecipesContext: () => {} } }>
+        <DoneRecipes />
+      </DoneRecipeContext.Provider>,
+    );
+  });
+
+  test(('Copied element'), async () => {
+    const index = 0;
+    const doneRecipe = document.getElementById(`${index}-done-recipe-element`);
+    const button = doneRecipe?.querySelector('button');
+    expect(button).toBeInTheDocument();
+    act(() => {
+      if (button) fireEvent.click(button);
+      const copiedText = window.navigator.clipboard.readText();
+      expect(copiedText).toBe(`${window.location.origin}/${doneRecipesMock[index].type}s/${doneRecipesMock[index].id}`);
+    });
+  });
 });

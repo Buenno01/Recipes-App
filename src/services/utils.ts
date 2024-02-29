@@ -35,6 +35,12 @@ function getIngredientsAndMeasures(data: any): GetIngredientsAndMeasuresReturnTy
   ).map(([, value]) => value);
   return { ingredients, measures };
 }
+
+function getTagsArray(tags: string): string[] {
+  if (!tags) return [];
+  return tags.split(',');
+}
+
 function formatToMealRecipeType(data: any): MealRecipeType {
   const { ingredients, measures } = getIngredientsAndMeasures(data);
   return {
@@ -45,7 +51,7 @@ function formatToMealRecipeType(data: any): MealRecipeType {
     category: data.strCategory,
     instructions: data.strInstructions,
     thumb: data.strMealThumb,
-    tags: data.strTags,
+    tags: getTagsArray(data.strTags),
     video: data.strYoutube,
     ingredients: ingredients as string[],
     measures: measures as string[],
@@ -67,7 +73,7 @@ function formatToDrinkRecipeType(data: any): DrinkRecipeType {
     category: data.strCategory,
     instructions: data.strInstructions,
     thumb: data.strDrinkThumb,
-    tags: data.strTags,
+    tags: getTagsArray(data.strTags),
     video: data.strVideo,
     ingredients: ingredients as string[],
     measures: measures as string[],

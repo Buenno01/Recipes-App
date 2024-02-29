@@ -50,4 +50,9 @@ describe('Done Recipes Page Tests - Loaded Elements', () => {
     const tagsElement = screen.getByTestId(`${index}-${tagTeste}-horizontal-tag`);
     expect(tagsElement).toBeInTheDocument();
   });
+  test(('Drink Element loaded.'), () => {
+    const index = 1;
+    const isAlcoholic = screen.getByTestId(`${index}-horizontal-top-text`);
+    expect(isAlcoholic).toBeInTheDocument();
+  });
 });

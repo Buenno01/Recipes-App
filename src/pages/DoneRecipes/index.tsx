@@ -4,7 +4,7 @@ import DoneRecipe from '../../components/DoneRecipe';
 import { DoneRecipeContext } from '../../contexts/DoneRecipeContext';
 
 function DoneRecipes() {
-  const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>([]);
+  const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[] | null>([]);
   const doneRecipeContext = useContext(DoneRecipeContext);
 
   // const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {
@@ -28,7 +28,7 @@ function DoneRecipes() {
       <button data-testid="filter-by-meal-btn">Meals</button>
       <button data-testid="filter-by-drink-btn">Drinks</button>
       {
-        doneRecipes.map((doneRecipe: DoneRecipeType, index: number) => {
+        doneRecipes && doneRecipes.map((doneRecipe: DoneRecipeType, index: number) => {
           return (
             <div key={ doneRecipe.id }>
               <DoneRecipe doneRecipe={ doneRecipe } index={ index } />

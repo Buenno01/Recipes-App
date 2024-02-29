@@ -11,3 +11,4 @@ const INITIAL_VALUE = {
   setDoneRecipesContext: () => {},
 };
 export const DoneRecipeContext = createContext<DoneRecipeContextType>(INITIAL_VALUE);
+export const useDoneRecipeContext = useContext(DoneRecipeContext)

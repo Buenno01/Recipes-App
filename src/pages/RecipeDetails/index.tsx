@@ -1,17 +1,26 @@
 import { useLocation, useParams } from 'react-router-dom';
+// import { useEffect, useState } from 'react';
 import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 import IngredientList from '../../components/IngredientList';
+import useFetchDrinkOrFoodByName from '../../services/useFetchDrinkOrFoodByName';
 
 function RecipeDetails() {
   const { id } = useParams();
   const location = useLocation();
-  const recipeType = location.pathname.includes('meals') ? 'meals' : 'drinks';
+  const recipeType: RecipeOptionsType = location.pathname.includes('meals')
+    ? 'meals' : 'drinks';
+  const recomendationType: RecipeOptionsType = recipeType === 'meals'
+    ? 'drinks' : 'meals';
+  // const [recomendationName, setRecomendationName] = useState<string | undefined>('');
   const {
     recipe,
     loading,
     error,
-  } = useFetchDrinkOrFoodById(id || '', recipeType as RecipeOptionsType);
+  } = useFetchDrinkOrFoodById(id || '', recipeType);
+  const recomendation = useFetchDrinkOrFoodByName('', recomendationType);
+
+  // useEffect(() => { setRecomendationName(recipe?.name); }, [recipe?.name]);
 
   if (loading) return <p>Loading...</p>;
   if (error || !recipe) return <p>Erro ao carregar</p>;

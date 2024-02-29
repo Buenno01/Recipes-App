@@ -1,22 +1,25 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Login from '../pages/Login';
+import { renderWithRouter } from './utils';
 
-test('Input de email, senha e botão está presente no documento', () => {
-  render(<Login />);
+const setup = () => {
+  renderWithRouter(<Login />);
   const inputEmail = screen.getByTestId('email-input');
   const inputPassword = screen.getByTestId('password-input');
   const btnLogin = screen.getByTestId('login-submit-btn');
+  return { inputEmail, inputPassword, btnLogin };
+};
+
+test('Input de email, senha e botão está presente no documento', () => {
+  const { inputEmail, inputPassword, btnLogin } = setup();
   expect(inputEmail).toBeInTheDocument();
   expect(inputPassword).toBeInTheDocument();
   expect(btnLogin).toBeInTheDocument();
 });
 
-test('Verifica caso o email tenha um formato diferente ou senha tenha 6 ou menos caractes, o botão tenha a propriedade "disabled"', async () => {
-  render(<Login />);
-  const inputEmail = screen.getByTestId('email-input');
-  const inputPassword = screen.getByTestId('password-input');
-  const btnLogin = screen.getByTestId('login-submit-btn');
+test('Verifica se o botão tem a propriedade "disabled" com diferentes entradas', async () => {
+  const { inputEmail, inputPassword, btnLogin } = setup();
 
   expect(btnLogin).toBeDisabled();
 
@@ -25,7 +28,7 @@ test('Verifica caso o email tenha um formato diferente ou senha tenha 6 ou menos
   expect(btnLogin).toBeDisabled();
 
   await userEvent.clear(inputEmail);
-  await userEvent.type(inputEmail, 'emailvalido@valid.com');
+  await userEvent.type(inputEmail, 'emailvalido@valido.com');
   await userEvent.clear(inputPassword);
   await userEvent.type(inputPassword, '12345');
   expect(btnLogin).toBeDisabled();
@@ -41,4 +44,17 @@ test('Verifica caso o email tenha um formato diferente ou senha tenha 6 ou menos
   await userEvent.clear(inputPassword);
   await userEvent.type(inputPassword, '12345678');
   expect(btnLogin).toBeEnabled();
+});
+
+test('Verifica se o email é salvo no Local Storage após o clique no botão', async () => {
+  const { inputEmail, inputPassword, btnLogin } = setup();
+
+  const email = 'emailvalido@valid.com';
+  const password = '12345678';
+
+  await userEvent.type(inputEmail, email);
+  await userEvent.type(inputPassword, password);
+  await userEvent.click(btnLogin);
+
+  expect(localStorage.getItem('user')).toEqual(`{"email":"${email}"}`);
 });

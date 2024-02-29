@@ -18,6 +18,13 @@ function Login() {
 
   const formIsValid = (validEmail && validPassword);
 
+  const user = { email };
+  const userData = JSON.stringify(user);
+
+  const handleClick = () => {
+    localStorage.setItem('user', userData);
+  };
+
   return (
     <div>
       <input
@@ -33,8 +40,10 @@ function Login() {
         onChange={ handlePasswordChange }
       />
       <button
+        type="submit"
         data-testid="login-submit-btn"
         disabled={ !formIsValid }
+        onClick={ handleClick }
       >
         Enter
       </button>

@@ -7,7 +7,6 @@ import Details from '../pages/RecipeDetails';
 describe('RecipeDetails', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-    renderWithRouter(<Details />, { initialEntries: ['/meals/52771'] });
   });
   it('should render the details page', async () => {
     const mockSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
@@ -15,12 +14,13 @@ describe('RecipeDetails', () => {
       ok: true,
       status: 200,
     } as Response);
+    renderWithRouter(<Details />, { initialEntries: ['/meals/52771'] });
 
     expect(screen.getByText('Loading...')).toBeInTheDocument();
 
     await waitForElementToBeRemoved(() => screen.getByText('Loading...'));
 
-    expect(window.location.pathname).toBe('/meals/52771');
     expect(mockSpy).toHaveBeenCalledTimes(1);
+    expect(window.location.pathname).toBe('/meals/52771');
   });
 });

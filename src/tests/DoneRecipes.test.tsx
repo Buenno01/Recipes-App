@@ -1,12 +1,15 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import DoneRecipes from '../pages/DoneRecipes';
 import { mealDoneRecipeLocalStorageMock } from './mock';
+import { DoneRecipeContext } from '../contexts/DoneRecipeContext';
 
 describe('Done Recipes Page Tests - Loaded Elements', () => {
-  // Este arquivo pode ser modificado ou deletado sem problemas
   beforeEach(() => {
-    render(<DoneRecipes />);
+    render(
+      <DoneRecipeContext.Provider value={ { doneRecipes: mealDoneRecipeLocalStorageMock, setDoneRecipesContext: () => {} } }>
+        <DoneRecipes />
+      </DoneRecipeContext.Provider>,
+    );
   });
 
   test(('Title loaded.'), () => {
@@ -40,7 +43,11 @@ describe('Done Recipes Page Tests - Loaded Elements', () => {
 
   test(('Tags Element loaded.'), () => {
     const index = 0;
-    const tagsElement = screen.getByTestId(`${index}-${mealDoneRecipeLocalStorageMock[index].tags[0]}-horizontal-tag`);
+    const tagTeste = mealDoneRecipeLocalStorageMock[index].tags? 
+      mealDoneRecipeLocalStorageMock[index].tags[0]
+    : '';
+
+    const tagsElement = screen.getByTestId(`${index}-${tagTeste}-horizontal-tag`);
     expect(tagsElement).toBeInTheDocument();
   });
 });

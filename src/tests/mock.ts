@@ -1,3 +1,5 @@
+import { DoneRecipeType } from '../@types/DoneRecipeType';
+
 export const mealMock = {
   meals: [{
     idMeal: '52771',
@@ -123,7 +125,7 @@ export const mealSearchedByIDMock = { meals:
         strCreativeCommonsConfirmed: null,
         dateModified: null }] };
 
-export const mealDoneRecipeLocalStorageMock = [{
+export const mealDoneRecipeLocalStorageMock: DoneRecipeType[] = [{
   id: '52772',
   type: 'meal',
   nationality: 'Japanese',

@@ -11,7 +11,7 @@ function DoneRecipesProvider({ children }: DoneRecipesProviderType) {
 
   useEffect(() => {
     const doneRecipesAux = localStorage.getItem('doneRecipes');
-    const doneRecipesLocal = doneRecipesAux ? JSON.parse(doneRecipesAux) : null;
+    const doneRecipesLocal = doneRecipesAux ? JSON.parse(doneRecipesAux) : [];
     setDoneRecipes(doneRecipesLocal);
   }, []);
 

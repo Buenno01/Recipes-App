@@ -63,49 +63,72 @@ describe(('localStorage: doneRecipes'), () => {
     localStorage.clear();
   });
   test(('Null initial value'), () => {
-    <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
-      <DoneRecipes />
-    </DoneRecipesContext.Provider>;
+    render(
+      <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
+        <DoneRecipes />
+      </DoneRecipesContext.Provider>,
+    );
+    const index = 1;
+    const emptyElement = screen.queryByTestId(`${index}-horizontal-top-text`);
+    expect(emptyElement).toBeNull();
   });
-  const index = 1;
-  const emptyElement = screen.queryByTestId(`${index}-horizontal-top-text`);
-  expect(emptyElement).toBeNull();
-});
 
-describe(('Copy to clipboard'), () => {
-  const indexMock = 0;
-  const urlMock = `${window.location.origin}/${doneRecipesMock[indexMock].type}s/${doneRecipesMock[indexMock].id}`;
-  const clipboardMock = {
-    ...global.navigator.clipboard,
-    writeText: vi.fn(),
-    readText: vi.fn().mockReturnValue(urlMock),
-  };
+  test(('Change initial value'), () => {
+    render(
+      <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
+        <DoneRecipes />
+      </DoneRecipesContext.Provider>,
+    );
+    const index = 0;
+    const emptyElement = screen.queryByTestId(`${index}-horizontal-top-text`);
+    expect(emptyElement).toBeNull();
 
-  beforeEach(() => {
-    global.navigator = {
-      ...global.navigator,
-      clipboard: clipboardMock };
-
+    // teste do set necessita botão de filtro.
     render(
       <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
         <DoneRecipes />
       </DoneRecipesContext.Provider>,
     );
+
+    const newElement = screen.queryByTestId(`${index}-horizontal-top-text`);
+    expect(newElement).not.toBeNull();
   });
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  describe(('Copy to clipboard'), () => {
+    const indexMock = 0;
+    const urlMock = `${window.location.origin}/${doneRecipesMock[indexMock].type}s/${doneRecipesMock[indexMock].id}`;
+    const clipboardMock = {
+      ...global.navigator.clipboard,
+      writeText: vi.fn(),
+      readText: vi.fn().mockReturnValue(urlMock),
+    };
 
-  test(('Copied element'), async () => {
-    const doneRecipe = document.getElementById(`${indexMock}-done-recipe-element`);
-    const button = doneRecipe?.querySelector('button');
-    expect(button).toBeInTheDocument();
-    expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(0);
-    await waitFor(() => {
-      if (button) fireEvent.click(button);
-      expect(navigator.clipboard.writeText).toHaveBeenCalledWith(urlMock);
-      expect(navigator.clipboard.readText()).toBe(urlMock);
+    beforeEach(() => {
+      global.navigator = {
+        ...global.navigator,
+        clipboard: clipboardMock };
+
+      render(
+        <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
+          <DoneRecipes />
+        </DoneRecipesContext.Provider>,
+      );
+    });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    test(('Copied element'), async () => {
+      const doneRecipe = document.getElementById(`${indexMock}-done-recipe-element`);
+      const button = doneRecipe?.querySelector('button');
+      expect(button).toBeInTheDocument();
+      expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(0);
+      await waitFor(() => {
+        if (button) fireEvent.click(button);
+        expect(navigator.clipboard.writeText).toHaveBeenCalledWith(urlMock);
+        expect(navigator.clipboard.readText()).toBe(urlMock);
+      });
     });
   });
 });

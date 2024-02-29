@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
 import DoneRecipe from '../../components/DoneRecipe';
-import { DONE_RECIPES_MOCK } from '../../tests/mock';
-
+import { DoneRecipeContext } from '../../contexts/DoneRecipeContext';
 
 function DoneRecipes() {
-  const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>(DONE_RECIPES_MOCK);
-
-  useEffect(() => {
-    const doneRecipesLocalStorage = localStorage.getItem('doneRecipes');
-    if (doneRecipesLocalStorage) {
-      const jsonDoneRecipe = JSON.parse(doneRecipesLocalStorage);
-      setDoneRecipes(jsonDoneRecipe);
-      applyFilters(jsonDoneRecipe);
-    }
-    applyFilters(doneRecipes);
-  }, []);
+  const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>([]);
+  const doneRecipeContext = useContext(DoneRecipeContext);
 
   const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {
     // const filterN = document.getFiltersN
@@ -23,6 +13,11 @@ function DoneRecipes() {
     // filteredDoneRecipes = filterLogic();
     // setDoneRecipes(filteredDoneRecipes);
   };
+
+  useEffect(() => {
+    applyFilters(doneRecipeContext.doneRecipes);
+    setDoneRecipes(doneRecipeContext.doneRecipes);
+  }, []);
 
   return (
     <div>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { DoneRecipeProps } from '../@types/DoneRecipeType';
 
 function DoneRecipe(props: DoneRecipeProps) {

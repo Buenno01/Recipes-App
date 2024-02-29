@@ -1,10 +1,11 @@
-import { DoneRecipeType } from './../@types/DoneRecipeType';
 import { createContext } from 'react';
 import { DoneRecipeContextType } from '../@types/DoneRecipeContextType';
-import DoneRecipe from '../components/DoneRecipe';
+
+const doneRecipesAux = localStorage.getItem('doneRecipes');
+const doneRecipesLocal = doneRecipesAux ? JSON.parse(doneRecipesAux) : null;
 
 const INITIAL_VALUE = {
-  doneRecipes: [],
-  setDoneRecipesContext: ([]) => {},
+  doneRecipes: doneRecipesLocal,
+  setDoneRecipesContext: () => {},
 };
 export const DoneRecipeContext = createContext<DoneRecipeContextType>(INITIAL_VALUE);

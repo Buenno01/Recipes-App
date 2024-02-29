@@ -8,32 +8,30 @@ function DoneRecipes() {
   const doneRecipeContext = useContext(DoneRecipeContext);
 
   const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {
-    const filteredDoneRecipes: DoneRecipeType[] = [];
-    // const filterN = document.getFiltersN
-    // filteredDoneRecipes = filterLogic();
-    // setDoneRecipes(filteredDoneRecipes);
-    return filteredDoneRecipes;
+    // const filteredDoneRecipes = Lógica de Filtro
+    // return filteredDoneRecipes
   };
 
   useEffect(() => {
-    const filteredDoneRecipes = applyFilters(doneRecipeContext.doneRecipes);
-    setDoneRecipes(filteredDoneRecipes);
+    // const filteredDoneRecipes = applyFilters(doneRecipeContext.doneRecipes);
+    // setDoneRecipes(filteredDoneRecipes);
+    // doneRecipeContext.setDoneRecipesContext(filteredDoneRecipes);
+    setDoneRecipes(doneRecipeContext.doneRecipes);
   }, [doneRecipeContext]);
 
   return (
     <div>
       <h1>Done Recipes</h1>
-      {
-      // <Filter />
+      {// <Filter ></Filter> !LÓGICA FUTURA
       }
+      <button data-testid="filter-by-all-btn">All</button>
+      <button data-testid="filter-by-meal-btn">Meals</button>
+      <button data-testid="filter-by-drink-btn">Drinks</button>
       {
         doneRecipes.map((doneRecipe: DoneRecipeType, index: number) => {
           return (
             <div key={ doneRecipe.id }>
-              {
-                <DoneRecipe doneRecipe={ doneRecipe } index={ index } />
-                // <DoneRecipe recipe={doneRecipe}/>
-              }
+              <DoneRecipe doneRecipe={ doneRecipe } index={ index } />
             </div>
           );
         })

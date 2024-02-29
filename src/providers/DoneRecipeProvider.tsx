@@ -10,9 +10,10 @@ function DoneRecipesProvider({ children }: DoneRecipesProviderType) {
   const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>([]);
 
   useEffect(() => {
-    const doneRecipesAux = localStorage.getItem('doneRecipeIds');
+    const doneRecipesAux = localStorage.getItem('doneRecipes');
     const doneRecipesLocal = doneRecipesAux ? JSON.parse(doneRecipesAux) : null;
     setDoneRecipes(doneRecipesLocal);
+    console.log('aqui');
   }, []);
 
   const setDoneRecipesContext = (newDoneRecipes: DoneRecipeType[]) => {

@@ -1,6 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
 import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
+import IngredientList from '../../components/IngredientList';
 
 function Details() {
   const { id } = useParams();
@@ -22,18 +23,21 @@ function Details() {
         {recipe.type === 'meals' && recipe.category}
         {recipe.type === 'drinks' && recipe.alcoholic}
       </p>
-      <ul>
+      <IngredientList.Root>
         {
           recipe.ingredients.map((ingredient, index) => {
             const measure = recipe.measures[index];
             return (
-              <li key={ index } data-testid={ `${index}-ingredient-name-and-measure` }>
-                {`${measure ? `${measure} - ` : ''}${ingredient}`}
-              </li>
+              <IngredientList.Item
+                key={ index }
+                ingredient={ ingredient }
+                measure={ measure }
+                index={ index }
+              />
             );
           })
         }
-      </ul>
+      </IngredientList.Root>
       <p data-testid="instructions">
         {recipe.instructions}
       </p>

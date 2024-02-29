@@ -11,7 +11,6 @@ import DoneRecipesProvider from './providers/DoneRecipeProvider';
 
 function App() {
   return (
-    <DoneRecipesProvider>
       <Routes>
         <Route element={ <Layout /> }>
           <Route path="/" element={ <Login /> } />
@@ -26,7 +25,6 @@ function App() {
           <Route path="*" element={ <p> Nao achei </p> } />
         </Route>
       </Routes>
-    </DoneRecipesProvider>
   );
 }
 

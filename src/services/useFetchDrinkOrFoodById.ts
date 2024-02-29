@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
-import { DrinkRecipeType } from '../@types/DrinkRecipeType';
-import { MealRecipeType } from '../@types/MealRecipeType';
 import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 import { formatRecipeType } from './utils';
+import { AnyRecipeType } from '../@types/AnyRecipeType';
 
 const MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
 const DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
 type ReturnUseFetchDrinkOrFoodByIdType = {
-  recipe: DrinkRecipeType | MealRecipeType | undefined;
+  recipe: AnyRecipeType | undefined;
   loading: boolean;
   error: string;
 };
 
 const useFetchDrinkOrFoodById = (id: string, type: RecipeOptionsType)
 : ReturnUseFetchDrinkOrFoodByIdType => {
-  const [recipe, setRecipe] = useState<DrinkRecipeType | MealRecipeType>();
+  const [recipe, setRecipe] = useState<AnyRecipeType>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -28,26 +27,7 @@ const useFetchDrinkOrFoodById = (id: string, type: RecipeOptionsType)
         const data = await response.json();
 
         const baseRecipe = formatRecipeType(data[type][0]);
-
-        if (type === 'drinks') {
-          const drinkData = {
-            ...baseRecipe,
-            iba: data[type][0].strIBA,
-            alcoholic: data[type][0].strAlcoholic,
-            glass: data[type][0].strGlass,
-            imageAttribution: data[type][0].strImageAttribution,
-          } as DrinkRecipeType;
-
-          setRecipe(drinkData);
-        } else {
-          const mealData = {
-            ...baseRecipe,
-            area: data[type][0].strArea,
-            source: data[type][0].strSource,
-          } as MealRecipeType;
-
-          setRecipe(mealData);
-        }
+        setRecipe(baseRecipe);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message ?? 'Error fetching data');

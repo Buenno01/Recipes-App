@@ -1,4 +1,5 @@
-import { fireEvent, render, screen, act } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 import DoneRecipes from '../pages/DoneRecipes';
 import { doneRecipesMock } from './mock';
 import { DoneRecipeContext } from '../contexts/DoneRecipeContext';
@@ -72,7 +73,19 @@ describe(('localStorage: doneRecipes'), () => {
 });
 
 describe(('Copy to clipboard'), () => {
+  const indexMock = 0;
+  const urlMock = `${window.location.origin}/${doneRecipesMock[indexMock].type}s/${doneRecipesMock[indexMock].id}`;
+  const clipboardMock = {
+    ...global.navigator.clipboard,
+    writeText: vi.fn(),
+    readText: vi.fn().mockReturnValue(urlMock),
+  };
+
   beforeEach(() => {
+    global.navigator = {
+      ...global.navigator,
+      clipboard: clipboardMock };
+
     render(
       <DoneRecipeContext.Provider value={ { doneRecipes: doneRecipesMock, setDoneRecipesContext: () => {} } }>
         <DoneRecipes />
@@ -80,15 +93,19 @@ describe(('Copy to clipboard'), () => {
     );
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   test(('Copied element'), async () => {
-    const index = 0;
-    const doneRecipe = document.getElementById(`${index}-done-recipe-element`);
+    const doneRecipe = document.getElementById(`${indexMock}-done-recipe-element`);
     const button = doneRecipe?.querySelector('button');
     expect(button).toBeInTheDocument();
-    act(() => {
+    expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(0);
+    await waitFor(() => {
       if (button) fireEvent.click(button);
-      const copiedText = window.navigator.clipboard.readText();
-      expect(copiedText).toBe(`${window.location.origin}/${doneRecipesMock[index].type}s/${doneRecipesMock[index].id}`);
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith(urlMock);
+      expect(navigator.clipboard.readText()).toBe(urlMock);
     });
   });
 });

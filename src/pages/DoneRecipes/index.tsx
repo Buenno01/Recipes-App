@@ -2,12 +2,12 @@ import { useContext, useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
 import DoneRecipe from '../../components/DoneRecipe';
 import { DoneRecipeContext } from '../../contexts/DoneRecipeContext';
-import { doneRecipesMock } from '../../tests/mock';
+// import { doneRecipesMock } from '../../tests/mock';
 
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[] | null>([]);
   const doneRecipeContext = useContext(DoneRecipeContext);
-  doneRecipeContext.setDoneRecipesContext(doneRecipesMock);
+  // doneRecipeContext.setDoneRecipesContext(doneRecipesMock);
 
   // const applyFilters = (doneRecipesToFilter: DoneRecipeType[]) => {
   // const filteredDoneRecipes = Lógica de Filtro

@@ -19,7 +19,8 @@ function RecipeDetails() {
     loading,
     error,
   } = useFetchDrinkOrFoodById(id || '', recipeType);
-  const recomendation = useFetchDrinkOrFoodByName('', recomendationType);
+  const { recipes: recomendationData } = useFetchDrinkOrFoodByName('', recomendationType);
+  const recomendation = recomendationData.slice(0, 6);
 
   // useEffect(() => { setRecomendationName(recipe?.name); }, [recipe?.name]);
 
@@ -66,7 +67,7 @@ function RecipeDetails() {
       }
       <RecomendationsList.Root>
         {
-          recomendation.recipes.map((rec, index) => (
+          recomendation.map((rec, index) => (
             <RecomendationsList.Item
               index={ index }
               key={ index + rec.name }

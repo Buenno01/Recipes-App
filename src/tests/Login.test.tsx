@@ -1,10 +1,10 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Login from '../pages/Login';
-import { renderWithRouter } from './utils';
+import { renderWithRouterAndProviders } from './utils';
 
 const setup = () => {
-  renderWithRouter(<Login />);
+  renderWithRouterAndProviders(<Login />);
   const inputEmail = screen.getByTestId('email-input');
   const inputPassword = screen.getByTestId('password-input');
   const btnLogin = screen.getByTestId('login-submit-btn');
@@ -40,7 +40,7 @@ test('Verifica se o botão tem a propriedade "disabled" com diferentes entradas'
   expect(btnLogin).toBeDisabled();
 
   await userEvent.clear(inputEmail);
-  await userEvent.type(inputEmail, 'emailvalido@valid.com');
+  await userEvent.type(inputEmail, 'emailvalido@valido.com');
   await userEvent.clear(inputPassword);
   await userEvent.type(inputPassword, '12345678');
   expect(btnLogin).toBeEnabled();
@@ -57,4 +57,19 @@ test('Verifica se o email é salvo no Local Storage após o clique no botão', a
   await userEvent.click(btnLogin);
 
   expect(localStorage.getItem('user')).toEqual(`{"email":"${email}"}`);
+});
+
+test('Verifica se é redirecionado a rota /meals', async () => {
+  const { inputEmail, inputPassword, btnLogin } = setup();
+
+  const email = 'emailvalido@valid.com';
+  const password = '12345678';
+
+  await userEvent.clear(inputEmail);
+  await userEvent.type(inputEmail, email);
+  await userEvent.clear(inputPassword);
+  await userEvent.type(inputPassword, password);
+  await userEvent.click(btnLogin);
+
+  expect(screen.getByTestId('divHome')).toBeInTheDocument();
 });

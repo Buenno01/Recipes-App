@@ -23,8 +23,6 @@ export const renderWithContext = (ui: ReactElement) => {
 };
 
 export const renderWithRouter = (ui: ReactElement, { initialEntries = ['/'] } = {}) => {
-  console.log(initialEntries);
-
   return {
     user: userEvent.setup(),
     ...render(wrapWithRouter(ui, initialEntries)),

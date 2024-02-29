@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import DoneRecipes from '../pages/DoneRecipes';
-import { mealDoneRecipeLocalStorageMock } from './mock';
+import { doneRecipesMock } from './mock';
 import { DoneRecipeContext } from '../contexts/DoneRecipeContext';
 
 describe('Done Recipes Page Tests - Loaded Elements', () => {
   beforeEach(() => {
     render(
-      <DoneRecipeContext.Provider value={ { doneRecipes: mealDoneRecipeLocalStorageMock, setDoneRecipesContext: () => {} } }>
+      <DoneRecipeContext.Provider value={ { doneRecipes: doneRecipesMock, setDoneRecipesContext: () => {} } }>
         <DoneRecipes />
       </DoneRecipeContext.Provider>,
     );
@@ -43,8 +43,8 @@ describe('Done Recipes Page Tests - Loaded Elements', () => {
 
   test(('Tags Element loaded.'), () => {
     const index = 0;
-    const tagTeste = mealDoneRecipeLocalStorageMock[index].tags
-      ? mealDoneRecipeLocalStorageMock[index].tags[0]
+    const tagTeste = doneRecipesMock[index].tags
+      ? doneRecipesMock[index].tags[0]
       : '';
 
     const tagsElement = screen.getByTestId(`${index}-${tagTeste}-horizontal-tag`);

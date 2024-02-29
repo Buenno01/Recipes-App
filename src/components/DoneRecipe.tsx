@@ -2,6 +2,18 @@ import { DoneRecipeProps } from '../@types/DoneRecipeType';
 
 function DoneRecipe(props: DoneRecipeProps) {
   const { doneRecipe, index } = props;
+  const urlShare = `${window.location.origin}/${doneRecipe.type}/${doneRecipe.id}`;
+  const copyURL = async () => {
+    const copyElement = document.createElement('input');
+    copyElement.value = urlShare;
+    copyElement.select();
+    try {
+      await navigator.clipboard.writeText(urlShare);
+    } catch (err) {
+      console.error('Erro ao copiar para a área de transferência:', err);
+    }
+    alert('Link copied!');
+  };
   return (
     <div>
       <img
@@ -16,7 +28,7 @@ function DoneRecipe(props: DoneRecipeProps) {
       </p>
       <p data-testid={ `${index}-horizontal-name` }>{doneRecipe.name}</p>
       <p data-testid={ `${index}-horizontal-done-date` }>{doneRecipe.doneDate}</p>
-      <button>
+      <button onClick={ copyURL }>
         <img
           data-testid={ `${index}-horizontal-share-btn` }
           id="share-done-recipe-button"

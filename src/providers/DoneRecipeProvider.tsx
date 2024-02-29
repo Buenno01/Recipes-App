@@ -17,6 +17,7 @@ function DoneRecipesProvider({ children }: DoneRecipesProviderType) {
 
   const setDoneRecipesContext = (newDoneRecipes: DoneRecipeType[]) => {
     setDoneRecipes(newDoneRecipes);
+    localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
   };
 
   return (

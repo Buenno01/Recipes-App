@@ -4,6 +4,7 @@ import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 import IngredientList from '../../components/IngredientList';
 import useFetchDrinkOrFoodByName from '../../services/useFetchDrinkOrFoodByName';
+import RecomendationsList from './components/RecomendationsList';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -63,6 +64,18 @@ function RecipeDetails() {
           )
         )
       }
+      <RecomendationsList.Root>
+        {
+          recomendation.recipes.map((rec, index) => (
+            <RecomendationsList.Item
+              index={ index }
+              key={ index + rec.name }
+              title={ rec.name }
+              imgSrc={ rec.thumb }
+            />
+          ))
+        }
+      </RecomendationsList.Root>
     </>
   );
 }

@@ -12,6 +12,7 @@ function DoneRecipes() {
 
   return (
     <div>
+      <h1>Done Recipes</h1>
       <button data-testid="filter-by-all-btn">All</button>
       <button data-testid="filter-by-meal-btn">Meals</button>
       <button data-testid="filter-by-drink-btn">Drinks</button>

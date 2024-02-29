@@ -56,3 +56,17 @@ describe('Done Recipes Page Tests - Loaded Elements', () => {
     expect(isAlcoholic).toBeInTheDocument();
   });
 });
+
+describe(('localStorage: doneRecipes'), () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+  test(('Null initial value'), () => {
+    <DoneRecipeContext.Provider value={ { doneRecipes: null, setDoneRecipesContext: () => {} } }>
+      <DoneRecipes />
+    </DoneRecipeContext.Provider>;
+  });
+  const index = 1;
+  const nullElement = screen.queryByTestId(`${index}-horizontal-top-text`);
+  expect(nullElement).toBeNull();
+});

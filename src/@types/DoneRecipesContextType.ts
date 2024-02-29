@@ -1,6 +1,6 @@
 import { DoneRecipeType } from './DoneRecipeType';
 
-export type DoneRecipeContextType = {
-  doneRecipes: DoneRecipeType[] | null,
+export type DoneRecipesContextType = {
+  doneRecipesContext: DoneRecipeType[],
   setDoneRecipesContext: (newDoneRecipes: DoneRecipeType[]) => void,
 };

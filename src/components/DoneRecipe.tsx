@@ -1,13 +1,13 @@
 import { DoneRecipeProps } from '../@types/DoneRecipeType';
+import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 
 function DoneRecipe(props: DoneRecipeProps) {
   const { doneRecipe, index } = props;
-  const text = `${window.location.origin}/${doneRecipe.type}s/${doneRecipe.id}`;
 
-  const copyText = async (link: string) => {
-    await navigator.clipboard.writeText(link);
-    const textElement = document.getElementById('link-copied') as HTMLSpanElement;
-    textElement.textContent = 'Link copied!';
+  const url = `${window.location.origin}/${doneRecipe.type}s/${doneRecipe.id}`;
+  const copyText = async (text: string) => {
+    const imgElement = document.getElementById('share-done-recipe-button');
+    imgElement?.append(await copyTextToClipBoard(text));
   };
 
   return (
@@ -24,7 +24,7 @@ function DoneRecipe(props: DoneRecipeProps) {
       </p>
       <p data-testid={ `${index}-horizontal-name` }>{doneRecipe.name}</p>
       <p data-testid={ `${index}-horizontal-done-date` }>{doneRecipe.doneDate}</p>
-      <button id={ `${index}-share-done-recipe-button` } onClick={ () => copyText(text) }>
+      <button id={ `${index}-share-done-recipe-button` } onClick={ () => copyText(url) }>
         <img
           data-testid={ `${index}-horizontal-share-btn` }
           id="share-done-recipe-button"
@@ -32,7 +32,6 @@ function DoneRecipe(props: DoneRecipeProps) {
           alt="Compartilhar"
         />
         <span>Compartilhar</span>
-        <span id="link-copied" />
       </button>
       <p>Tags:</p>
       {

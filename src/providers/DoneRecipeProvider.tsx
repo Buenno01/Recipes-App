@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { DoneRecipeType } from '../@types/DoneRecipeType';
-import { DoneRecipeContext } from '../contexts/DoneRecipeContext';
+import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
 
 type DoneRecipesProviderType = {
   children: React.ReactNode
 };
 
 function DoneRecipesProvider({ children }: DoneRecipesProviderType) {
-  const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>([]);
+  const [doneRecipesContext, setNewDoneRecipesContext] = useState<DoneRecipeType[]>([]);
 
   useEffect(() => {
     const doneRecipesAux = localStorage.getItem('doneRecipes');
     const doneRecipesLocal = doneRecipesAux ? JSON.parse(doneRecipesAux) : [];
-    setDoneRecipes(doneRecipesLocal);
+    setDoneRecipesContext(doneRecipesLocal);
   }, []);
 
   const setDoneRecipesContext = (newDoneRecipes: DoneRecipeType[]) => {
-    setDoneRecipes(newDoneRecipes);
+    setNewDoneRecipesContext(newDoneRecipes);
     localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
   };
 
   return (
-    <DoneRecipeContext.Provider value={ { doneRecipes, setDoneRecipesContext } }>
+    <DoneRecipesContext.Provider value={ { doneRecipesContext, setDoneRecipesContext } }>
       {children}
-    </DoneRecipeContext.Provider>
+    </DoneRecipesContext.Provider>
   );
 }
 

@@ -2,14 +2,14 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
 import DoneRecipes from '../pages/DoneRecipes';
 import { doneRecipesMock } from './mock';
-import { DoneRecipeContext } from '../contexts/DoneRecipeContext';
+import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
 
 describe('Done Recipes Page Tests - Loaded Elements', () => {
   beforeEach(() => {
     render(
-      <DoneRecipeContext.Provider value={ { doneRecipes: doneRecipesMock, setDoneRecipesContext: () => {} } }>
+      <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
         <DoneRecipes />
-      </DoneRecipeContext.Provider>,
+      </DoneRecipesContext.Provider>,
     );
   });
 
@@ -63,13 +63,13 @@ describe(('localStorage: doneRecipes'), () => {
     localStorage.clear();
   });
   test(('Null initial value'), () => {
-    <DoneRecipeContext.Provider value={ { doneRecipes: null, setDoneRecipesContext: () => {} } }>
+    <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
       <DoneRecipes />
-    </DoneRecipeContext.Provider>;
+    </DoneRecipesContext.Provider>;
   });
   const index = 1;
-  const nullElement = screen.queryByTestId(`${index}-horizontal-top-text`);
-  expect(nullElement).toBeNull();
+  const emptyElement = screen.queryByTestId(`${index}-horizontal-top-text`);
+  expect(emptyElement).toBeNull();
 });
 
 describe(('Copy to clipboard'), () => {
@@ -87,9 +87,9 @@ describe(('Copy to clipboard'), () => {
       clipboard: clipboardMock };
 
     render(
-      <DoneRecipeContext.Provider value={ { doneRecipes: doneRecipesMock, setDoneRecipesContext: () => {} } }>
+      <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
         <DoneRecipes />
-      </DoneRecipeContext.Provider>,
+      </DoneRecipesContext.Provider>,
     );
   });
 

@@ -8,7 +8,7 @@ export interface RecipeType {
   category: string;
   instructions: string;
   thumb: string;
-  tags: string | null;
+  tags: string[] | null;
   video: string | null;
   ingredients: string[];
   measures: string[];

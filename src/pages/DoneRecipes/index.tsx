@@ -6,6 +6,7 @@ import { useDoneRecipesContext } from '../../contexts/DoneRecipesContext';
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>([]);
   const { doneRecipesContext } = useDoneRecipesContext();
+
   useEffect(() => {
     setDoneRecipes(doneRecipesContext);
   }, [doneRecipesContext]);

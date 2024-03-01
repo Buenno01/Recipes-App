@@ -12,6 +12,8 @@ type DetailsHeaderProps = {
 
 function DetailsHeader({ recipe }: DetailsHeaderProps) {
   const { thumb, name, category, type } = recipe;
+  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+  const isFavorited = favoriteRecipes.some(({ id }: AnyRecipeType) => id === recipe.id);
   let alcoholic: string | null = null;
   if (type === 'drinks') {
     alcoholic = recipe.alcoholic;
@@ -29,9 +31,6 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
   };
 
   const handleFavorite = () => {
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-    const isFavorited = favoriteRecipes
-      .some((favorite: AnyRecipeType) => favorite.id === recipe.id);
     const formattedRecipe = formatToFavoriteRecipeType(recipe);
     if (isFavorited) {
       const newFavoriteRecipes = favoriteRecipes
@@ -75,7 +74,11 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
         </span>
         <span>
           <button onClick={ handleFavorite }>
-            <img data-testid="favorite-btn" src={ blackHearticon } alt="Favoritar" />
+            <img
+              data-testid="favorite-btn"
+              src={ isFavorited ? blackHearticon : whiteHeartIcon }
+              alt="Favoritar"
+            />
           </button>
           <button onClick={ handleShare }>
             <img

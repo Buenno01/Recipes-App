@@ -3,7 +3,7 @@ import HeaderProps from '../@types/HeaderType';
 
 function Header({ titlePage, profileIcon, searchIcon }: HeaderProps) {
   return (
-    <header>
+    <header data-testid="header-layout">
       { profileIcon && <img
         src="/src/images/profileIcon.svg"
         alt=""

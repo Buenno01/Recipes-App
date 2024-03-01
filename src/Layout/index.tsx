@@ -5,7 +5,7 @@ import Header from './Header';
 function Layout() {
   const location = useLocation();
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
-  const [isFooterVisible, setIsFooterVisible] = useState(false);
+  // const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [titlePage, setTitlePage] = useState('');
   const [profileIcon, setProfileIcon] = useState(false);
   const [searchIcon, setSeachIcon] = useState(false);

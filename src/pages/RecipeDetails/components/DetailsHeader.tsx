@@ -4,6 +4,7 @@ import blackHearticon from '../../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
 import shareIcon from '../../../images/shareIcon.svg';
 import { copyTextToClipBoard } from '../../../utils/copyTextToClipBoard';
+import formatToFavoriteRecipeType from '../../../utils/formatToFavoriteRecipeType';
 
 type DetailsHeaderProps = {
   recipe: AnyRecipeType;
@@ -25,6 +26,23 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
     setTimeout(() => {
       messageElement?.removeChild(message);
     }, 500);
+  };
+
+  const handleFavorite = () => {
+    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+    const isFavorited = favoriteRecipes
+      .some((favorite: AnyRecipeType) => favorite.id === recipe.id);
+    const formattedRecipe = formatToFavoriteRecipeType(recipe);
+    if (isFavorited) {
+      const newFavoriteRecipes = favoriteRecipes
+        .filter((favorite: AnyRecipeType) => favorite.id !== recipe.id);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+    } else {
+      localStorage.setItem(
+        'favoriteRecipes',
+        JSON.stringify([...favoriteRecipes, formattedRecipe]),
+      );
+    }
   };
   return (
     <div className="relative w-screen h-56 overflow-hidden">
@@ -56,7 +74,7 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
           </p>
         </span>
         <span>
-          <button>
+          <button onClick={ handleFavorite }>
             <img data-testid="favorite-btn" src={ blackHearticon } alt="Favoritar" />
           </button>
           <button onClick={ handleShare }>

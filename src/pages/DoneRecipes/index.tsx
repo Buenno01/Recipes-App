@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
-import DoneRecipe from '../../components/DoneRecipe/DoneRecipe';
 import { useDoneRecipesContext } from '../../contexts/DoneRecipesContext';
+import DoneRecipe from '../../components/DoneRecipe';
 
 function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState<DoneRecipeType[]>([]);

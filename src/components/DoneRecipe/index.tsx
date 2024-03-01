@@ -1,5 +1,5 @@
-import { DoneRecipeProps } from '../@types/DoneRecipeType';
-import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
+import { DoneRecipeProps } from '../../@types/DoneRecipeType';
+import { copyTextToClipBoard } from '../../utils/copyTextToClipBoard';
 
 function DoneRecipe(props: DoneRecipeProps) {
   const { doneRecipe, index } = props;

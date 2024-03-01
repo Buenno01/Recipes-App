@@ -3,19 +3,19 @@ import { AnyRecipeType } from '../@types/AnyRecipeType';
 import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 import { formatRecipeListToType } from './utils';
 
-const MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?s=';
-const DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?s=';
+const MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+const DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
-type ReturnUseFetchDrinkOrFoodByNameType = {
+type UseFetchDrinkOrFoodByNameReturnType = {
   recipes: AnyRecipeType[];
   loading: boolean;
   error: string;
 };
 
 const useFetchDrinkOrFoodByName = (
-  type: RecipeOptionsType,
   name: string,
-): ReturnUseFetchDrinkOrFoodByNameType => {
+  type: RecipeOptionsType,
+): UseFetchDrinkOrFoodByNameReturnType => {
   const [recipes, setRecipes] = useState<AnyRecipeType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

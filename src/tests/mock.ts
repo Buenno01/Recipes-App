@@ -1,5 +1,7 @@
 import { DoneRecipeType } from '../@types/DoneRecipeType';
 
+const MEAL_THUMB = 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg';
+
 export const mealMock = {
   meals: [{
     idMeal: '52771',
@@ -7,7 +9,7 @@ export const mealMock = {
     strCategory: 'Vegetarian',
     strArea: 'Italian',
     strInstructions: 'Cook the pasta in a pan',
-    strMealThumb: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+    strMealThumb: MEAL_THUMB,
     strYoutube: 'https://www.youtube.com/watch?v=1IszT_guI08',
     strIngredient1: 'Penne Rigate',
     strIngredient2: 'Olive Oil',
@@ -132,7 +134,7 @@ export const doneRecipesMock: DoneRecipeType[] = [{
   category: 'Chicken',
   alcoholicOrNot: '',
   name: 'Teriyaki Chicken Casserole',
-  image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+  image: MEAL_THUMB,
   doneDate: '2017-12-19 18:34:15',
   tags: ['Soup', 'Chicken', 'Tag Que Não Deve Ser Mostrada'],
 },

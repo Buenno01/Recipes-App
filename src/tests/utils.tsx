@@ -4,6 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 
 const wrapWithRouter = (ui: ReactElement, initialEntries = ['/']) => {
+  window.history.pushState({}, '', initialEntries[0]);
   return (
     <MemoryRouter initialEntries={ initialEntries }>
       {ui}

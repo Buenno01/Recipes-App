@@ -1,10 +1,11 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Login from '../pages/Login';
-import { renderWithRouterAndProviders } from './utils';
+import { renderWithRouter } from './utils';
+import App from '../App';
 
 const setup = () => {
-  renderWithRouterAndProviders(<Login />);
+  renderWithRouter(<App />);
   const inputEmail = screen.getByTestId('email-input');
   const inputPassword = screen.getByTestId('password-input');
   const btnLogin = screen.getByTestId('login-submit-btn');

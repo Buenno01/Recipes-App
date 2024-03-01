@@ -1,5 +1,8 @@
 import React from 'react';
 import { AnyRecipeType } from '../../../@types/AnyRecipeType';
+import blackHearticon from '../../../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
+import shareIcon from '../../../images/shareIcon.svg';
 
 type DetailsHeaderProps = {
   recipe: AnyRecipeType;
@@ -12,14 +15,44 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
     alcoholic = recipe.alcoholic;
   }
   return (
-    <>
-      <img data-testid="recipe-photo" src={ thumb } alt={ name } />
-      <h2 data-testid="recipe-title">{name}</h2>
-      <p data-testid="recipe-category">
-        {type === 'meals' && category}
-        {type === 'drinks' && alcoholic}
-      </p>
-    </>
+    <div className="relative w-screen h-56 overflow-hidden">
+      <div className="absolute z-0 left-0 right-0 top-0 bottom-0 bg-black">
+        <img
+          className="absolute left-0 right-0 bottom-0 opacity-75"
+          data-testid="recipe-photo"
+          src={ thumb }
+          alt={ name }
+        />
+        <span
+          className="absolute top-0 bottom-0 left-0
+        right-0 flex justify-center items-center"
+        >
+          <h2
+            className="text-white text-4xl font-bold
+           text-center"
+            data-testid="recipe-title"
+          >
+            {name}
+          </h2>
+        </span>
+      </div>
+      <div className="z-20 absolute left-0 right-0 flex justify-between">
+        <span>
+          <p data-testid="recipe-category">
+            {type === 'meals' && category}
+            {type === 'drinks' && alcoholic}
+          </p>
+        </span>
+        <span>
+          <button>
+            <img data-testid="favorite-btn" src={ blackHearticon } alt="Favoritar" />
+          </button>
+          <button>
+            <img data-testid="share-btn" src={ shareIcon } alt="" />
+          </button>
+        </span>
+      </div>
+    </div>
   );
 }
 

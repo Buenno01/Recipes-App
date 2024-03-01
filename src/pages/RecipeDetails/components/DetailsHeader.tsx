@@ -4,6 +4,8 @@ import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
 import shareIcon from '../../../images/shareIcon.svg';
 import { copyTextToClipBoard } from '../../../utils/copyTextToClipBoard';
 import formatToFavoriteRecipeType from '../../../utils/formatToFavoriteRecipeType';
+import { useFavoriteRecipesContext } from '../../../contexts/FavoriteRecipesContext';
+import { FavoriteRecipeType } from '../../../@types/FavoriteRecipeType';
 
 type DetailsHeaderProps = {
   recipe: AnyRecipeType;
@@ -11,8 +13,8 @@ type DetailsHeaderProps = {
 
 function DetailsHeader({ recipe }: DetailsHeaderProps) {
   const { thumb, name, category, type } = recipe;
-  const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-  const isFavorited = favoriteRecipes.some(({ id }: AnyRecipeType) => id === recipe.id);
+  const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
+  const isFav = favoriteRecipes.some(({ id }: FavoriteRecipeType) => id === recipe.id);
   let alcoholic: string | null = null;
   if (type === 'drinks') {
     alcoholic = recipe.alcoholic;
@@ -31,15 +33,12 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
 
   const handleFavorite = () => {
     const formattedRecipe = formatToFavoriteRecipeType(recipe);
-    if (isFavorited) {
+    if (isFav) {
       const newFavoriteRecipes = favoriteRecipes
-        .filter((favorite: AnyRecipeType) => favorite.id !== recipe.id);
-      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+        .filter((favorite: FavoriteRecipeType) => favorite.id !== recipe.id);
+      setFavoriteRecipes(newFavoriteRecipes);
     } else {
-      localStorage.setItem(
-        'favoriteRecipes',
-        JSON.stringify([...favoriteRecipes, formattedRecipe]),
-      );
+      setFavoriteRecipes([...favoriteRecipes, formattedRecipe]);
     }
   };
   return (
@@ -75,7 +74,7 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
           <button onClick={ handleFavorite }>
             <img
               data-testid="favorite-btn"
-              src={ isFavorited ? blackHearticon : whiteHeartIcon }
+              src={ isFav ? blackHearticon : whiteHeartIcon }
               alt="Favoritar"
             />
           </button>

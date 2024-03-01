@@ -34,7 +34,11 @@ function RecipeDetails() {
       </p>
       <Video recipe={ recipe } />
       <Recomendations recomendations={ recomendations } />
-      <ButtonStartOrContinue id={ id } recipeType={ recipeType } />
+      <ButtonStartOrContinue
+        ingredientList={ recipe.ingredients }
+        id={ id }
+        recipeType={ recipeType }
+      />
     </>
   );
 }

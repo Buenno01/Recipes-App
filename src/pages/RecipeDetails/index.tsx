@@ -1,7 +1,6 @@
 import { useLocation, useParams } from 'react-router-dom';
 import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
-import IngredientList from '../../components/IngredientList';
 import useFetchDrinkOrFoodByName from '../../services/useFetchDrinkOrFoodByName';
 import Recomendations from './components/Recomendations';
 import ButtonStartOrContinue from './components/ButtonStartOrContinue';

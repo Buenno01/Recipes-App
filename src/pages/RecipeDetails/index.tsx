@@ -77,6 +77,12 @@ function RecipeDetails() {
           ))
         }
       </RecomendationsList.Root>
+      <button
+        className="fixed bottom-0"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </>
   );
 }

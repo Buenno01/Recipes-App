@@ -1,9 +1,9 @@
-import React from 'react';
-
 function Home() {
   return (
-    // Esse teste id é apenas para passar no teste de rotas do Login.test
-    <div data-testid="divHome">Home</div>
+    <>
+      {/* Esse test-id é apenas para passar no teste de rotas do Login.test */}
+      <div data-testid="divHome">Home</div>
+    </>
   );
 }
 

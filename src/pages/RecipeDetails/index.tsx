@@ -5,9 +5,11 @@ import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 import IngredientList from '../../components/IngredientList';
 import useFetchDrinkOrFoodByName from '../../services/useFetchDrinkOrFoodByName';
 import RecomendationsList from './components/RecomendationsList';
+import { useDoneRecipesContext } from '../../contexts/DoneRecipesContext';
 
 function RecipeDetails() {
   const { id } = useParams();
+  const { doneRecipesContext } = useDoneRecipesContext();
   const location = useLocation();
   const recipeType: RecipeOptionsType = location.pathname.includes('meals')
     ? 'meals' : 'drinks';
@@ -77,12 +79,17 @@ function RecipeDetails() {
           ))
         }
       </RecomendationsList.Root>
-      <button
-        className="fixed bottom-0"
-        data-testid="start-recipe-btn"
-      >
-        Start Recipe
-      </button>
+      {
+        !doneRecipesContext.some((doneRecipe) => doneRecipe.id === id)
+        && (
+          <button
+            className="fixed bottom-0"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+          </button>
+        )
+      }
     </>
   );
 }

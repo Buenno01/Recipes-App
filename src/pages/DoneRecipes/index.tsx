@@ -16,26 +16,43 @@ function DoneRecipes() {
 
   const handleFilterByType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget } = event;
-    const type = currentTarget.id.replace(/^filter-by-|btn$/g, '');
+    const type = currentTarget.id.replace(/(filter-by-)|(-btn)/g, '');
     // filter (return: {type: string, [key:string]:any }[])
-    const filteredRecipesAnyTipe = filterRecipesByType(doneRecipesContext, type);
-    // convert to DoneRecipes[]
-    const convertedFilteredRecipes = filteredRecipesAnyTipe
-      .map((filteredRecipeAnyTipe) => formatToDoneRecipeType(filteredRecipeAnyTipe));
-    setFilteredDoneRecipes(convertedFilteredRecipes);
+    if (type !== 'all') {
+      const filteredRecipesAnyTipe = filterRecipesByType(doneRecipesContext, type);
+      // convert to DoneRecipes[]
+      const convertedFilteredRecipes = filteredRecipesAnyTipe
+        .map((filteredRecipeAnyTipe) => formatToDoneRecipeType(filteredRecipeAnyTipe));
+      setFilteredDoneRecipes(convertedFilteredRecipes);
+    } else {
+      setFilteredDoneRecipes(doneRecipesContext);
+    }
   };
+
   return (
     <div>
       <h1>Done Recipes</h1>
-      <button data-testid="filter-by-all-btn">All</button>
+      <button
+        id="filter-by-all-btn"
+        data-testid="filter-by-all-btn"
+        onClick={ handleFilterByType }
+      >
+        All
+      </button>
       <button
         data-testid="filter-by-meal-btn"
-        id="filter-meals-btn"
+        id="filter-by-meal-btn"
         onClick={ handleFilterByType }
       >
         Meals
       </button>
-      <button data-testid="filter-by-drink-btn">Drinks</button>
+      <button
+        id="filter-by-drinks-btn"
+        data-testid="filter-by-drink-btn"
+        onClick={ handleFilterByType }
+      >
+        Drinks
+      </button>
       {
         filteredDoneRecipes && filteredDoneRecipes
           .map((filteredDoneRecipe: DoneRecipeType, index: number) => {

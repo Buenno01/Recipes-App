@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 
 function Layout() {
@@ -16,10 +16,39 @@ function Layout() {
         setIsHeaderVisible(false);
         break;
       case '/meals':
-        setIsHeaderVisible(true);
-        setSeachIcon(true);
-        setProfileIcon(true);
+        setIsHeaderVisible(true); setSeachIcon(true); setProfileIcon(true);
         setTitlePage('Meals');
+        break;
+      case '/drinks':
+        setIsHeaderVisible(true); setSeachIcon(true); setProfileIcon(true);
+        setTitlePage('Drinks');
+        break;
+      case '/meals/:id':
+        setIsHeaderVisible(false);
+        break;
+      case '/drinks/:id':
+        setIsHeaderVisible(false);
+        break;
+      case '/meals/:id/in-progress':
+        setIsHeaderVisible(false);
+        break;
+      case '/drinks/:id/in-progress':
+        setIsHeaderVisible(false);
+        break;
+      case '/profile':
+        setIsHeaderVisible(true);
+        setProfileIcon(true);
+        setTitlePage('Profile');
+        break;
+      case '/done-recipes':
+        setIsHeaderVisible(true);
+        setProfileIcon(true);
+        setTitlePage('Done Recipes');
+        break;
+      case '/favorite-recipes':
+        setIsHeaderVisible(true);
+        setProfileIcon(true);
+        setTitlePage('Favorite Recipes');
         break;
       default:
         break;

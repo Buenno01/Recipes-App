@@ -1,3 +1,4 @@
+import React from 'react';
 import HeaderProps from '../@types/HeaderType';
 
 function Header({ titlePage, profileIcon, searchIcon }: HeaderProps) {

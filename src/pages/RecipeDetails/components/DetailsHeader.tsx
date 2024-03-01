@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { AnyRecipeType } from '../../../@types/AnyRecipeType';
 import blackHearticon from '../../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';

@@ -34,7 +34,7 @@ function RecipeDetails() {
       </p>
       <Video recipe={ recipe } />
       <Recomendations recomendations={ recomendations } />
-      <ButtonStartOrContinue id={ id || '' } recipeType={ recipeType } />
+      <ButtonStartOrContinue id={ id } recipeType={ recipeType } />
     </>
   );
 }

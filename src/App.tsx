@@ -3,10 +3,10 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Layout from './Layout';
 import RecipeDetails from './pages/RecipeDetails';
-import Favorites from './pages/Favorites';
 import InProgress from './pages/InProgress';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
         <Route path="/drinks" element={ <Home /> } />
         <Route path="/meals/:id" element={ <RecipeDetails /> } />
         <Route path="/drinks/:id" element={ <RecipeDetails /> } />
-        <Route path="/favorites" element={ <Favorites /> } />
+        <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />
         <Route path="/meals/:id/in-progress" element={ <InProgress /> } />
         <Route path="/drinks/:id/in-progress" element={ <InProgress /> } />
         <Route path="/profile" element={ <Profile /> } />

@@ -9,7 +9,7 @@ import * as fetchByName from '../services/useFetchDrinkOrFoodByName';
 import { AnyRecipeType } from '../@types/AnyRecipeType';
 import { favoriteDrinkMock, formattedDrinkMock, formattedDrinkSearchByNameMock } from './drinkMocks';
 import { MealRecipeType } from '../@types/MealRecipeType';
-import { doneRecipesMock } from './mock';
+import { DONE_RECIPES_MOCK as doneRecipesMock } from './doneRecipesMock';
 import App from '../App';
 
 type ReturnUseFetchDrinkOrFoodByIdType = {

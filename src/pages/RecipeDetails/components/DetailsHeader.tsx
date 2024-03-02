@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AnyRecipeType } from '../../../@types/AnyRecipeType';
 import blackHearticon from '../../../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
@@ -13,6 +14,7 @@ type DetailsHeaderProps = {
 
 function DetailsHeader({ recipe }: DetailsHeaderProps) {
   const { thumb, name, category, type } = recipe;
+  const [copiedMessage, setCopiedMessage] = useState(false);
   const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
   const isFav = favoriteRecipes.some(({ id }: FavoriteRecipeType) => id === recipe.id);
   let alcoholic: string | null = null;
@@ -23,11 +25,12 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
   const handleShare = async () => {
     const windowLocation = window.location.href;
     console.log(windowLocation);
-    const message = await copyTextToClipBoard(windowLocation);
-    const messageElement = document.querySelector('#details-header-message');
-    messageElement?.appendChild(message);
+    await copyTextToClipBoard(windowLocation);
+
+    setCopiedMessage(true);
+
     setTimeout(() => {
-      messageElement?.removeChild(message);
+      setCopiedMessage(false);
     }, 500);
   };
 
@@ -87,10 +90,16 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
           </button>
         </span>
       </div>
-      <span
-        className="absolute bottom-0 z-20 left-0 right-0 text-center text-white"
-        id="details-header-message"
-      />
+      {
+        copiedMessage
+        && (
+          <span
+            className="absolute bottom-0 z-20 left-0 right-0 text-center text-white"
+          >
+            Link copied!
+          </span>
+        )
+      }
     </div>
   );
 }

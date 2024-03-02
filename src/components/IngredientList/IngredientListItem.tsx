@@ -10,13 +10,12 @@ function IngredientListItem({ ingredient, measure, index }: IngredientListItemPr
   return (
     <li
       data-testid={ `${index}-ingredient-name-and-measure` }
-      className="flex gap-2"
     >
-      <input type="checkbox" name={ `ingredient-${ingredient}` } value={ ingredient } />
-      <p>
+      <label className="flex gap-2">
+        <input type="checkbox" name={ `ingredient-${ingredient}` } value={ ingredient } />
         {measure ? `${measure} - ` : ''}
         {ingredient}
-      </p>
+      </label>
     </li>
   );
 }

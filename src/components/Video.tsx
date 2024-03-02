@@ -1,5 +1,5 @@
 import React from 'react';
-import { RecipeOptionsType } from '../../../@types/RecipeOptionsType';
+import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 
 type VideoProps = {
   recipe: {

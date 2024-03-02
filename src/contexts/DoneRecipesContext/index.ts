@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { DoneRecipesContextType } from '../@types/DoneRecipesContextType';
+import { DoneRecipesContextType } from '../../@types/DoneRecipesContextType';
 
 const INITIAL_VALUE = {
   doneRecipesContext: [],

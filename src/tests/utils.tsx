@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import { ReactElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import CombinedProviders from '../contexts/CombinedProviders';
 
 const wrapWithRouter = (ui: ReactElement, initialEntries = ['/']) => {
   window.history.pushState({}, '', initialEntries[0]);
@@ -12,10 +13,7 @@ const wrapWithRouter = (ui: ReactElement, initialEntries = ['/']) => {
   );
 };
 
-const wrapWithProviders = (ui: ReactElement) => {
-  const combinedProviders = (children: ReactElement) => (<p>{children}</p>);
-  return combinedProviders(ui);
-};
+const wrapWithProviders = (ui: ReactElement) => CombinedProviders({ children: ui });
 
 export const renderWithContext = (ui: ReactElement) => {
   // está faltando o provider do contexto

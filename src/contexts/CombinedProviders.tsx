@@ -1,3 +1,4 @@
+import DoneRecipesProvider from './DoneRecipesContext/DoneRecipeProvider';
 import FavoriteRecipesProvider from './FavoriteRecipesContext/FavoriteRecipesProvider';
 
 type CombinedProvidersProps = {
@@ -7,7 +8,9 @@ type CombinedProvidersProps = {
 function CombinedProviders({ children }: CombinedProvidersProps) {
   return (
     <FavoriteRecipesProvider>
-      {children}
+      <DoneRecipesProvider>
+        {children}
+      </DoneRecipesProvider>
     </FavoriteRecipesProvider>
   );
 }

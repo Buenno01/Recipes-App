@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { DoneRecipeType } from '../@types/DoneRecipeType';
-import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
+import { DoneRecipeType } from '../../@types/DoneRecipeType';
+import { DoneRecipesContext } from '.';
 
 type DoneRecipesProviderType = {
   children: React.ReactNode

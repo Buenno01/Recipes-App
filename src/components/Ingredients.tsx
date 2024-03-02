@@ -1,5 +1,5 @@
 import React from 'react';
-import IngredientList from '../../../components/IngredientList';
+import IngredientList from './IngredientList';
 
 type IngredientsProps = {
   recipe: {

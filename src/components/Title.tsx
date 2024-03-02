@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { AnyRecipeType } from '../../../@types/AnyRecipeType';
-import blackHearticon from '../../../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../../../images/whiteHeartIcon.svg';
-import shareIcon from '../../../images/shareIcon.svg';
-import { copyTextToClipBoard } from '../../../utils/copyTextToClipBoard';
-import formatToFavoriteRecipeType from '../../../utils/formatToFavoriteRecipeType';
-import { useFavoriteRecipesContext } from '../../../contexts/FavoriteRecipesContext';
-import { FavoriteRecipeType } from '../../../@types/FavoriteRecipeType';
+import { AnyRecipeType } from '../@types/AnyRecipeType';
+import blackHearticon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
+import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
+import formatToFavoriteRecipeType from '../utils/formatToFavoriteRecipeType';
+import { useFavoriteRecipesContext } from '../contexts/FavoriteRecipesContext';
+import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 
 type DetailsHeaderProps = {
   recipe: AnyRecipeType;

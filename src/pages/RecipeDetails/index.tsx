@@ -2,11 +2,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 import useFetchDrinkOrFoodByName from '../../services/useFetchDrinkOrFoodByName';
-import Recomendations from './components/Recomendations';
-import ButtonStartOrContinue from './components/ButtonStartOrContinue';
-import Ingredients from './components/Ingredients';
-import Video from './components/Video';
-import DetailsHeader from './components/DetailsHeader';
+import Recomendations from '../../components/Recomendations';
+import ButtonStartOrContinue from '../../components/ButtonStartOrContinue';
+import Ingredients from '../../components/Ingredients';
+import Video from '../../components/Video';
+import Title from '../../components/Title';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -27,7 +27,7 @@ function RecipeDetails() {
   if (error || !recipe) return <p>Erro ao carregar</p>;
   return (
     <>
-      <DetailsHeader recipe={ recipe } />
+      <Title recipe={ recipe } />
       <Ingredients recipe={ recipe } />
       <p data-testid="instructions">
         {recipe.instructions}

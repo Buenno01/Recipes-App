@@ -4,6 +4,7 @@ import { DONE_RECIPES_MOCK } from './doneRecipesMock';
 import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
 import { renderWithRouter } from './utils';
 import App from '../App';
+import { formatType } from '../utils/formatType';
 
 const INITIAL_ENTRIES = { initialEntries: ['/done-recipes'] };
 const INDEX_MOCK = [0, 1];
@@ -82,10 +83,19 @@ describe('localStorage: doneRecipes', () => {
     // Quando houve botão de criar nova DoneRecipe em outro componente, testar aqui.
   });
 
-  describe('Teste de filtro por tipo', () => {
+  describe('Response for Filter', () => {
     const MARTINEZ_2 = 'Martinez 2';
     const CHICKEN = 'Chicken';
-    test('Teste filtro de Drink', async () => {
+
+    test('Return the right type for filter', () => {
+      expect(formatType('meal')).toBe('meals');
+      expect(formatType('meals')).toBe('meals');
+      expect(formatType('drink')).toBe('drinks');
+      expect(formatType('drinks')).toBe('drinks');
+      expect(formatType('food')).toBe('food');
+    });
+
+    test('Drink Filter Test', async () => {
       renderWithRouter(
         <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
           <App />
@@ -100,7 +110,7 @@ describe('localStorage: doneRecipes', () => {
       expect(food1).toBeNull();
     });
 
-    test('Teste filtro de Meal', async () => {
+    test('Meal Filter Test', async () => {
       renderWithRouter(
         <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
           <App />
@@ -115,7 +125,7 @@ describe('localStorage: doneRecipes', () => {
       expect(food1).toBeInTheDocument();
     });
 
-    test('Teste de múltiplo filtro', async () => {
+    test('Multiple Filters', async () => {
       renderWithRouter(
         <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
           <App />
@@ -145,8 +155,8 @@ describe('localStorage: doneRecipes', () => {
     });
   });
 
-  describe('Teste de redirecionamento ao clicar imagem e link', () => {
-    test('Teste de click em imagem', async () => {
+  describe('Redirect by click on image or Name', () => {
+    test('Image Click', async () => {
       renderWithRouter(
         <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
           <App />
@@ -157,6 +167,18 @@ describe('localStorage: doneRecipes', () => {
       await userEvent.click(imgBtn);
       const imgElement = await screen.findByTestId('recipe-photo');
       expect(imgElement).not.toBeNull();
+    });
+    test('Name Click', async () => {
+      renderWithRouter(
+        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+          <App />
+        </DoneRecipesContext.Provider>,
+        INITIAL_ENTRIES,
+      );
+      const nameBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-name`);
+      await userEvent.click(nameBtn);
+      const nameElement = await screen.findByTestId('recipe-photo');
+      expect(nameElement).not.toBeNull();
     });
   });
 });

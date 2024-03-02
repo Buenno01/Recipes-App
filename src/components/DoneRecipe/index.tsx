@@ -6,7 +6,6 @@ function DoneRecipe(props: DoneRecipeProps) {
   const nav = useNavigate();
   const { doneRecipe, index } = props;
   const url = `/${doneRecipe.type}s/${doneRecipe.id}`;
-  // const url = `/${doneRecipe.type}s/${doneRecipe.id}`;
   const copyText = async (text: string) => {
     const span = document.getElementById(`${index}-link-copied`);
     if (span) {
@@ -15,11 +14,7 @@ function DoneRecipe(props: DoneRecipeProps) {
   };
 
   const handleClick = () => {
-    console.log('---------------------');
     nav(url);
-    console.log(`REDIRECIONADO PARA ${url}`);
-    console.log('---------------------');
-    // window.location.href = url;
   };
   return (
     <div>

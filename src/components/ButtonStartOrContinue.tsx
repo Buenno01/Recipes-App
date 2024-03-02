@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { useDoneRecipesContext } from '../../../contexts/DoneRecipesContext';
-import { RecipeOptionsType } from '../../../@types/RecipeOptionsType';
+import { useDoneRecipesContext } from '../contexts/DoneRecipesContext';
+import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 
 type ButtonStartOrContinueProps = {
   recipeType: RecipeOptionsType;

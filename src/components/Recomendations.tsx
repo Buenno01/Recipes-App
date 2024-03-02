@@ -1,5 +1,5 @@
 import React from 'react';
-import RecomendationsList from '../../../components/RecomendationsList';
+import RecomendationsList from './RecomendationsList';
 
 type RecomendationsProps = {
   recomendations: {

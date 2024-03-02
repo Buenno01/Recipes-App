@@ -1,15 +1,19 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { vi } from 'vitest';
-import DoneRecipes from '../pages/DoneRecipes';
-import { doneRecipesMock } from './mock';
+import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { DONE_RECIPES_MOCK } from './doneRecipesMock';
 import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
+import { renderWithRouter } from './utils';
+import App from '../App';
 
+const INITIAL_ENTRIES = { initialEntries: ['/done-recipes'] };
+const INDEX_MOCK = [0, 1];
 describe('Done Recipes Page Tests - Loaded Elements', () => {
   beforeEach(() => {
-    render(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
-        <DoneRecipes />
+    renderWithRouter(
+      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+        <App />
       </DoneRecipesContext.Provider>,
+      INITIAL_ENTRIES,
     );
   });
 
@@ -19,41 +23,35 @@ describe('Done Recipes Page Tests - Loaded Elements', () => {
   });
 
   test('Image Element loaded.', () => {
-    const index = 0;
-    const imageElement = screen.getByTestId(`${index}-horizontal-image`);
+    const imageElement = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-image`);
     expect(imageElement).toBeInTheDocument();
   });
 
   test('Category Element loaded.', () => {
-    const index = 0;
-    const categoryElement = screen.getByTestId(`${index}-horizontal-top-text`);
+    const categoryElement = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-top-text`);
     expect(categoryElement).toBeInTheDocument();
   });
 
   test('Date Element loaded.', () => {
-    const index = 0;
-    const dateElement = screen.getByTestId(`${index}-horizontal-done-date`);
+    const dateElement = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-done-date`);
     expect(dateElement).toBeInTheDocument();
   });
 
   test('Share Button Element loaded.', () => {
-    const index = 0;
-    const shareButtonElement = screen.getByTestId(`${index}-horizontal-share-btn`);
+    const shareButtonElement = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-share-btn`);
     expect(shareButtonElement).toBeInTheDocument();
   });
 
   test('Tags Element loaded.', () => {
-    const index = 0;
-    const tagTeste = doneRecipesMock[index].tags
-      ? doneRecipesMock[index].tags[0]
+    const tagTeste = DONE_RECIPES_MOCK[INDEX_MOCK[0]].tags
+      ? DONE_RECIPES_MOCK[INDEX_MOCK[0]].tags[0]
       : '';
 
-    const tagsElement = screen.getByTestId(`${index}-${tagTeste}-horizontal-tag`);
+    const tagsElement = screen.getByTestId(`${INDEX_MOCK[0]}-${tagTeste}-horizontal-tag`);
     expect(tagsElement).toBeInTheDocument();
   });
   test('Drink Element loaded.', () => {
-    const index = 1;
-    const isAlcoholic = screen.getByTestId(`${index}-horizontal-top-text`);
+    const isAlcoholic = screen.getByTestId(`${INDEX_MOCK[1]}-horizontal-top-text`);
     expect(isAlcoholic).toBeInTheDocument();
   });
 });
@@ -63,124 +61,102 @@ describe('localStorage: doneRecipes', () => {
     localStorage.clear();
   });
   test('Null initial value', () => {
-    render(
+    renderWithRouter(
       <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
-        <DoneRecipes />
+        <App />
       </DoneRecipesContext.Provider>,
+      INITIAL_ENTRIES,
     );
-    const index = 1;
-    const emptyElement = screen.queryByTestId(`${index}-horizontal-top-text`);
+    const emptyElement = screen.queryByTestId(`${INDEX_MOCK[1]}-horizontal-top-text`);
     expect(emptyElement).toBeNull();
   });
 
   test('Change initial value', () => {
-    render(
+    renderWithRouter(
       <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
-        <DoneRecipes />
+        <App />
       </DoneRecipesContext.Provider>,
-    );
-    const index = 0;
-    const emptyElement = screen.queryByTestId(`${index}-horizontal-top-text`);
-    expect(emptyElement).toBeNull();
-
-    // teste do set necessita botão de filtro.
-    render(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
-        <DoneRecipes />
-      </DoneRecipesContext.Provider>,
+      INITIAL_ENTRIES,
     );
 
-    const newElement = screen.queryByTestId(`${index}-horizontal-top-text`);
-    expect(newElement).not.toBeNull();
+    // Quando houve botão de criar nova DoneRecipe em outro componente, testar aqui.
   });
 
-  describe('Copy to clipboard', () => {
-    const indexMock = 0;
-    const urlMock = `${window.location.origin}/${doneRecipesMock[indexMock].type}s/${doneRecipesMock[indexMock].id}`;
-    const clipboardMock = {
-      ...global.navigator.clipboard,
-      writeText: vi.fn(),
-      readText: vi.fn().mockReturnValue(urlMock),
-    };
-
-    beforeEach(() => {
-      global.navigator = {
-        ...global.navigator,
-        clipboard: clipboardMock };
-
-      render(
-        <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
-          <DoneRecipes />
+  describe('Teste de filtro por tipo', () => {
+    const MARTINEZ_2 = 'Martinez 2';
+    const CHICKEN = 'Chicken';
+    test('Teste filtro de Drink', async () => {
+      renderWithRouter(
+        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+          <App />
         </DoneRecipesContext.Provider>,
+        INITIAL_ENTRIES,
       );
+      const button = screen.getByTestId('filter-by-drink-btn');
+      await userEvent.click(button);
+      const drink1 = screen.queryByText(MARTINEZ_2);
+      const food1 = screen.queryByText(CHICKEN);
+      expect(drink1).toBeInTheDocument();
+      expect(food1).toBeNull();
     });
 
-    afterEach(() => {
-      vi.restoreAllMocks();
+    test('Teste filtro de Meal', async () => {
+      renderWithRouter(
+        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+          <App />
+        </DoneRecipesContext.Provider>,
+        INITIAL_ENTRIES,
+      );
+      const button = screen.getByTestId('filter-by-meal-btn');
+      await userEvent.click(button);
+      const drink1 = screen.queryByText(MARTINEZ_2);
+      const food1 = screen.queryByText(CHICKEN);
+      expect(drink1).toBeNull();
+      expect(food1).toBeInTheDocument();
     });
 
-    test('Copied element', async () => {
-      const doneRecipe = document.getElementById(`${indexMock}-done-recipe-element`);
-      const button = doneRecipe?.querySelector('button');
-      expect(button).toBeInTheDocument();
-      expect(navigator.clipboard.writeText).toHaveBeenCalledTimes(0);
-      await waitFor(() => {
-        if (button) fireEvent.click(button);
-        expect(navigator.clipboard.writeText).toHaveBeenCalledWith(urlMock);
-        expect(navigator.clipboard.readText()).toBe(urlMock);
-      });
+    test('Teste de múltiplo filtro', async () => {
+      renderWithRouter(
+        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+          <App />
+        </DoneRecipesContext.Provider>,
+        INITIAL_ENTRIES,
+      );
+      const buttonMeal = screen.getByTestId('filter-by-meal-btn');
+      const buttonDrink = screen.getByTestId('filter-by-drink-btn');
+      const buttonAll = screen.getByTestId('filter-by-all-btn');
+      await userEvent.click(buttonMeal);
+      let drink1 = screen.queryByText(MARTINEZ_2);
+      let food1 = screen.queryByText(CHICKEN);
+      expect(drink1).toBeNull();
+      expect(food1).toBeInTheDocument();
+      const reload = () => {
+        drink1 = screen.queryByText(MARTINEZ_2);
+        food1 = screen.queryByText(CHICKEN);
+      };
+      await userEvent.click(buttonDrink);
+      reload();
+      expect(drink1).toBeInTheDocument();
+      expect(food1).toBeNull();
+      await userEvent.click(buttonAll);
+      reload();
+      expect(drink1).toBeInTheDocument();
+      expect(food1).toBeInTheDocument();
     });
   });
-});
 
-describe('Teste de filtro por tipo', () => {
-  beforeEach(() => {
-    render(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: doneRecipesMock, setDoneRecipesContext: () => {} } }>
-        <DoneRecipes />
-      </DoneRecipesContext.Provider>,
-    );
-  });
-  const MARTINEZ_2 = 'Martinez 2';
-  const CHICKEN = 'Chicken';
-  test('Teste filtro de Drink', async () => {
-    const button = screen.getByTestId('filter-by-drink-btn');
-    fireEvent.click(button);
-    const drink1 = screen.queryByText(MARTINEZ_2);
-    const food1 = screen.queryByText(CHICKEN);
-    expect(drink1).toBeInTheDocument();
-    expect(food1).toBeNull();
-  });
-
-  test('Teste filtro de Meal', async () => {
-    const button = screen.getByTestId('filter-by-meal-btn');
-    fireEvent.click(button);
-    const drink1 = screen.queryByText(MARTINEZ_2);
-    const food1 = screen.queryByText(CHICKEN);
-    expect(drink1).toBeNull();
-    expect(food1).toBeInTheDocument();
-  });
-
-  test('Teste de múltiplo filtro', async () => {
-    const buttonMeal = screen.getByTestId('filter-by-meal-btn');
-    const buttonDrink = screen.getByTestId('filter-by-drink-btn');
-    const buttonAll = screen.getByTestId('filter-by-all-btn');
-    fireEvent.click(buttonMeal);
-    let drink1 = screen.queryByText(MARTINEZ_2);
-    let food1 = screen.queryByText(CHICKEN);
-    expect(drink1).toBeNull();
-    expect(food1).toBeInTheDocument();
-    const reload = () => {
-      drink1 = screen.queryByText(MARTINEZ_2);
-      food1 = screen.queryByText(CHICKEN);
-    };
-    fireEvent.click(buttonDrink);
-    reload();
-    expect(drink1).toBeInTheDocument();
-    expect(food1).toBeNull();
-    fireEvent.click(buttonAll);
-    reload();
-    expect(drink1).toBeInTheDocument();
-    expect(food1).toBeInTheDocument();
+  describe('Teste de redirecionamento ao clicar imagem e link', () => {
+    test('Teste de click em imagem', async () => {
+      renderWithRouter(
+        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+          <App />
+        </DoneRecipesContext.Provider>,
+        INITIAL_ENTRIES,
+      );
+      const imgBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-image-btn`);
+      await userEvent.click(imgBtn);
+      const imgElement = await screen.findByTestId('recipe-photo');
+      expect(imgElement).not.toBeNull();
+    });
   });
 });

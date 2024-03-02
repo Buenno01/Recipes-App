@@ -31,7 +31,6 @@ function DoneRecipes() {
 
   return (
     <div>
-      <h1>Done Recipes</h1>
       <button
         id="filter-by-all-btn"
         data-testid="filter-by-all-btn"

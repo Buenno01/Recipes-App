@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
 import { DoneRecipesContext } from '.';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 type DoneRecipesProviderType = {
   children: React.ReactNode
 };
 
 function DoneRecipesProvider({ children }: DoneRecipesProviderType) {
-  const [doneRecipesContext, setNewDoneRecipesContext] = useState<DoneRecipeType[]>([]);
-
-  useEffect(() => {
-    const doneRecipesAux = localStorage.getItem('doneRecipes');
-    const doneRecipesLocal = doneRecipesAux ? JSON.parse(doneRecipesAux) : [];
-    setDoneRecipesContext(doneRecipesLocal);
-  }, []);
-
-  const setDoneRecipesContext = (newDoneRecipes: DoneRecipeType[]) => {
-    setNewDoneRecipesContext(newDoneRecipes);
-    localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
-  };
+  const [
+    doneRecipesContext,
+    setDoneRecipesContext,
+  ] = useLocalStorage<DoneRecipeType[]>('doneRecipes', []);
 
   return (
     <DoneRecipesContext.Provider value={ { doneRecipesContext, setDoneRecipesContext } }>

@@ -39,6 +39,7 @@ function DoneRecipes() {
       >
         All
       </button>
+      {' | '}
       <button
         data-testid="filter-by-meal-btn"
         id="filter-by-meal-btn"
@@ -46,8 +47,9 @@ function DoneRecipes() {
       >
         Meals
       </button>
+      {' | '}
       <button
-        id="filter-by-drinks-btn"
+        id="filter-by-drink-btn"
         data-testid="filter-by-drink-btn"
         onClick={ handleFilterByType }
       >

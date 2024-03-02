@@ -1,4 +1,5 @@
 import { DrinkRecipeType } from '../@types/DrinkRecipeType';
+import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 
 export const formattedDrinkMock: DrinkRecipeType = {
   type: 'drinks',
@@ -103,3 +104,13 @@ export const formattedDrinkSearchByNameMock: DrinkRecipeType[] = [
     id: '17269',
   },
 ];
+
+export const favoriteDrinkMock: FavoriteRecipeType = {
+  id: '17256',
+  type: 'drink',
+  nationality: '',
+  category: 'Cocktail',
+  name: 'Martinez',
+  image: 'https://www.thecocktaildb.com/images/media/drink/fs6kiq1513708455.jpg',
+  alcoholicOrNot: 'Alcoholic',
+};

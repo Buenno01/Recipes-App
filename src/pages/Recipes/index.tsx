@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
-import useFetchDrinkOrFoodByName from '../../services/useFetchDrinkOrFoodByName';
+import useFetchDrinkOrFoodByName from '../../hooks/useFetchDrinkOrFoodByName';
 import useFetchCategories from '../../hooks/useFetchCategories';
 
 function Home() {
@@ -26,10 +26,12 @@ function Home() {
     <div data-testid="divHome">
       <ul>
         {
-          !errorCategories
+          (!errorCategories && !loadingCategories)
           && categories.slice(0, 5).map((category) => (
             <li data-testid={ `${category}-category-filter` } key={ category }>
-              {category}
+              <button>
+                {category}
+              </button>
             </li>
           ))
 }

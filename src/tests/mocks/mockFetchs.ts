@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 import * as fetchCategories from '../../hooks/useFetchCategories';
-import * as fetchRecipesByName from '../../services/useFetchDrinkOrFoodByName';
-import * as fetchRecipesById from '../../services/useFetchDrinkOrFoodById';
+import * as fetchRecipesByName from '../../hooks/useFetchDrinkOrFoodByName';
+import * as fetchRecipesById from '../../hooks/useFetchDrinkOrFoodById';
 import {
   formattedMealMock as mealRecipe,
   mealCategoriesMock,

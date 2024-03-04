@@ -1,6 +1,5 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 import { renderWithRouter } from './utils';
 import App from '../App';
 import { formatType } from '../utils/formatType';

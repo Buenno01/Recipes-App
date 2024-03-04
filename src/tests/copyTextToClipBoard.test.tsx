@@ -43,7 +43,7 @@ describe('Copy to clipboard', () => {
     // expect(CLIPBOARD_MOCK.writeText).toHaveBeenCalledTimes(1);
   });
 
-  test('Teste de texto copiado', async () => {
+  test('Copied text should be "Link copied"!', async () => {
     renderWithRouter(
       <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
         <App />

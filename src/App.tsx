@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
-import Home from './pages/Home';
+import Recipes from './pages/Recipes';
 import RecipeDetails from './pages/RecipeDetails';
 import InProgress from './pages/InProgress';
 import Profile from './pages/Profile';
@@ -13,8 +13,8 @@ function App() {
     <Routes>
       <Route path="/" element={ <Layout /> }>
         <Route index element={ <Login /> } />
-        <Route path="/meals" element={ <Home /> } />
-        <Route path="/drinks" element={ <Home /> } />
+        <Route path="/meals" element={ <Recipes /> } />
+        <Route path="/drinks" element={ <Recipes /> } />
         <Route path="/meals/:id" element={ <RecipeDetails /> } />
         <Route path="/drinks/:id" element={ <RecipeDetails /> } />
         <Route path="/favorite-recipes" element={ <FavoriteRecipes /> } />

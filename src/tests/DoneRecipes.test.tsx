@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DONE_RECIPES_MOCK } from './doneRecipesMock';
+import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
 import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
 import { renderWithRouter } from './utils';
 import App from '../App';

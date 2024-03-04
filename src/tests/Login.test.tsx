@@ -71,5 +71,5 @@ test('Verifica se é redirecionado a rota /meals', async () => {
   await userEvent.type(inputPassword, password);
   await userEvent.click(btnLogin);
 
-  expect(screen.getByTestId('divHome')).toBeInTheDocument();
+  expect(screen.getByText(/meals/i)).toBeInTheDocument();
 });

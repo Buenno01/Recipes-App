@@ -4,15 +4,14 @@ import { useFavoriteRecipesContext } from '../../contexts/FavoriteRecipesContext
 import FavoriteRecipe from '../../components/FavoriteRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
-import { FAVORITE_RECIPE_MOCK } from '../../tests/favoriRecipesMock';
 
 function FavoriteRecipes() {
   const { favoriteRecipes } = useFavoriteRecipesContext();
   const [filteredFavoriteRecipes,
-    setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>(FAVORITE_RECIPE_MOCK);
+    setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>(favoriteRecipes);
 
   useEffect(() => {
-    setFilteredFavoriteRecipes(FAVORITE_RECIPE_MOCK);
+    setFilteredFavoriteRecipes(favoriteRecipes);
   }, [favoriteRecipes]);
 
   const handleFilterByType = (event: React.MouseEvent<HTMLButtonElement>) => {

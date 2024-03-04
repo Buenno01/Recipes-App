@@ -25,6 +25,7 @@ function DoneRecipe(props: DoneRecipeProps) {
         dataTestID={ `${index}-horizontal-share-btn` }
         copyText={ window.location.origin + url }
       />
+
       <p>Tags:</p>
       {
       doneRecipe.tags?.map((tagName: string, tagIndex: number) => {

@@ -1,6 +1,6 @@
-import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
+import { FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
 
-export const FAVORITE_RECIPE_MOCK: FavoriteRecipeType[] = [
+export const FAVORITE_RECIPES_MOCK: FavoriteRecipeType[] = [
   {
     id: '17256',
     type: 'drink',
@@ -15,7 +15,7 @@ export const FAVORITE_RECIPE_MOCK: FavoriteRecipeType[] = [
     type: 'meal',
     nationality: 'Italian',
     category: 'Vegetarian',
-    alcoholicOrNot: 'Alcoholic',
+    alcoholicOrNot: '',
     name: 'Spicy Arrabiata Penne',
     image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
   }];

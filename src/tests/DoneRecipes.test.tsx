@@ -73,7 +73,7 @@ describe('localStorage: doneRecipes', () => {
   });
   test('Some initial value', () => {
     renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
+      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
         <App />
       </DoneRecipesContext.Provider>,
       INITIAL_ENTRIES,

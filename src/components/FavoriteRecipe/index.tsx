@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { FavoriteRecipeProps, FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
+import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
 import blackHearticon from '../../images/blackHeartIcon.svg';
 import ShareButton from '../ShareButton';
 import ClickableImageAndName from '../ClickableImageAndName';
@@ -30,9 +30,12 @@ function FavoriteRecipe(props: FavoriteRecipeProps) {
         index={ index }
       />
       <CategoryDrinkOrMeal recipe={ favoriteRecipe } index={ index } />
-      <button onClick={ handleFavorite }>
+      <button
+        data-testid={ `${index}-horizontal-favorite-true-btn` }
+        onClick={ handleFavorite }
+      >
         <img
-          data-testid="favorite-btn"
+          data-testid={ `${index}-horizontal-favorite-btn` }
           src={ blackHearticon }
           alt="Favoritar"
         />

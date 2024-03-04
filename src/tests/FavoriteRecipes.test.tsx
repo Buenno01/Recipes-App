@@ -1,26 +1,32 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
-import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
+import { vi } from 'vitest';
 import { renderWithRouter } from './utils';
 import App from '../App';
 import { formatType } from '../utils/formatType';
+import FavoriteRecipesContext from '../contexts/FavoriteRecipesContext';
+import { FAVORITE_RECIPES_MOCK } from './mocks/favoriRecipesMock';
 
-const INITIAL_ENTRIES = { initialEntries: ['/done-recipes'] };
+const INITIAL_ENTRIES = { initialEntries: ['/favorite-recipes'] };
 const INDEX_MOCK = [0, 1];
-describe('Done Recipes Page Tests - Loaded Elements', () => {
+const MARTINEZ_2_MOCK = 'Martinez 2';
+const SPICY_ARRABIATA_PENNE_MOCK = 'Spicy Arrabiata Penne';
+describe('Favorite Recipes Page Tests - Loaded Elements', () => {
   beforeEach(() => {
     renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+      <FavoriteRecipesContext.Provider
+        value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+          setFavoriteRecipes: () => {} } }
+      >
         <App />
-      </DoneRecipesContext.Provider>,
+      </FavoriteRecipesContext.Provider>,
       INITIAL_ENTRIES,
     );
   });
 
   test('Title loaded.', () => {
-    const doneRecipesText = screen.getByText(/Done Recipes/i);
-    expect(doneRecipesText).toBeInTheDocument();
+    const favoriteRecipesText = screen.getByText(/Favorite Recipes/i);
+    expect(favoriteRecipesText).toBeInTheDocument();
   });
 
   test('Image Element loaded.', () => {
@@ -33,39 +39,29 @@ describe('Done Recipes Page Tests - Loaded Elements', () => {
     expect(categoryElement).toBeInTheDocument();
   });
 
-  test('Date Element loaded.', () => {
-    const dateElement = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-done-date`);
-    expect(dateElement).toBeInTheDocument();
-  });
-
   test('Share Button Element loaded.', () => {
-    const shareButtonElement = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-share-btn`);
+    const shareButtonElement = screen
+      .getByTestId(`${INDEX_MOCK[0]}-horizontal-share-btn`);
     expect(shareButtonElement).toBeInTheDocument();
   });
 
-  test('Tags Element loaded.', () => {
-    const tagTeste = DONE_RECIPES_MOCK[INDEX_MOCK[0]].tags
-      ? DONE_RECIPES_MOCK[INDEX_MOCK[0]].tags[0]
-      : '';
-
-    const tagsElement = screen.getByTestId(`${INDEX_MOCK[0]}-${tagTeste}-horizontal-tag`);
-    expect(tagsElement).toBeInTheDocument();
-  });
   test('Drink Element loaded.', () => {
     const isAlcoholic = screen.getByTestId(`${INDEX_MOCK[1]}-horizontal-top-text`);
     expect(isAlcoholic).toBeInTheDocument();
   });
 });
 
-describe('localStorage: doneRecipes', () => {
+describe('localStorage: favoriteRecipes', () => {
   beforeEach(() => {
     localStorage.clear();
   });
   test('Null initial value', () => {
     renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
+      <FavoriteRecipesContext.Provider
+        value={ { favoriteRecipes: [], setFavoriteRecipes: () => {} } }
+      >
         <App />
-      </DoneRecipesContext.Provider>,
+      </FavoriteRecipesContext.Provider>,
       INITIAL_ENTRIES,
     );
     const emptyElement = screen.queryByTestId(`${INDEX_MOCK[1]}-horizontal-top-text`);
@@ -73,9 +69,12 @@ describe('localStorage: doneRecipes', () => {
   });
   test('Some initial value', () => {
     renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+      <FavoriteRecipesContext.Provider
+        value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+          setFavoriteRecipes: () => {} } }
+      >
         <App />
-      </DoneRecipesContext.Provider>,
+      </FavoriteRecipesContext.Provider>,
       INITIAL_ENTRIES,
     );
     const textElement = screen.queryByTestId(`${INDEX_MOCK[1]}-horizontal-top-text`);
@@ -83,9 +82,6 @@ describe('localStorage: doneRecipes', () => {
   });
 
   describe('Response for Filter', () => {
-    const MARTINEZ_2 = 'Martinez 2';
-    const CHICKEN = 'Chicken';
-
     test('Return the right type for filter', () => {
       expect(formatType('meal')).toBe('meals');
       expect(formatType('meals')).toBe('meals');
@@ -96,52 +92,63 @@ describe('localStorage: doneRecipes', () => {
 
     test('Drink Filter Test', async () => {
       renderWithRouter(
-        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+        <FavoriteRecipesContext.Provider
+          value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+            setFavoriteRecipes: () => {} } }
+        >
           <App />
-        </DoneRecipesContext.Provider>,
+        </FavoriteRecipesContext.Provider>,
         INITIAL_ENTRIES,
       );
       const button = screen.getByTestId('filter-by-drink-btn');
       await userEvent.click(button);
-      const drink1 = screen.queryByText(MARTINEZ_2);
-      const food1 = screen.queryByText(CHICKEN);
+      const drink1 = screen.queryByText(MARTINEZ_2_MOCK);
+      const food1 = screen.queryByText(SPICY_ARRABIATA_PENNE_MOCK);
       expect(drink1).toBeInTheDocument();
       expect(food1).toBeNull();
     });
 
     test('Meal Filter Test', async () => {
       renderWithRouter(
-        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+        <FavoriteRecipesContext.Provider
+          value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+            setFavoriteRecipes: () => {} } }
+        >
           <App />
-        </DoneRecipesContext.Provider>,
+        </FavoriteRecipesContext.Provider>,
         INITIAL_ENTRIES,
       );
       const button = screen.getByTestId('filter-by-meal-btn');
+
       await userEvent.click(button);
-      const drink1 = screen.queryByText(MARTINEZ_2);
-      const food1 = screen.queryByText(CHICKEN);
+      const drink1 = screen.queryByText(MARTINEZ_2_MOCK);
+      const food1 = screen.queryByText(SPICY_ARRABIATA_PENNE_MOCK);
+
       expect(drink1).toBeNull();
       expect(food1).toBeInTheDocument();
     });
 
     test('Multiple Filters', async () => {
       renderWithRouter(
-        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+        <FavoriteRecipesContext.Provider
+          value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+            setFavoriteRecipes: () => {} } }
+        >
           <App />
-        </DoneRecipesContext.Provider>,
+        </FavoriteRecipesContext.Provider>,
         INITIAL_ENTRIES,
       );
       const buttonMeal = screen.getByTestId('filter-by-meal-btn');
       const buttonDrink = screen.getByTestId('filter-by-drink-btn');
       const buttonAll = screen.getByTestId('filter-by-all-btn');
       await userEvent.click(buttonMeal);
-      let drink1 = screen.queryByText(MARTINEZ_2);
-      let food1 = screen.queryByText(CHICKEN);
+      let drink1 = screen.queryByText(MARTINEZ_2_MOCK);
+      let food1 = screen.queryByText(SPICY_ARRABIATA_PENNE_MOCK);
       expect(drink1).toBeNull();
       expect(food1).toBeInTheDocument();
       const reload = () => {
-        drink1 = screen.queryByText(MARTINEZ_2);
-        food1 = screen.queryByText(CHICKEN);
+        drink1 = screen.queryByText(MARTINEZ_2_MOCK);
+        food1 = screen.queryByText(SPICY_ARRABIATA_PENNE_MOCK);
       };
       await userEvent.click(buttonDrink);
       reload();
@@ -157,9 +164,12 @@ describe('localStorage: doneRecipes', () => {
   describe('Redirect by click on image or Name', () => {
     test('Image Click', async () => {
       renderWithRouter(
-        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+        <FavoriteRecipesContext.Provider
+          value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+            setFavoriteRecipes: () => {} } }
+        >
           <App />
-        </DoneRecipesContext.Provider>,
+        </FavoriteRecipesContext.Provider>,
         INITIAL_ENTRIES,
       );
       const imgBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-image-btn`);
@@ -169,9 +179,12 @@ describe('localStorage: doneRecipes', () => {
     });
     test('Name Click', async () => {
       renderWithRouter(
-        <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
+        <FavoriteRecipesContext.Provider
+          value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+            setFavoriteRecipes: () => {} } }
+        >
           <App />
-        </DoneRecipesContext.Provider>,
+        </FavoriteRecipesContext.Provider>,
         INITIAL_ENTRIES,
       );
       const nameBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-name`);
@@ -181,3 +194,27 @@ describe('localStorage: doneRecipes', () => {
     });
   });
 });
+
+/* describe('Remove favorite item', () => {
+  test('Button Click', async () => {
+    const { user } = renderWithRouter(
+      <FavoriteRecipesContext.Provider
+        value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
+          setFavoriteRecipes: () => {} } }
+      >
+        <App />
+      </FavoriteRecipesContext.Provider>,
+      INITIAL_ENTRIES,
+    );
+    const favoriteBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-favorite-true-btn`);
+    const drinkText = screen.queryByText(MARTINEZ_2_MOCK);
+    expect(drinkText).toBeInTheDocument();
+
+    await user.click(favoriteBtn);
+
+    await waitFor(() => {
+      expect(screen.queryByText(MARTINEZ_2_MOCK)).toBeNull();
+    });
+  });
+});
+*/

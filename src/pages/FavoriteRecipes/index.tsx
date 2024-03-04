@@ -4,13 +4,15 @@ import { useFavoriteRecipesContext } from '../../contexts/FavoriteRecipesContext
 import FavoriteRecipe from '../../components/FavoriteRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
+// import { FAVORITE_RECIPES_MOCK } from '../../tests/mocks/favoriRecipesMock';
 
 function FavoriteRecipes() {
-  const { favoriteRecipes } = useFavoriteRecipesContext();
+  const { favoriteRecipes/* , setFavoriteRecipes */ } = useFavoriteRecipesContext();
   const [filteredFavoriteRecipes,
     setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>(favoriteRecipes);
 
   useEffect(() => {
+    // setFavoriteRecipes(FAVORITE_RECIPES_MOCK);
     setFilteredFavoriteRecipes(favoriteRecipes);
   }, [favoriteRecipes]);
 
@@ -30,20 +32,21 @@ function FavoriteRecipes() {
 
   return (
     <div>
-      <ButtonsFilterBy onClick={ handleFilterByType } />
-      {
+      <ButtonsFilterBy onClick={ handleFilterByType } data-testid="filterBy-buttons" />
+      <div data-testid="all-favorite-recipes">
+        {
         filteredFavoriteRecipes && filteredFavoriteRecipes
           .map((filteredFavoriteRecipe: FavoriteRecipeType, index: number) => {
             return (
-              <div key={ filteredFavoriteRecipe.id }>
-                <FavoriteRecipe
-                  favoriteRecipe={ filteredFavoriteRecipe }
-                  index={ index }
-                />
-              </div>
+              <FavoriteRecipe
+                favoriteRecipe={ filteredFavoriteRecipe }
+                index={ index }
+                key={ filteredFavoriteRecipe.id }
+              />
             );
           })
       }
+      </div>
     </div>
   );
 }

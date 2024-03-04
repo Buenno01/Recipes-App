@@ -7,3 +7,8 @@ export type FavoriteRecipeType = {
   name: string;
   image: string;
 };
+
+export type FavoriteRecipeProps = {
+  favoriteRecipe: FavoriteRecipeType,
+  index: number
+};

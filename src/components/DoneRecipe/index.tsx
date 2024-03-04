@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { DoneRecipeProps } from '../../@types/DoneRecipeType';
 import { copyTextToClipBoard } from '../../utils/copyTextToClipBoard';
+import ClickableHorizontalImage from '../ClickableHorizontalImage';
 
 function DoneRecipe(props: DoneRecipeProps) {
   const nav = useNavigate();
@@ -18,13 +19,11 @@ function DoneRecipe(props: DoneRecipeProps) {
   };
   return (
     <div>
-      <button data-testid={ `${index}-horizontal-image-btn` } onClick={ handleClick }>
-        <img
-          src={ doneRecipe.image }
-          data-testid={ `${index}-horizontal-image` }
-          alt={ doneRecipe.name }
-        />
-      </button>
+      <ClickableHorizontalImage
+        recipe={ doneRecipe }
+        onClick={ handleClick }
+        index={ index }
+      />
       <p>
         <button onClick={ handleClick }>
           <span data-testid={ `${index}-horizontal-name` }>
@@ -39,12 +38,10 @@ function DoneRecipe(props: DoneRecipeProps) {
       </p>
       <p data-testid={ `${index}-horizontal-done-date` }>{doneRecipe.doneDate}</p>
       <button
-        id={ `${index}-MY-horizontal-share-btn-onclick` }
         data-testid={ `${index}-MY-horizontal-share-btn-onclick` }
         onClick={ () => copyText(url) }
       >
         <img
-          id={ `${index}-horizontal-share-btn` }
           data-testid={ `${index}-horizontal-share-btn` }
           src="src/images/shareIcon.svg"
           alt="Compartilhar"

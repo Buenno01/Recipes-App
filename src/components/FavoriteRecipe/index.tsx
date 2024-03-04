@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { DoneRecipeProps } from '../../@types/DoneRecipeType';
+import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
 import { copyTextToClipBoard } from '../../utils/copyTextToClipBoard';
+import ClickableHorizontalImage from '../ClickableHorizontalImage';
 
-function DoneRecipe(props: DoneRecipeProps) {
+function FavoriteRecipe(props: FavoriteRecipeProps) {
   const nav = useNavigate();
-  const { doneRecipe, index } = props;
-  const url = `/${doneRecipe.type}s/${doneRecipe.id}`;
+  const { favoriteRecipe, index } = props;
+  const url = `/${favoriteRecipe.type}s/${favoriteRecipe.id}`;
   const copyText = async (text: string) => {
     const span = document.getElementById(`${index}-link-copied`);
     if (span) {
@@ -18,33 +19,28 @@ function DoneRecipe(props: DoneRecipeProps) {
   };
   return (
     <div>
-      <button data-testid={ `${index}-horizontal-image-btn` } onClick={ handleClick }>
-        <img
-          src={ doneRecipe.image }
-          data-testid={ `${index}-horizontal-image` }
-          alt={ doneRecipe.name }
-        />
-      </button>
+      <ClickableHorizontalImage
+        recipe={ favoriteRecipe }
+        onClick={ handleClick }
+        index={ index }
+      />
       <p>
         <button onClick={ handleClick }>
           <span data-testid={ `${index}-horizontal-name` }>
-            {doneRecipe.name}
+            {favoriteRecipe.name}
           </span>
         </button>
       </p>
       <p data-testid={ `${index}-horizontal-top-text` }>
-        {doneRecipe.type === 'meal'
-          ? `${doneRecipe.nationality} - ${doneRecipe.category}`
-          : `${doneRecipe.alcoholicOrNot}`}
+        {favoriteRecipe.type === 'meal'
+          ? `${favoriteRecipe.nationality} - ${favoriteRecipe.category}`
+          : `${favoriteRecipe.alcoholicOrNot}`}
       </p>
-      <p data-testid={ `${index}-horizontal-done-date` }>{doneRecipe.doneDate}</p>
       <button
-        id={ `${index}-MY-horizontal-share-btn-onclick` }
         data-testid={ `${index}-MY-horizontal-share-btn-onclick` }
         onClick={ () => copyText(url) }
       >
         <img
-          id={ `${index}-horizontal-share-btn` }
           data-testid={ `${index}-horizontal-share-btn` }
           src="src/images/shareIcon.svg"
           alt="Compartilhar"
@@ -52,19 +48,8 @@ function DoneRecipe(props: DoneRecipeProps) {
         <span>Compartilhar</span>
       </button>
       <span id={ `${index}-link-copied` } />
-      <p>Tags:</p>
-      {
-      doneRecipe.tags?.map((tagName: string, tagIndex: number) => {
-        if (tagIndex >= 2) return;
-        return (
-          <p key={ tagName } data-testid={ `${index}-${tagName}-horizontal-tag` }>
-            {tagName}
-          </p>
-        );
-      })
-}
     </div>
   );
 }
 
-export default DoneRecipe;
+export default FavoriteRecipe;

@@ -1,5 +1,5 @@
-import { DrinkRecipeType } from '../@types/DrinkRecipeType';
-import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
+import { DrinkRecipeType } from '../../@types/DrinkRecipeType';
+import { FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
 
 export const formattedDrinkMock: DrinkRecipeType = {
   type: 'drinks',

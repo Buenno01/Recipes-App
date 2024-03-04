@@ -2,7 +2,7 @@ import userEvent from '@testing-library/user-event';
 import { screen } from '@testing-library/react';
 import App from '../App';
 import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
-import { DONE_RECIPES_MOCK } from './doneRecipesMock';
+import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
 import { renderWithRouter } from './utils';
 import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 

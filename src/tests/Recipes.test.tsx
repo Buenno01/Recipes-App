@@ -2,29 +2,15 @@ import { screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import Home from '../pages/Recipes';
 import { renderWithRouter } from './utils';
-import * as fetchCategories from '../hooks/useFetchCategories';
-import * as fetchRecipes from '../services/useFetchDrinkOrFoodByName';
-import { mealCategoriesMock, mealFormattedSearchByNameMock } from './mealMocks';
+import { fetchCategoriesMock, fetchRecipesByNameMock } from './mocks/mockFetchs';
 
 const MEALS_ROUTE = { initialEntries: ['/meals'] };
 
 const DRINKS_ROUTE = { initialEntries: ['/drinks'] };
 
-const fetchCategoriesMock = (loading = false, error = '') => vi.spyOn(fetchCategories, 'default').mockReturnValue({
-  categories: mealCategoriesMock,
-  loading,
-  error,
-});
-
-const fetchRecipesMock = (loading = false, error = '') => vi.spyOn(fetchRecipes, 'default').mockReturnValue({
-  recipes: mealFormattedSearchByNameMock,
-  loading,
-  error,
-});
-
-const fetchMockBoth = () => {
+const mockAllFetchs = () => {
   fetchCategoriesMock();
-  fetchRecipesMock();
+  fetchRecipesByNameMock();
 };
 
 describe('Home', () => {
@@ -33,7 +19,7 @@ describe('Home', () => {
   });
 
   it('should render /meals with 12 meal recipes', async () => {
-    const fetchRecipesSpy = fetchRecipesMock();
+    const fetchRecipesSpy = fetchRecipesByNameMock();
     fetchCategoriesMock();
     renderWithRouter(<Home />, MEALS_ROUTE);
 
@@ -46,7 +32,7 @@ describe('Home', () => {
   });
 
   it('should render /drinks with 12 drink recipes', async () => {
-    const fetchRecipesSpy = fetchRecipesMock();
+    const fetchRecipesSpy = fetchRecipesByNameMock();
     fetchCategoriesMock();
     renderWithRouter(<Home />, DRINKS_ROUTE);
 
@@ -60,7 +46,7 @@ describe('Home', () => {
 
   it('should render loading message', async () => {
     fetchCategoriesMock();
-    fetchRecipesMock(true);
+    fetchRecipesByNameMock('meals', true);
     renderWithRouter(<Home />, MEALS_ROUTE);
 
     const loadingMessage = await screen.findByText(/Loading/);
@@ -70,7 +56,7 @@ describe('Home', () => {
 
   it('should render error message', async () => {
     fetchCategoriesMock();
-    fetchRecipesMock(false, 'Error fetching recipes');
+    fetchRecipesByNameMock('meals', false, 'Error fetching recipes');
     renderWithRouter(<Home />, MEALS_ROUTE);
 
     const errorMessage = await screen.findByText(/Error fetching recipes/);
@@ -80,7 +66,7 @@ describe('Home', () => {
 
   it('should render only 5 categories', async () => {
     const fetchCategoriesSpy = fetchCategoriesMock();
-    fetchRecipesMock();
+    fetchRecipesByNameMock();
     renderWithRouter(<Home />, MEALS_ROUTE);
 
     expect(fetchCategoriesSpy).toHaveBeenCalledTimes(1);

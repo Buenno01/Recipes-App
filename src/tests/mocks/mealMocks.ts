@@ -1,4 +1,4 @@
-import { MealRecipeType } from '../@types/MealRecipeType';
+import { MealRecipeType } from '../../@types/MealRecipeType';
 
 const MEAL_THUMB = 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg';
 
@@ -147,3 +147,13 @@ export const mealCategoriesMock = [
   'Vegan',
   'Vegetarian',
 ];
+
+export const favoriteMealMock = {
+  id: '52771',
+  type: 'meal',
+  nationality: 'Italian',
+  category: 'Vegetarian',
+  name: 'Spicy Arrabiata Penne',
+  image: 'https://www.themealsdb.com/images/media/meal/fs6kiq1513708455.jpg',
+  alcoholicOrNot: '',
+};

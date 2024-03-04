@@ -2,64 +2,22 @@ import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndProviders } from './utils';
-import { formattedMealMock, mealFormattedSearchByNameMock } from './mealMocks';
+import { formattedMealMock, mealFormattedSearchByNameMock } from './mocks/mealMocks';
 import Details from '../pages/RecipeDetails';
-import * as fetchById from '../services/useFetchDrinkOrFoodById';
-import * as fetchByName from '../services/useFetchDrinkOrFoodByName';
-import { AnyRecipeType } from '../@types/AnyRecipeType';
-import { favoriteDrinkMock, formattedDrinkMock, formattedDrinkSearchByNameMock } from './drinkMocks';
+import { favoriteDrinkMock, formattedDrinkSearchByNameMock } from './mocks/drinkMocks';
 import { MealRecipeType } from '../@types/MealRecipeType';
-import { DONE_RECIPES_MOCK as doneRecipesMock } from './doneRecipesMock';
 import App from '../App';
-
-type ReturnUseFetchDrinkOrFoodByIdType = {
-  recipe: AnyRecipeType | undefined;
-  loading: boolean;
-  error: string;
-};
-
-type UseFetchDrinkOrFoodByNameReturnType = {
-  recipes: AnyRecipeType[];
-  loading: boolean;
-  error: string;
-};
-
-type FetchReturnsType = ReturnUseFetchDrinkOrFoodByIdType | UseFetchDrinkOrFoodByNameReturnType;
+import mockLocalStorage, { MOCK_IN_PROGRESS_STORAGE } from './mocks/mockLocalStorage';
+import { customFetchRecipesByIDMock, fetchRecipeByIdMock, fetchRecipesByNameMock } from './mocks/mockFetchs';
+import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 
 type RecommendationsReturnType = {
   cards: HTMLElement[];
   titles: HTMLElement[];
 };
 
-const MOCK_FETCH_BY_ID_RETURN_MEAL = {
-  recipe: formattedMealMock,
-  loading: false,
-  error: '',
-};
-
-const MOCK_FETCH_BY_NAME_RETURN_MEALS = {
-  recipes: mealFormattedSearchByNameMock,
-  loading: false,
-  error: '',
-};
-
-const MOCK_FETCH_BY_ID_RETURN_DRINK = {
-  recipe: formattedDrinkMock,
-  loading: false,
-  error: '',
-};
-
-const MOCK_FETCH_BY_NAME_RETURN_DRINKS = {
-  recipes: formattedDrinkSearchByNameMock,
-  loading: false,
-  error: '',
-};
-
-const MOCK_IN_PROGRESS_STORAGE = JSON.stringify({
-  drinks: {
-    17256: formattedDrinkMock.ingredients,
-  },
-});
+const MEALS = 'meals';
+const DRINKS = 'drinks';
 
 const INITIAL_ENTRIES = { initialEntries: ['/meals/52771'] };
 
@@ -67,35 +25,9 @@ const INITIAL_ENTRIES_DRINK = { initialEntries: ['/drinks/17256'] };
 
 const FAV_BTN_TESTID = 'favorite-btn';
 
-const mockFetchs = (module: any, response: FetchReturnsType, method = 'default') => vi.spyOn(module, method).mockReturnValue(response);
-
-const mockBothFetchs = (responseById: FetchReturnsType, responseByName: FetchReturnsType) => {
-  mockFetchs(fetchById, responseById);
-  mockFetchs(fetchByName, responseByName);
-};
-
-const mockLocalStorage = {
-  doneRecipes: () => {
-    Storage.prototype.getItem = vi.fn((key: string) => {
-      if (key === 'inProgressRecipes') return '{}';
-      if (key === 'doneRecipes') return JSON.stringify(doneRecipesMock);
-      return null;
-    });
-  },
-  inProgressRecipes: () => {
-    Storage.prototype.getItem = vi.fn((key: string) => {
-      if (key === 'inProgressRecipes') return MOCK_IN_PROGRESS_STORAGE;
-      if (key === 'doneRecipes') return '[]';
-      return null;
-    });
-  },
-  empty: () => {
-    Storage.prototype.getItem = vi.fn((key: string) => {
-      if (key === 'inProgressRecipes') return '{}';
-      if (key === 'doneRecipes') return '[]';
-      return null;
-    });
-  },
+const mockBothFetchs = (byIdType: RecipeOptionsType) => {
+  fetchRecipeByIdMock(byIdType);
+  fetchRecipesByNameMock(byIdType === MEALS ? DRINKS : MEALS);
 };
 
 const getTheDetailedRecipeInfos = async () => [
@@ -117,8 +49,8 @@ describe('RecipeDetails', () => {
   });
 
   it('should render the details page', async () => {
-    const mockMainFetchSpy = mockFetchs(fetchById, MOCK_FETCH_BY_ID_RETURN_MEAL);
-    const mockFetchByNameSpy = mockFetchs(fetchByName, MOCK_FETCH_BY_NAME_RETURN_DRINKS);
+    const mockMainFetchSpy = fetchRecipeByIdMock(MEALS);
+    const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
     expect(window.location.pathname).toBe('/meals/52771');
 
@@ -127,7 +59,8 @@ describe('RecipeDetails', () => {
   });
 
   it('should render the meal correctly', async () => {
-    mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_MEAL, MOCK_FETCH_BY_NAME_RETURN_DRINKS);
+    fetchRecipeByIdMock(MEALS);
+    fetchRecipesByNameMock(DRINKS);
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
 
     const everything = await getTheDetailedRecipeInfos();
@@ -149,7 +82,8 @@ describe('RecipeDetails', () => {
       ingredients: ['Arroz'],
       measures: [],
     };
-    mockBothFetchs({ ...MOCK_FETCH_BY_ID_RETURN_MEAL, recipe: mockWithoutMeasure }, MOCK_FETCH_BY_NAME_RETURN_DRINKS);
+    customFetchRecipesByIDMock(mockWithoutMeasure);
+    fetchRecipesByNameMock(DRINKS);
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
 
     const ingredients = await screen.findAllByTestId('0-ingredient-name-and-measure');
@@ -161,8 +95,8 @@ describe('RecipeDetails', () => {
 
   describe('should fetch the recommendations corretly', () => {
     it('should fetch the drinks recommendations for meals', async () => {
-      const mockMainFetchSpy = mockFetchs(fetchById, MOCK_FETCH_BY_ID_RETURN_MEAL);
-      const mockFetchByNameSpy = mockFetchs(fetchByName, MOCK_FETCH_BY_NAME_RETURN_DRINKS);
+      const mockMainFetchSpy = fetchRecipeByIdMock(MEALS);
+      const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
 
       renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
 
@@ -181,8 +115,8 @@ describe('RecipeDetails', () => {
     });
 
     it('should fetch the meals recommendations for drinks', async () => {
-      const mockMainFetchSpy = mockFetchs(fetchById, MOCK_FETCH_BY_ID_RETURN_DRINK);
-      const mockFetchByNameSpy = mockFetchs(fetchByName, MOCK_FETCH_BY_NAME_RETURN_MEALS);
+      const mockMainFetchSpy = fetchRecipeByIdMock(DRINKS);
+      const mockFetchByNameSpy = fetchRecipesByNameMock(MEALS);
 
       renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
 
@@ -202,8 +136,8 @@ describe('RecipeDetails', () => {
   });
 
   it('should render a error message if the fetch fails', async () => {
-    const mockMainFetchSpy = mockFetchs(fetchById, { recipe: undefined, loading: false, error: 'error' });
-    const mockFetchByNameSpy = mockFetchs(fetchByName, MOCK_FETCH_BY_NAME_RETURN_DRINKS);
+    const mockMainFetchSpy = customFetchRecipesByIDMock(undefined, false, 'error');
+    const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
 
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
 
@@ -214,8 +148,8 @@ describe('RecipeDetails', () => {
   });
 
   it('should render a loading message', async () => {
-    const mockMainFetchSpy = mockFetchs(fetchById, { recipe: undefined, loading: true, error: '' });
-    const mockFetchByNameSpy = mockFetchs(fetchByName, MOCK_FETCH_BY_NAME_RETURN_DRINKS);
+    const mockMainFetchSpy = customFetchRecipesByIDMock(undefined, true, '');
+    const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
 
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
 
@@ -226,7 +160,7 @@ describe('RecipeDetails', () => {
   });
 
   it('should be able to favorite a recipe', async () => {
-    mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_DRINK, MOCK_FETCH_BY_NAME_RETURN_MEALS);
+    mockBothFetchs(DRINKS);
 
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
 
@@ -246,7 +180,7 @@ describe('RecipeDetails', () => {
   it('should be able to unfavorite a recipe', async () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify([favoriteDrinkMock]));
 
-    mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_DRINK, MOCK_FETCH_BY_NAME_RETURN_MEALS);
+    mockBothFetchs(DRINKS);
 
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
 
@@ -261,7 +195,7 @@ describe('RecipeDetails', () => {
   });
 
   it('should render the correct favorite button', async () => {
-    mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_DRINK, MOCK_FETCH_BY_NAME_RETURN_MEALS);
+    mockBothFetchs(DRINKS);
 
     renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
 
@@ -283,7 +217,7 @@ describe('RecipeDetails', () => {
     });
 
     it('should render the start recipe button', async () => {
-      mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_DRINK, MOCK_FETCH_BY_NAME_RETURN_MEALS);
+      mockBothFetchs(DRINKS);
 
       renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
 
@@ -297,7 +231,7 @@ describe('RecipeDetails', () => {
       mockLocalStorage.inProgressRecipes();
       const setLocalStorageSpy = vi.spyOn(Storage.prototype, 'setItem');
 
-      mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_DRINK, MOCK_FETCH_BY_NAME_RETURN_MEALS);
+      mockBothFetchs(DRINKS);
 
       renderWithRouterAndProviders(<App />, INITIAL_ENTRIES_DRINK);
       screen.debug();
@@ -316,7 +250,7 @@ describe('RecipeDetails', () => {
     it('should add the recipe to inProgressRecipes on click', async () => {
       mockLocalStorage.empty();
       const localStorageSpy = vi.spyOn(Storage.prototype, 'setItem');
-      mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_DRINK, MOCK_FETCH_BY_NAME_RETURN_MEALS);
+      mockBothFetchs(DRINKS);
 
       renderWithRouterAndProviders(<App />, INITIAL_ENTRIES_DRINK);
 
@@ -335,7 +269,7 @@ describe('RecipeDetails', () => {
     it('should not render the start recipe button if the recipe is done', async () => {
       mockLocalStorage.doneRecipes();
 
-      mockBothFetchs(MOCK_FETCH_BY_ID_RETURN_MEAL, MOCK_FETCH_BY_NAME_RETURN_DRINKS);
+      mockBothFetchs(MEALS);
 
       renderWithRouterAndProviders(<App />, { initialEntries: ['/meals/52772'] });
 

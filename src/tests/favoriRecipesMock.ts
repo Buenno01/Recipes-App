@@ -1,4 +1,6 @@
-export const FAVORITE_RECIPE_MOCK = [
+import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
+
+export const FAVORITE_RECIPE_MOCK: FavoriteRecipeType[] = [
   {
     id: '17256',
     type: 'drink',

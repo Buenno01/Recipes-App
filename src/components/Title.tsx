@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AnyRecipeType } from '../@types/AnyRecipeType';
 import blackHearticon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -9,7 +9,7 @@ import { useFavoriteRecipesContext } from '../contexts/FavoriteRecipesContext';
 import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 
 type DetailsHeaderProps = {
-  recipe: AnyRecipeType;
+  recipe: any;
   nameDataTestID?: string,
   categoryDataTestID?: string,
   imageDataTestID?: string,
@@ -24,7 +24,7 @@ function DetailsHeader({ recipe,
   categoryDataTestID = 'recipe-category',
   imageDataTestID = 'recipe-photo',
 }: DetailsHeaderProps) {
-  const { thumb, name, category, type } = recipe;
+  const { thumb = recipe.image, name, category, type } = recipe;
   const [copiedMessage, setCopiedMessage] = useState(false);
   const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
   const isFav = favoriteRecipes.some(({ id }: FavoriteRecipeType) => id === recipe.id);

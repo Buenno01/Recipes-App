@@ -10,9 +10,20 @@ import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 
 type DetailsHeaderProps = {
   recipe: AnyRecipeType;
+  nameDataTestID?: string,
+  categoryDataTestID?: string,
+  imageDataTestID?: string,
+  favoriteDataTestID?: string,
+  shareDataTestID?: string,
 };
 
-function DetailsHeader({ recipe }: DetailsHeaderProps) {
+function DetailsHeader({ recipe,
+  favoriteDataTestID = 'favorite-btn',
+  shareDataTestID = 'share-btn',
+  nameDataTestID = 'recipe-title',
+  categoryDataTestID = 'recipe-category',
+  imageDataTestID = 'recipe-photo',
+}: DetailsHeaderProps) {
   const { thumb, name, category, type } = recipe;
   const [copiedMessage, setCopiedMessage] = useState(false);
   const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
@@ -49,7 +60,7 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
       <div className="absolute z-0 left-0 right-0 top-0 bottom-0 bg-black">
         <img
           className="absolute left-0 right-0 bottom-0 opacity-75"
-          data-testid="recipe-photo"
+          data-testid={ imageDataTestID }
           src={ thumb }
           alt={ name }
         />
@@ -60,7 +71,7 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
           <h2
             className="text-white text-4xl font-bold
            text-center"
-            data-testid="recipe-title"
+            data-testid={ nameDataTestID }
           >
             {name}
           </h2>
@@ -68,7 +79,7 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
       </div>
       <div className="z-20 absolute left-0 right-0 flex justify-between">
         <span>
-          <p data-testid="recipe-category">
+          <p data-testid={ categoryDataTestID }>
             {type === 'meals' && category}
             {type === 'drinks' && alcoholic}
           </p>
@@ -76,14 +87,14 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
         <span>
           <button onClick={ handleFavorite }>
             <img
-              data-testid="favorite-btn"
+              data-testid={ favoriteDataTestID }
               src={ isFav ? blackHearticon : whiteHeartIcon }
               alt="Favoritar"
             />
           </button>
           <button onClick={ handleShare }>
             <img
-              data-testid="share-btn"
+              data-testid={ shareDataTestID }
               src={ shareIcon }
               alt="Compartilhar"
             />

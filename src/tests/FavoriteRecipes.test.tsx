@@ -5,7 +5,7 @@ import { renderWithRouter } from './utils';
 import App from '../App';
 import { formatType } from '../utils/formatType';
 import FavoriteRecipesContext from '../contexts/FavoriteRecipesContext';
-import { FAVORITE_RECIPES_MOCK } from './mocks/favoriRecipesMock';
+import { FAVORITE_RECIPES_MOCK } from './mocks/favoriteRecipesMock';
 
 const INITIAL_ENTRIES = { initialEntries: ['/favorite-recipes'] };
 const INDEX_MOCK = [0, 1];

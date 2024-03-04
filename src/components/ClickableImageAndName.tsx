@@ -16,6 +16,9 @@ function ClickableHorizontalImage(
         data-testid={ `${index}-horizontal-image` }
         alt={ recipe.name }
       />
+      <h1 data-testid={ `${index}-horizontal-name` }>
+        {recipe.name}
+      </h1>
     </button>
   );
 }

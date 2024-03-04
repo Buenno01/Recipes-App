@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
 import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
 import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
@@ -7,6 +7,7 @@ import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 
 const INITIAL_ENTRIES = { initialEntries: ['/done-recipes'] };
 const INDEX_MOCK = [0, 1];
+const copiedLinkRes = 'Link copied!';
 
 describe('Copy to clipboard', () => {
   test('Copied element response', async () => {
@@ -16,11 +17,15 @@ describe('Copy to clipboard', () => {
       </DoneRecipesContext.Provider>,
       INITIAL_ENTRIES,
     );
-    const button = await screen.findByTestId(`${INDEX_MOCK[0]}-MY-horizontal-share-btn-onclick`);
+    const button = await screen.findByTestId(`${INDEX_MOCK[0]}-horizontal-share-btn`);
     expect(button).toBeInTheDocument();
     await user.click(button);
-    const text = await screen.findByText('Link copied!');
+    const text = await screen.findByText(copiedLinkRes);
     expect(text).toBeInTheDocument();
+    await waitFor(() => {
+      const newText = screen.queryByText(copiedLinkRes);
+      expect(newText).toBeNull();
+    }, { timeout: 1000 });
   });
 
   test('Copied text should be "Link copied"!', async () => {
@@ -31,6 +36,6 @@ describe('Copy to clipboard', () => {
       INITIAL_ENTRIES,
     );
     const copiedText = await copyTextToClipBoard('test');
-    expect(copiedText).toBe('Link copied!');
+    expect(copiedText).toBe(copiedLinkRes);
   });
 });

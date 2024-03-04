@@ -12,7 +12,7 @@ function FavoriteRecipes() {
     setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>(FAVORITE_RECIPE_MOCK);
 
   useEffect(() => {
-    setFilteredFavoriteRecipes(favoriteRecipes);
+    setFilteredFavoriteRecipes(FAVORITE_RECIPE_MOCK);
   }, [favoriteRecipes]);
 
   const handleFilterByType = (event: React.MouseEvent<HTMLButtonElement>) => {

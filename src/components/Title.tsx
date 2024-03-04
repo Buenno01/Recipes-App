@@ -1,49 +1,23 @@
-import { useEffect, useState } from 'react';
 import { AnyRecipeType } from '../@types/AnyRecipeType';
 import blackHearticon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
-import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 import formatToFavoriteRecipeType from '../utils/formatToFavoriteRecipeType';
 import { useFavoriteRecipesContext } from '../contexts/FavoriteRecipesContext';
 import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
+import ShareButton from './ShareButton';
 
 type DetailsHeaderProps = {
-  recipe: any;
-  nameDataTestID?: string,
-  categoryDataTestID?: string,
-  imageDataTestID?: string,
-  favoriteDataTestID?: string,
-  shareDataTestID?: string,
+  recipe: AnyRecipeType;
 };
 
-function DetailsHeader({ recipe,
-  favoriteDataTestID = 'favorite-btn',
-  shareDataTestID = 'share-btn',
-  nameDataTestID = 'recipe-title',
-  categoryDataTestID = 'recipe-category',
-  imageDataTestID = 'recipe-photo',
-}: DetailsHeaderProps) {
-  const { thumb = recipe.image, name, category, type } = recipe;
-  const [copiedMessage, setCopiedMessage] = useState(false);
+function DetailsHeader({ recipe }: DetailsHeaderProps) {
+  const { thumb, name, category, type } = recipe;
   const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
   const isFav = favoriteRecipes.some(({ id }: FavoriteRecipeType) => id === recipe.id);
   let alcoholic: string | null = null;
   if (type === 'drinks') {
     alcoholic = recipe.alcoholic;
   }
-
-  const handleShare = async () => {
-    const windowLocation = window.location.href;
-    // console.log(windowLocation);
-    await copyTextToClipBoard(windowLocation);
-
-    setCopiedMessage(true);
-
-    setTimeout(() => {
-      setCopiedMessage(false);
-    }, 500);
-  };
 
   const handleFavorite = () => {
     const formattedRecipe = formatToFavoriteRecipeType(recipe);
@@ -60,7 +34,7 @@ function DetailsHeader({ recipe,
       <div className="absolute z-0 left-0 right-0 top-0 bottom-0 bg-black">
         <img
           className="absolute left-0 right-0 bottom-0 opacity-75"
-          data-testid={ imageDataTestID }
+          data-testid="recipe-photo"
           src={ thumb }
           alt={ name }
         />
@@ -71,7 +45,7 @@ function DetailsHeader({ recipe,
           <h2
             className="text-white text-4xl font-bold
            text-center"
-            data-testid={ nameDataTestID }
+            data-testid="recipe-title"
           >
             {name}
           </h2>
@@ -79,7 +53,7 @@ function DetailsHeader({ recipe,
       </div>
       <div className="z-20 absolute left-0 right-0 flex justify-between">
         <span>
-          <p data-testid={ categoryDataTestID }>
+          <p data-testid="recipe-category">
             {type === 'meals' && category}
             {type === 'drinks' && alcoholic}
           </p>
@@ -87,30 +61,18 @@ function DetailsHeader({ recipe,
         <span>
           <button onClick={ handleFavorite }>
             <img
-              data-testid={ favoriteDataTestID }
+              data-testid="favorite-btn"
               src={ isFav ? blackHearticon : whiteHeartIcon }
               alt="Favoritar"
             />
           </button>
-          <button onClick={ handleShare }>
-            <img
-              data-testid={ shareDataTestID }
-              src={ shareIcon }
-              alt="Compartilhar"
-            />
-          </button>
+          <ShareButton
+            dataTestID="share-btn"
+            alt="Compartilhar"
+            copyText={ window.location.href }
+          />
         </span>
       </div>
-      {
-        copiedMessage
-        && (
-          <span
-            className="absolute bottom-0 z-20 left-0 right-0 text-center text-white"
-          >
-            Link copied!
-          </span>
-        )
-      }
     </div>
   );
 }

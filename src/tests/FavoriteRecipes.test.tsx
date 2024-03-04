@@ -1,5 +1,6 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { vi } from 'vitest';
 import { renderWithRouter } from './utils';
 import App from '../App';
 import { formatType } from '../utils/formatType';
@@ -193,27 +194,3 @@ describe('localStorage: favoriteRecipes', () => {
     });
   });
 });
-
-/* describe('Remove favorite item', () => {
-  test('Button Click', async () => {
-    const { user } = renderWithRouter(
-      <FavoriteRecipesContext.Provider
-        value={ { favoriteRecipes: FAVORITE_RECIPES_MOCK,
-          setFavoriteRecipes: () => {} } }
-      >
-        <App />
-      </FavoriteRecipesContext.Provider>,
-      INITIAL_ENTRIES,
-    );
-    const favoriteBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-favorite-true-btn`);
-    const drinkText = screen.queryByText(MARTINEZ_2_MOCK);
-    expect(drinkText).toBeInTheDocument();
-
-    await user.click(favoriteBtn);
-
-    await waitFor(() => {
-      expect(screen.queryByText(MARTINEZ_2_MOCK)).toBeNull();
-    });
-  });
-});
-*/

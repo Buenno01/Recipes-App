@@ -9,7 +9,7 @@ import ButtonsFilterBy from '../../components/ButtonsFilterBy';
 function FavoriteRecipes() {
   const { favoriteRecipes/* , setFavoriteRecipes */ } = useFavoriteRecipesContext();
   const [filteredFavoriteRecipes,
-    setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>(favoriteRecipes);
+    setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>();
 
   useEffect(() => {
     // setFavoriteRecipes(FAVORITE_RECIPES_MOCK);

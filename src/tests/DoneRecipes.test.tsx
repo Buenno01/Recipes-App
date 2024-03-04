@@ -71,16 +71,15 @@ describe('localStorage: doneRecipes', () => {
     const emptyElement = screen.queryByTestId(`${INDEX_MOCK[1]}-horizontal-top-text`);
     expect(emptyElement).toBeNull();
   });
-
-  test('Change initial value', () => {
+  test('Some initial value', () => {
     renderWithRouter(
       <DoneRecipesContext.Provider value={ { doneRecipesContext: [], setDoneRecipesContext: () => {} } }>
         <App />
       </DoneRecipesContext.Provider>,
       INITIAL_ENTRIES,
     );
-
-    // Quando houve botão de criar nova DoneRecipe em outro componente, testar aqui.
+    const textElement = screen.queryByTestId(`${INDEX_MOCK[1]}-horizontal-top-text`);
+    expect(textElement).not.toBeNull();
   });
 
   describe('Response for Filter', () => {

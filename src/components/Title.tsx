@@ -24,7 +24,7 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
 
   const handleShare = async () => {
     const windowLocation = window.location.href;
-    console.log(windowLocation);
+    // console.log(windowLocation);
     await copyTextToClipBoard(windowLocation);
 
     setCopiedMessage(true);

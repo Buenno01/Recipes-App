@@ -1,4 +1,4 @@
-import { DoneRecipeType } from '../@types/DoneRecipeType';
+import { DoneRecipeType } from '../../@types/DoneRecipeType';
 
 export const DONE_RECIPES_MOCK: DoneRecipeType[] = [{
   id: '52772',

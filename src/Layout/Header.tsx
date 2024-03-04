@@ -1,14 +1,26 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import HeaderProps from '../@types/HeaderType';
 
 function Header({ titlePage, profileIcon, searchIcon }: HeaderProps) {
+  const navigate = useNavigate();
+
   return (
     <header data-testid="header-layout">
-      { profileIcon && <img
-        src="/src/images/profileIcon.svg"
-        alt=""
-        data-testid="profile-top-btn"
-      />}
+      {
+      profileIcon
+       && (
+         <button
+           onClick={ () => navigate('/profile') }
+         >
+           <img
+             src="/src/images/profileIcon.svg"
+             alt=""
+             data-testid="profile-top-btn"
+           />
+         </button>
+       )
+}
 
       <p data-testid="page-title">
         {titlePage}

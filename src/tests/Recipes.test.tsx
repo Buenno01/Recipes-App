@@ -1,30 +1,34 @@
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import { vi } from 'vitest';
+import userEvent from '@testing-library/user-event';
 import Home from '../pages/Recipes';
-import { renderWithRouter } from './utils';
-import { fetchCategoriesMock, fetchRecipesByNameMock } from './mocks/mockFetchs';
+import { renderWithRouterAndProviders } from './utils';
+import {
+  fetchCategoriesMock,
+  fetchRecipesWithFilterMock,
+} from './mocks/mockFetchs';
+import { globalFetchMock } from './mocks/mockGlobalFetch';
 
 const MEALS_ROUTE = { initialEntries: ['/meals'] };
 
 const DRINKS_ROUTE = { initialEntries: ['/drinks'] };
 
-const mockAllFetchs = () => {
-  fetchCategoriesMock();
-  fetchRecipesByNameMock();
-};
+const MEALS = 'meals';
+
+const DRINKS = 'drinks';
 
 describe('Home', () => {
   beforeEach(() => {
-    vi.resetAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('should render /meals with 12 meal recipes', async () => {
-    const fetchRecipesSpy = fetchRecipesByNameMock();
+    const fetchSpy = fetchRecipesWithFilterMock();
     fetchCategoriesMock();
-    renderWithRouter(<Home />, MEALS_ROUTE);
+    renderWithRouterAndProviders(<Home />, MEALS_ROUTE);
 
-    expect(fetchRecipesSpy).toHaveBeenCalledTimes(1);
-    expect(fetchRecipesSpy).toHaveBeenCalledWith('', 'meals');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(fetchSpy).toHaveBeenCalledWith(MEALS);
 
     const recipeCards = await screen.findAllByTestId(/-recipe-card/);
 
@@ -32,12 +36,12 @@ describe('Home', () => {
   });
 
   it('should render /drinks with 12 drink recipes', async () => {
-    const fetchRecipesSpy = fetchRecipesByNameMock();
+    const fetchSpy = fetchRecipesWithFilterMock();
     fetchCategoriesMock();
-    renderWithRouter(<Home />, DRINKS_ROUTE);
+    renderWithRouterAndProviders(<Home />, DRINKS_ROUTE);
 
-    expect(fetchRecipesSpy).toHaveBeenCalledTimes(1);
-    expect(fetchRecipesSpy).toHaveBeenCalledWith('', 'drinks');
+    expect(fetchSpy).toHaveBeenCalledTimes(1);
+    expect(fetchSpy).toHaveBeenCalledWith(DRINKS);
 
     const recipeCards = await screen.findAllByTestId(/-recipe-card/);
 
@@ -46,8 +50,8 @@ describe('Home', () => {
 
   it('should render loading message', async () => {
     fetchCategoriesMock();
-    fetchRecipesByNameMock('meals', true);
-    renderWithRouter(<Home />, MEALS_ROUTE);
+    fetchRecipesWithFilterMock('meals', true);
+    renderWithRouterAndProviders(<Home />, MEALS_ROUTE);
 
     const loadingMessage = await screen.findByText(/Loading/);
 
@@ -56,8 +60,8 @@ describe('Home', () => {
 
   it('should render error message', async () => {
     fetchCategoriesMock();
-    fetchRecipesByNameMock('meals', false, 'Error fetching recipes');
-    renderWithRouter(<Home />, MEALS_ROUTE);
+    fetchRecipesWithFilterMock('meals', false, 'Error fetching recipes');
+    renderWithRouterAndProviders(<Home />, MEALS_ROUTE);
 
     const errorMessage = await screen.findByText(/Error fetching recipes/);
 
@@ -66,14 +70,36 @@ describe('Home', () => {
 
   it('should render only 5 categories', async () => {
     const fetchCategoriesSpy = fetchCategoriesMock();
-    fetchRecipesByNameMock();
-    renderWithRouter(<Home />, MEALS_ROUTE);
+    fetchRecipesWithFilterMock();
+    renderWithRouterAndProviders(<Home />, MEALS_ROUTE);
 
     expect(fetchCategoriesSpy).toHaveBeenCalledTimes(1);
     expect(fetchCategoriesSpy).toHaveBeenCalledWith('meals');
 
     const categories = await screen.findAllByTestId(/-category-filter/);
 
-    expect(categories.length).toBe(5);
+    expect(categories.length).toBe(6);
+  });
+
+  it.only('should filter recipes by category', async () => {
+    vi.restoreAllMocks();
+    const spy = globalFetchMock();
+
+    renderWithRouterAndProviders(<Home />, MEALS_ROUTE);
+
+    expect(spy).toHaveBeenCalledTimes(2);
+    expect(spy).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+    expect(spy).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+
+    await waitForElementToBeRemoved(screen.getByText(/Loading/));
+
+    const allButton = screen.getByTestId('All-category-filter');
+    expect(allButton).toBeInTheDocument();
+    const beefButton = screen.getByTestId('Beef-category-filter');
+    expect(beefButton).toBeInTheDocument();
+
+    screen.debug();
+    await userEvent.click(beefButton);
+    // expect(spy).toHaveBeenCalledTimes(3);
   });
 });

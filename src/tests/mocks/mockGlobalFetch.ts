@@ -22,7 +22,7 @@ const mockEndPoints = (endpoint: any) => {
       return mealMock;
     case BASE_MEAL_URL + BY_NAME:
       return mealsListApiReturn;
-    case endpoint.includes(BASE_MEAL_URL + BY_CATEGORY):
+    case `${BASE_MEAL_URL + BY_CATEGORY}Beef`:
       return mealsListByCategory;
     case BASE_MEAL_URL + GET_CATEGORIES:
       return mealsCategories;
@@ -67,7 +67,7 @@ const mealsListApiReturn = {
     {
       ...mealMock.meals[0],
       idMeal: '52777',
-      strMeal: 'Burger',
+      strMeal: 'Burguer',
       strCategory: 'Beef',
     },
     {
@@ -145,7 +145,7 @@ const mealsListByCategory = {
     {
       ...mealMock.meals[0],
       idMeal: '52777',
-      strMeal: 'Burger',
+      strMeal: 'Burguer',
       strCategory: 'Beef',
     },
     {

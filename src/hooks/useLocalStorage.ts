@@ -8,12 +8,8 @@ export function useLocalStorage<T>(
     if (typeof window === 'undefined') {
       return initialValue;
     }
-    try {
-      const item = window.localStorage.getItem(key);
-      return item ? JSON.parse(item) : initialValue;
-    } catch (err) {
-      return initialValue;
-    }
+    const item = window.localStorage.getItem(key);
+    return item ? JSON.parse(item) : initialValue;
   };
   const [storedValue, setStoredValue] = useState<T>(readValue());
 

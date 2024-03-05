@@ -7,6 +7,8 @@ type GetIngredientsAndMeasuresReturnType = {
   measures: string[];
 };
 
+type APICategoryType = { strCategory: string };
+
 export const formatRecipeType = (data: any): AnyRecipeType => {
   let formattedData;
   if (data?.idDrink) {
@@ -24,6 +26,9 @@ export const formatRecipeListToType = (data: any[], type: string): AnyRecipeType
   }
   return data.map((item) => formatToDrinkRecipeType(item));
 };
+
+export const formatCategories = (data: APICategoryType[]): string[] => data
+  .map(({ strCategory }) => strCategory);
 
 function getIngredientsAndMeasures(data: any): GetIngredientsAndMeasuresReturnType {
   const entries = Object.entries(data) as [string, string][];

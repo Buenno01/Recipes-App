@@ -234,8 +234,6 @@ describe('RecipeDetails', () => {
       mockBothFetchs(DRINKS);
 
       renderWithRouter(<App />, INITIAL_ENTRIES_DRINK);
-      // screen.debug();
-      // console.log('Storage.prototype.getItem', localStorage.getItem('inProgressRecipes'));
 
       const startRecipeButton = await screen.findByTestId(startRecipeButtonTestId);
 
@@ -275,7 +273,7 @@ describe('RecipeDetails', () => {
 
       const startRecipeButton = screen.queryByTestId(startRecipeButtonTestId);
 
-      // screen.debug();
+      screen.debug();
       expect(startRecipeButton).not.toBeInTheDocument();
     });
   });

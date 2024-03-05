@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RecipeOptionsType } from '../@types/RecipeOptionsType';
-import { formatRecipeType } from './utils';
 import { AnyRecipeType } from '../@types/AnyRecipeType';
-
-const MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
-const DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
+import { fetchAny } from '../services/fetchApi';
 
 type ReturnUseFetchDrinkOrFoodByIdType = {
   recipe: AnyRecipeType | undefined;
@@ -22,12 +19,10 @@ const useFetchDrinkOrFoodById = (id: string, type: RecipeOptionsType)
     const fetchRecipeById = async () => {
       try {
         setLoading(true);
-        const fetchUrl = type === 'drinks' ? DRINK_URL : MEAL_URL;
-        const response = await fetch(`${fetchUrl}${id}`);
-        const data = await response.json();
 
-        const baseRecipe = formatRecipeType(data[type][0]);
-        setRecipe(baseRecipe);
+        const data = await fetchAny(id, type, 'id');
+
+        setRecipe(data as AnyRecipeType);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message ?? 'Error fetching data');

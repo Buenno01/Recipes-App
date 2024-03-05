@@ -1,7 +1,7 @@
 import { useLocation, useParams } from 'react-router-dom';
-import useFetchDrinkOrFoodById from '../../services/useFetchDrinkOrFoodById';
+import useFetchDrinkOrFoodById from '../../hooks/useFetchDrinkOrFoodById';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
-import useFetchDrinkOrFoodByName from '../../services/useFetchDrinkOrFoodByName';
+import useFetchDrinkOrFoodByName from '../../hooks/useFetchDrinkOrFoodByName';
 import Recomendations from '../../components/Recomendations';
 import ButtonStartOrContinue from '../../components/ButtonStartOrContinue';
 import Ingredients from '../../components/Ingredients';

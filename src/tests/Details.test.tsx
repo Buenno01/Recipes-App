@@ -273,7 +273,6 @@ describe('RecipeDetails', () => {
 
       const startRecipeButton = screen.queryByTestId(startRecipeButtonTestId);
 
-      screen.debug();
       expect(startRecipeButton).not.toBeInTheDocument();
     });
   });

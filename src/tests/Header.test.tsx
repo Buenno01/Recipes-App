@@ -1,4 +1,5 @@
-import { screen } from '@testing-library/dom'; import App from '../App';
+import { screen } from '@testing-library/dom';
+import App from '../App';
 import { renderWithRouter } from './utils';
 
 const setup = () => {
@@ -81,4 +82,13 @@ test('Teste do component Header na rota "/favorite-recipes" ', () => {
   expect(profileIcon).toBeInTheDocument();
   expect(pageTitle).toBeInTheDocument();
   expect(searchIcon).not.toBeInTheDocument();
+});
+
+test('Teste se ao clicar no icone do Profile, é direcionado a rota "/profile" ', async () => {
+  const { user } = renderWithRouter(<App />, { initialEntries: ['/meals'] });
+  const btnProfile = screen.getByTestId('profile-top-btn');
+  expect(screen.getByText(/meals/i)).toBeInTheDocument();
+
+  await user.click(btnProfile);
+  expect(screen.getByTestId('divProfilePage')).toBeInTheDocument();
 });

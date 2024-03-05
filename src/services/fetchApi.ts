@@ -1,6 +1,7 @@
 import { AnyRecipeType } from '../@types/AnyRecipeType';
 import { DrinkRecipeType } from '../@types/DrinkRecipeType';
 import { MealRecipeType } from '../@types/MealRecipeType';
+import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 import { formatCategories, formatRecipeListToType, formatRecipeType } from './utils';
 
 const BASE_MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/';
@@ -8,6 +9,7 @@ const BASE_DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
 const BY_NAME = 'search.php?s=';
 const BY_ID = 'lookup.php?i=';
 const BY_CATEGORY = 'filter.php?c=';
+const GET_CATEGORIES = 'list.php?c=list';
 
 export const fetchMealById = async (id: string): Promise<MealRecipeType> => {
   const response = await fetch(BASE_MEAL_URL + BY_ID + id);
@@ -23,7 +25,12 @@ export const fetchMealByName = async (name: string = ''): Promise<MealRecipeType
 
 export const fetchMealByCategory = async (category: string = '')
 : Promise<MealRecipeType[] | string[]> => {
-  const response = await fetch(BASE_MEAL_URL + BY_CATEGORY + category);
+  let response;
+  if (category === '') {
+    response = await fetch(BASE_MEAL_URL + GET_CATEGORIES);
+  } else {
+    response = await fetch(BASE_MEAL_URL + BY_CATEGORY + category);
+  }
   const data = await response.json();
   if (category === '') return formatCategories(data.meals) as string[];
   return formatRecipeListToType(data.meals, 'meals') as MealRecipeType[];
@@ -42,7 +49,12 @@ export const fetchDrinkByName = async (name: string = ''): Promise<DrinkRecipeTy
 };
 
 export const fetchDrinkByCategory = async (category: string = '') => {
-  const response = await fetch(BASE_DRINK_URL + BY_CATEGORY + category);
+  let response;
+  if (category === '') {
+    response = await fetch(BASE_DRINK_URL + GET_CATEGORIES);
+  } else {
+    response = await fetch(BASE_DRINK_URL + BY_CATEGORY + category);
+  }
   const data = await response.json();
   if (category === '') return formatCategories(data.drinks) as string[];
   return formatRecipeListToType(data.drinks, 'drinks') as DrinkRecipeType[];
@@ -50,7 +62,7 @@ export const fetchDrinkByCategory = async (category: string = '') => {
 
 export const fetchAny = async (
   param: string,
-  recipeType: string,
+  recipeType: RecipeOptionsType,
   endpoint: 'name' | 'category' | 'id',
 ): Promise<AnyRecipeType | AnyRecipeType[] | string[] | undefined> => {
   switch (endpoint) {

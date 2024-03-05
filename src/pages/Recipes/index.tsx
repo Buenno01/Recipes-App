@@ -1,17 +1,21 @@
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
-import useFetchDrinkOrFoodByName from '../../hooks/useFetchDrinkOrFoodByName';
 import useFetchCategories from '../../hooks/useFetchCategories';
+import useFetchRecipesWithFilter from '../../hooks/useFetchRecipesWithFilter';
 
 function Home() {
   const location = useLocation();
   const recipeType: RecipeOptionsType = location.pathname.includes('meal')
     ? 'meals' : 'drinks';
+
   const {
-    error,
     loading,
+    error,
     recipes,
-  } = useFetchDrinkOrFoodByName('', recipeType);
+    setCategory,
+    setType,
+  } = useFetchRecipesWithFilter(recipeType);
 
   const {
     error: errorCategories,
@@ -19,22 +23,34 @@ function Home() {
     categories,
   } = useFetchCategories(recipeType);
 
+  console.log(categories);
+
+  useEffect(() => { setType(recipeType); }, [recipeType, setType]);
+
   if (loading) return <p>Loading...</p>;
-  if (error || !recipes) return <p>{error}</p>;
+  if (error || !recipes) return <p>Error fetching recipes</p>;
   return (
   // Esse teste id é apenas para passar no teste de rotas do Login.test
     <div data-testid="divHome">
       <ul>
         {
           (!errorCategories && !loadingCategories)
-          && categories.slice(0, 5).map((category) => (
-            <li data-testid={ `${category}-category-filter` } key={ category }>
-              <button>
-                {category}
+          && categories.slice(0, 5).map((item) => (
+            <li data-testid={ `${item}-category-filter` } key={ item }>
+              <button onClick={ () => { setCategory(item); } }>
+                {item}
               </button>
             </li>
           ))
-}
+        }
+        <li>
+          <button
+            data-testid="All-category-filter"
+            onClick={ () => { setCategory(''); } }
+          >
+            All
+          </button>
+        </li>
       </ul>
       {
         recipes.slice(0, 12).map((recipe, index) => (

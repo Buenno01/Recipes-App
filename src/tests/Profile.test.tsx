@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndProviders } from './utils';
 import Profile from '../pages/Profile';
 import mockLocalStorage from './mocks/mockLocalStorage';
+import App from '../App';
 
 const PROFILE_ROUTE = { initialEntries: ['/profile'] };
 
@@ -28,6 +29,7 @@ describe('Profile', () => {
     renderWithRouterAndProviders(<Profile />, PROFILE_ROUTE);
 
     const [email] = await getEveryElement();
+
     expect(email).toHaveTextContent('example@email.com');
   });
 
@@ -46,32 +48,32 @@ describe('Profile', () => {
 
   it('should redirect to the done recipes page', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<Profile />, PROFILE_ROUTE);
+    renderWithRouterAndProviders(<App />, PROFILE_ROUTE);
 
     const [, doneBtn] = await getEveryElement();
     await userEvent.click(doneBtn);
-    expect(window.location.pathname).toBe('/done-recipes');
+    expect(screen.getByText(/done recipes/i)).toBeInTheDocument();
   });
 
   it('should redirect to the favorite recipes page', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<Profile />, PROFILE_ROUTE);
+    renderWithRouterAndProviders(<App />, PROFILE_ROUTE);
 
     const [, , favoriteBtn] = await getEveryElement();
     await userEvent.click(favoriteBtn);
-    expect(window.location.pathname).toBe('/favorite-recipes');
+    expect(screen.getByText(/favorite recipes/i)).toBeInTheDocument();
   });
 
   it('should redirect to the login page', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<Profile />, PROFILE_ROUTE);
+    const spy = vi.spyOn(Storage.prototype, 'clear');
+    renderWithRouterAndProviders(<App />, PROFILE_ROUTE);
 
     const [, , , logoutBtn] = await getEveryElement();
+
     await userEvent.click(logoutBtn);
-    expect(window.location.pathname).toBe('/');
+    expect(screen.getByText(/login/i)).toBeInTheDocument();
 
-    vi.restoreAllMocks();
-
-    expect(localStorage.getItem('user')).toBeNull();
+    expect(spy).toBeCalledTimes(1);
   });
 });

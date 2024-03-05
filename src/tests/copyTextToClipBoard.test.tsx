@@ -1,9 +1,9 @@
 import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
-import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
 import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
 import { renderWithRouter } from './utils';
 import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
+import mockLocalStorage from './mocks/mockLocalStorage';
 
 const INITIAL_ENTRIES = { initialEntries: ['/done-recipes'] };
 const INDEX_MOCK = [0, 1];
@@ -11,10 +11,9 @@ const copiedLinkRes = 'Link copied!';
 
 describe('Copy to clipboard', () => {
   test('Copied element response', async () => {
+    mockLocalStorage.doneRecipes();
     const { user } = renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
-        <App />
-      </DoneRecipesContext.Provider>,
+      <App />,
       INITIAL_ENTRIES,
     );
     const button = await screen.findByTestId(`${INDEX_MOCK[0]}-horizontal-share-btn`);
@@ -29,10 +28,9 @@ describe('Copy to clipboard', () => {
   });
 
   test('Copied text should be "Link copied"!', async () => {
+    mockLocalStorage.doneRecipes();
     renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
-        <App />
-      </DoneRecipesContext.Provider>,
+      <App />,
       INITIAL_ENTRIES,
     );
     const copiedText = await copyTextToClipBoard('test');

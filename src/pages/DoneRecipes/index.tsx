@@ -1,30 +1,31 @@
 import { useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
-import { useDoneRecipesContext } from '../../contexts/DoneRecipesContext';
 import DoneRecipe from '../../components/DoneRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function DoneRecipes() {
-  const { doneRecipesContext } = useDoneRecipesContext();
+  const [doneRecipesLS,
+    setDoneRecipesLS] = useLocalStorage<DoneRecipeType[]>('doneRecipes', []);
   const [filteredDoneRecipes,
-    setFilteredDoneRecipes] = useState<DoneRecipeType[]>(doneRecipesContext);
+    setFilteredDoneRecipes] = useState<DoneRecipeType[]>(doneRecipesLS);
 
   useEffect(() => {
-    setFilteredDoneRecipes(doneRecipesContext);
-  }, [doneRecipesContext]);
+    setFilteredDoneRecipes(doneRecipesLS);
+  }, [doneRecipesLS, setDoneRecipesLS]);
 
   const handleFilterByType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget } = event;
     const type = currentTarget.id.replace(/(filter-by-)|(-btn)/g, '');
     if (type !== 'all') {
       const filteredRecipesAnyTipe = filterRecipesByType(
-        doneRecipesContext,
+        doneRecipesLS,
         type,
       ) as DoneRecipeType[];
       setFilteredDoneRecipes(filteredRecipesAnyTipe);
     } else {
-      setFilteredDoneRecipes(doneRecipesContext);
+      setFilteredDoneRecipes(doneRecipesLS);
     }
   };
 

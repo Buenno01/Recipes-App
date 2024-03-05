@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouterAndProviders } from './utils';
+import { renderWithRouter } from './utils';
 import { formattedMealMock, mealFormattedSearchByNameMock } from './mocks/mealMocks';
 import Details from '../pages/RecipeDetails';
 import { favoriteDrinkMock, formattedDrinkSearchByNameMock } from './mocks/drinkMocks';
@@ -51,7 +51,7 @@ describe('RecipeDetails', () => {
   it('should render the details page', async () => {
     const mockMainFetchSpy = fetchRecipeByIdMock(MEALS);
     const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
+    renderWithRouter(<Details />, INITIAL_ENTRIES);
     expect(window.location.pathname).toBe('/meals/52771');
 
     expect(mockMainFetchSpy).toHaveBeenCalledTimes(1);
@@ -61,7 +61,7 @@ describe('RecipeDetails', () => {
   it('should render the meal correctly', async () => {
     fetchRecipeByIdMock(MEALS);
     fetchRecipesByNameMock(DRINKS);
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
+    renderWithRouter(<Details />, INITIAL_ENTRIES);
 
     const everything = await getTheDetailedRecipeInfos();
 
@@ -84,7 +84,7 @@ describe('RecipeDetails', () => {
     };
     customFetchRecipesByIDMock(mockWithoutMeasure);
     fetchRecipesByNameMock(DRINKS);
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
+    renderWithRouter(<Details />, INITIAL_ENTRIES);
 
     const ingredients = await screen.findAllByTestId('0-ingredient-name-and-measure');
 
@@ -98,7 +98,7 @@ describe('RecipeDetails', () => {
       const mockMainFetchSpy = fetchRecipeByIdMock(MEALS);
       const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
 
-      renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
+      renderWithRouter(<Details />, INITIAL_ENTRIES);
 
       expect(mockMainFetchSpy).toHaveBeenCalledTimes(1);
       expect(mockMainFetchSpy).toHaveBeenCalledWith('', 'meals');
@@ -118,7 +118,7 @@ describe('RecipeDetails', () => {
       const mockMainFetchSpy = fetchRecipeByIdMock(DRINKS);
       const mockFetchByNameSpy = fetchRecipesByNameMock(MEALS);
 
-      renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
+      renderWithRouter(<Details />, INITIAL_ENTRIES_DRINK);
 
       expect(mockMainFetchSpy).toHaveBeenCalledTimes(1);
       expect(mockMainFetchSpy).toHaveBeenCalledWith('', 'drinks');
@@ -139,7 +139,7 @@ describe('RecipeDetails', () => {
     const mockMainFetchSpy = customFetchRecipesByIDMock(undefined, false, 'error');
     const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
 
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
+    renderWithRouter(<Details />, INITIAL_ENTRIES);
 
     expect(mockMainFetchSpy).toHaveBeenCalledTimes(1);
     expect(mockFetchByNameSpy).toHaveBeenCalledTimes(1);
@@ -151,7 +151,7 @@ describe('RecipeDetails', () => {
     const mockMainFetchSpy = customFetchRecipesByIDMock(undefined, true, '');
     const mockFetchByNameSpy = fetchRecipesByNameMock(DRINKS);
 
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES);
+    renderWithRouter(<Details />, INITIAL_ENTRIES);
 
     expect(mockMainFetchSpy).toHaveBeenCalledTimes(1);
     expect(mockFetchByNameSpy).toHaveBeenCalledTimes(1);
@@ -162,7 +162,7 @@ describe('RecipeDetails', () => {
   it('should be able to favorite a recipe', async () => {
     mockBothFetchs(DRINKS);
 
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
+    renderWithRouter(<Details />, INITIAL_ENTRIES_DRINK);
 
     await waitFor(() => expect(localStorage.getItem('favoriteRecipes')).toBe('[]'));
 
@@ -182,7 +182,7 @@ describe('RecipeDetails', () => {
 
     mockBothFetchs(DRINKS);
 
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
+    renderWithRouter(<Details />, INITIAL_ENTRIES_DRINK);
 
     const favoriteButton = await screen.findByTestId(FAV_BTN_TESTID);
     expect(favoriteButton).toBeInTheDocument();
@@ -197,7 +197,7 @@ describe('RecipeDetails', () => {
   it('should render the correct favorite button', async () => {
     mockBothFetchs(DRINKS);
 
-    renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
+    renderWithRouter(<Details />, INITIAL_ENTRIES_DRINK);
 
     const favoriteButton = await screen.findByTestId(FAV_BTN_TESTID);
     expect(favoriteButton).toBeInTheDocument();
@@ -219,7 +219,7 @@ describe('RecipeDetails', () => {
     it('should render the start recipe button', async () => {
       mockBothFetchs(DRINKS);
 
-      renderWithRouterAndProviders(<Details />, INITIAL_ENTRIES_DRINK);
+      renderWithRouter(<Details />, INITIAL_ENTRIES_DRINK);
 
       const startRecipeButton = await screen.findByTestId(startRecipeButtonTestId);
 
@@ -233,7 +233,7 @@ describe('RecipeDetails', () => {
 
       mockBothFetchs(DRINKS);
 
-      renderWithRouterAndProviders(<App />, INITIAL_ENTRIES_DRINK);
+      renderWithRouter(<App />, INITIAL_ENTRIES_DRINK);
       // screen.debug();
       // console.log('Storage.prototype.getItem', localStorage.getItem('inProgressRecipes'));
 
@@ -252,7 +252,7 @@ describe('RecipeDetails', () => {
       const localStorageSpy = vi.spyOn(Storage.prototype, 'setItem');
       mockBothFetchs(DRINKS);
 
-      renderWithRouterAndProviders(<App />, INITIAL_ENTRIES_DRINK);
+      renderWithRouter(<App />, INITIAL_ENTRIES_DRINK);
 
       const startRecipeButton = await screen.findByTestId(startRecipeButtonTestId);
       expect(startRecipeButton).toBeInTheDocument();
@@ -271,7 +271,7 @@ describe('RecipeDetails', () => {
 
       mockBothFetchs(MEALS);
 
-      renderWithRouterAndProviders(<App />, { initialEntries: ['/meals/52772'] });
+      renderWithRouter(<App />, { initialEntries: ['/meals/52772'] });
 
       const startRecipeButton = screen.queryByTestId(startRecipeButtonTestId);
 

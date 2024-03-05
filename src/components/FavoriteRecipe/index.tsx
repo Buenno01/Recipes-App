@@ -1,17 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { FavoriteRecipeProps, FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
+import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
 import blackHearticon from '../../images/blackHeartIcon.svg';
 import ShareButton from '../ShareButton';
 import ClickableImageAndName from '../ClickableImageAndName';
 import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function FavoriteRecipe(props: FavoriteRecipeProps) {
   const nav = useNavigate();
-  const { favoriteRecipe, index } = props;
+  const { favoriteRecipe, index, favoriteRecipesLS, setFavoriteRecipesLS } = props;
   const url = `/${favoriteRecipe.type}s/${favoriteRecipe.id}`;
-  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
+
   const [isFav, setIsFav] = useState(true);
 
   const handleClick = () => {
@@ -19,10 +18,12 @@ function FavoriteRecipe(props: FavoriteRecipeProps) {
   };
 
   const handleFavorite = () => {
-    const newFavoriteRecipes = favoriteRecipes
-      .filter((favoriteRecipeElement: FavoriteRecipeType) => favoriteRecipeElement
-        .id !== favoriteRecipe.id);
-    setFavoriteRecipes(newFavoriteRecipes);
+    const newFavoriteRecipes = favoriteRecipesLS
+      .filter(
+        (favoriteRecipeElement: any) => favoriteRecipeElement.id !== favoriteRecipe.id,
+      );
+    setFavoriteRecipesLS(newFavoriteRecipes);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
     setIsFav(false);
   };
 

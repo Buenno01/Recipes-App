@@ -10,5 +10,7 @@ export type FavoriteRecipeType = {
 
 export type FavoriteRecipeProps = {
   favoriteRecipe: FavoriteRecipeType,
-  index: number
+  index: number,
+  favoriteRecipesLS: FavoriteRecipeType[],
+  setFavoriteRecipesLS: (favoriteRecipe: FavoriteRecipeType[]) => void,
 };

@@ -3,20 +3,21 @@ import { FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
 import FavoriteRecipe from '../../components/FavoriteRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function FavoriteRecipes() {
-  const [
-    favoriteRecipesLS,
-    setFavoriteRecipesLS,
-  ] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', []);
+  const [favoriteRecipesLS, setFavoriteRecipesLS,
+  ] = useState<FavoriteRecipeType[]>(() => {
+    const fav = localStorage.getItem('favoriteRecipes');
+    if (fav) return JSON.parse(fav);
+    return [];
+  });
 
   const [filteredFavoriteRecipes,
-    setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>();
+    setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>(favoriteRecipesLS);
 
   useEffect(() => {
-    setFilteredFavoriteRecipes(favoriteRecipesLS);
-  }, [favoriteRecipesLS, setFavoriteRecipesLS]);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipesLS));
+  }, [favoriteRecipesLS]);
 
   const handleFilterByType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget } = event;
@@ -43,6 +44,8 @@ function FavoriteRecipes() {
               <FavoriteRecipe
                 favoriteRecipe={ filteredFavoriteRecipe }
                 index={ index }
+                favoriteRecipesLS={ favoriteRecipesLS }
+                setFavoriteRecipesLS={ setFavoriteRecipesLS }
                 key={ filteredFavoriteRecipe.id }
               />
             );

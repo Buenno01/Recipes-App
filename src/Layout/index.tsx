@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
+import Footer from './Footer';
 
 function Layout() {
   const location = useLocation();
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
-  // const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [titlePage, setTitlePage] = useState('');
   const [profileIcon, setProfileIcon] = useState(false);
   const [searchIcon, setSeachIcon] = useState(false);
@@ -15,15 +16,18 @@ function Layout() {
     switch (location.pathname) {
       case '/':
         setIsHeaderVisible(false);
+        setIsFooterVisible(false);
         break;
       case '/meals':
         setIsHeaderVisible(true); setSeachIcon(true); setProfileIcon(true);
         setTitlePage('Meals');
+        setIsFooterVisible(true);
         break;
       case '/drinks':
       case '/drinks/':
         setIsHeaderVisible(true); setSeachIcon(true); setProfileIcon(true);
         setTitlePage('Drinks');
+        setIsFooterVisible(true);
         break;
       case '/meals/:id':
         setIsHeaderVisible(false);
@@ -41,6 +45,7 @@ function Layout() {
         setIsHeaderVisible(true);
         setProfileIcon(true);
         setTitlePage('Profile');
+        setIsFooterVisible(true);
         break;
       case '/done-recipes':
         setIsHeaderVisible(true);
@@ -73,6 +78,10 @@ function Layout() {
         />
       )}
       <Outlet />
+
+      {isFooterVisible && (
+        <Footer />
+      )}
     </>
   );
 }

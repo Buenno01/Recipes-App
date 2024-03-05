@@ -20,6 +20,7 @@ function Layout() {
         setTitlePage('Meals');
         break;
       case '/drinks':
+      case '/drinks/':
         setIsHeaderVisible(true); setSeachIcon(true); setProfileIcon(true);
         setTitlePage('Drinks');
         break;

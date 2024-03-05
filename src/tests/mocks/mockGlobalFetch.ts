@@ -1,8 +1,9 @@
 import { vi } from 'vitest';
 import { mealMock } from './mock';
+import * as drinksApiReturns from './drinksApiReturns';
 
 const BASE_MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/';
-// const BASE_DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
+const BASE_DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
 const BY_NAME = 'search.php?s=';
 const BY_ID = 'lookup.php?i=';
 const BY_CATEGORY = 'filter.php?c=';
@@ -18,14 +19,22 @@ export const globalFetchMock = () => vi
 
 const mockEndPoints = (endpoint: any) => {
   switch (endpoint) {
-    case BASE_MEAL_URL + BY_ID:
+    case endpoint.includes(BASE_MEAL_URL + BY_ID):
       return mealMock;
     case BASE_MEAL_URL + BY_NAME:
       return mealsListApiReturn;
     case `${BASE_MEAL_URL + BY_CATEGORY}Beef`:
-      return mealsListByCategory;
+      return mealsListApiReturnByCategory;
     case BASE_MEAL_URL + GET_CATEGORIES:
-      return mealsCategories;
+      return mealsCategoriesListApiReturn;
+    case endpoint.includes(BASE_DRINK_URL + BY_ID):
+      return drinksApiReturns.ById;
+    case BASE_DRINK_URL + GET_CATEGORIES:
+      return drinksApiReturns.GetCategories;
+    case BASE_DRINK_URL + BY_NAME:
+      return drinksApiReturns.ByName;
+    case `${BASE_DRINK_URL + BY_CATEGORY}Ordinary Drink`:
+      return drinksApiReturns.ByCategory;
     default:
       return {};
   }
@@ -109,7 +118,7 @@ const mealsListApiReturn = {
   ],
 };
 
-const mealsListByCategory = {
+const mealsListApiReturnByCategory = {
   meals: [
     mealMock.meals[0],
     {
@@ -187,7 +196,7 @@ const mealsListByCategory = {
   ],
 };
 
-const mealsCategories = {
+const mealsCategoriesListApiReturn = {
   meals: [
     {
       strCategory: 'Beef',

@@ -98,7 +98,6 @@ describe('Home', () => {
     const beefButton = screen.getByTestId('Beef-category-filter');
     expect(beefButton).toBeInTheDocument();
 
-    screen.debug();
     await userEvent.click(beefButton);
     // expect(spy).toHaveBeenCalledTimes(3);
   });

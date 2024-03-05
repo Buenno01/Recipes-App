@@ -22,7 +22,7 @@ const getAllElements = async () => [
 const MEAL_RECIPE_ROUTE = { initialEntries: ['/meals/52771'] };
 const DRINK_RECIPE_ROUTE = { initialEntries: ['/drinks/17256'] };
 
-describe('In Progress Recipes', () => {
+describe('RecipeInProgress', () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });

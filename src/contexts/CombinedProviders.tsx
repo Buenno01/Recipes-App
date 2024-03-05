@@ -1,4 +1,4 @@
-type CombinedProvidersProps = {
+/* type CombinedProvidersProps = {
   children: React.ReactNode;
 };
 
@@ -9,3 +9,4 @@ function CombinedProviders({ children }: CombinedProvidersProps) {
 }
 
 export default CombinedProviders;
+*/

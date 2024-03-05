@@ -161,3 +161,13 @@ describe('Redirect by click on image or Name', () => {
     expect(nameElement).not.toBeNull();
   });
 });
+
+/* describe('Remoção de elemento favorito', () => {
+  mockLocalStorage.favoriteRecipes();
+  const { user } = renderWithRouter(<App />, INITIAL_ENTRIES);
+  const favoriteBtn = screen.getByTestId(`${INDEX_MOCK}-horizontal-favorite-btn`);
+  const recipe1 = screen.getByText('Martine');
+  expect(recipe1).toBeInTheDocument();
+  user.click(favoriteBtn);
+});
+*/

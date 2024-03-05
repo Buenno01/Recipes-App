@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useRecipesContext } from '../contexts/RecipesContext';
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchType, setSearchType] = useState('name');
-
+  const searchInfo = useRecipesContext();
   const handleSearchTypeChange = (type: string) => {
     setSearchType(type);
   };
@@ -11,6 +12,12 @@ function SearchBar() {
   const handleSearch = () => {
     // onSearch(searchTerm, searchType);
   };
+
+  useEffect(() => {
+    if (searchType === 'firstLetter' && searchTerm.length > 1) {
+      window.alert('Your search must have only 1 (one) character');
+    }
+  }, [searchTerm, searchType]);
 
   return (
     <form>
@@ -24,10 +31,11 @@ function SearchBar() {
       <div>
         <label>
           <input
+            defaultChecked
             type="radio"
             name="searchType"
             value="name"
-            checked={ searchType === 'name' }
+           // checked={ searchType === 'name' }
             onChange={ () => handleSearchTypeChange('name') }
             data-testid="name-search-radio"
           />
@@ -38,7 +46,7 @@ function SearchBar() {
             type="radio"
             name="searchType"
             value="ingredient"
-            checked={ searchType === 'ingredient' }
+           // checked={ searchType === 'ingredient' }
             onChange={ () => handleSearchTypeChange('ingredient') }
             data-testid="ingredient-search-radio"
           />
@@ -49,7 +57,7 @@ function SearchBar() {
             type="radio"
             name="searchType"
             value="firstLetter"
-            checked={ searchType === 'firstLetter' }
+           // checked={ searchType === 'firstLetter' }
             onChange={ () => handleSearchTypeChange('firstLetter') }
             data-testid="first-letter-search-radio"
           />

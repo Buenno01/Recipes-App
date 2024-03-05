@@ -2,9 +2,9 @@ import { AnyRecipeType } from '../@types/AnyRecipeType';
 import blackHearticon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import formatToFavoriteRecipeType from '../utils/formatToFavoriteRecipeType';
-import { useFavoriteRecipesContext } from '../contexts/FavoriteRecipesContext';
 import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 import ShareButton from './ShareButton';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 type DetailsHeaderProps = {
   recipe: AnyRecipeType;
@@ -12,7 +12,8 @@ type DetailsHeaderProps = {
 
 function DetailsHeader({ recipe }: DetailsHeaderProps) {
   const { thumb, name, category, type } = recipe;
-  const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
+  const [favoriteRecipes,
+    setFavoriteRecipes] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', []);
   const isFav = favoriteRecipes.some(({ id }: FavoriteRecipeType) => id === recipe.id);
   let alcoholic: string | null = null;
   if (type === 'drinks') {

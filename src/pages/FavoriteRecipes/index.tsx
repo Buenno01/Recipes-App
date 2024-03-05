@@ -4,13 +4,12 @@ import FavoriteRecipe from '../../components/FavoriteRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { FAVORITE_RECIPES_MOCK } from '../../tests/mocks/favoriteRecipesMock';
 
 function FavoriteRecipes() {
   const [
     favoriteRecipesLS,
     setFavoriteRecipesLS,
-  ] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', FAVORITE_RECIPES_MOCK);
+  ] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', []);
 
   const [filteredFavoriteRecipes,
     setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>();

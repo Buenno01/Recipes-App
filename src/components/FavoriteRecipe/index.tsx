@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
+import { FavoriteRecipeProps, FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
 import blackHearticon from '../../images/blackHeartIcon.svg';
 import ShareButton from '../ShareButton';
 import ClickableImageAndName from '../ClickableImageAndName';
 import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
-import { useFavoriteRecipesContext } from '../../contexts/FavoriteRecipesContext';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function FavoriteRecipe(props: FavoriteRecipeProps) {
   const nav = useNavigate();
   const { favoriteRecipe, index } = props;
   const url = `/${favoriteRecipe.type}s/${favoriteRecipe.id}`;
-  const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage('favoriteRecipes', []);
 
   const handleClick = () => {
     nav(url);
@@ -18,7 +18,8 @@ function FavoriteRecipe(props: FavoriteRecipeProps) {
 
   const handleFavorite = () => {
     const newFavoriteRecipes = favoriteRecipes
-      .filter((favoriteRecipeElement) => favoriteRecipeElement.id !== favoriteRecipe.id);
+      .filter((favoriteRecipeElement: FavoriteRecipeType) => favoriteRecipeElement
+        .id !== favoriteRecipe.id);
     setFavoriteRecipes(newFavoriteRecipes);
   };
 

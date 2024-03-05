@@ -1,32 +1,35 @@
 import { useEffect, useState } from 'react';
 import { FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
-import { useFavoriteRecipesContext } from '../../contexts/FavoriteRecipesContext';
 import FavoriteRecipe from '../../components/FavoriteRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
-// import { FAVORITE_RECIPES_MOCK } from '../../tests/mocks/favoriRecipesMock';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { FAVORITE_RECIPES_MOCK } from '../../tests/mocks/favoriteRecipesMock';
 
 function FavoriteRecipes() {
-  const { favoriteRecipes/* , setFavoriteRecipes */ } = useFavoriteRecipesContext();
+  const [
+    favoriteRecipesLS,
+    setFavoriteRecipesLS,
+  ] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', FAVORITE_RECIPES_MOCK);
+
   const [filteredFavoriteRecipes,
     setFilteredFavoriteRecipes] = useState<FavoriteRecipeType[]>();
 
   useEffect(() => {
-    // setFavoriteRecipes(FAVORITE_RECIPES_MOCK);
-    setFilteredFavoriteRecipes(favoriteRecipes);
-  }, [favoriteRecipes]);
+    setFilteredFavoriteRecipes(favoriteRecipesLS);
+  }, [favoriteRecipesLS, setFavoriteRecipesLS]);
 
   const handleFilterByType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget } = event;
     const type = currentTarget.id.replace(/(filter-by-)|(-btn)/g, '');
     if (type !== 'all') {
       const filteredRecipesAnyTipe = filterRecipesByType(
-        favoriteRecipes,
+        favoriteRecipesLS,
         type,
       ) as FavoriteRecipeType[];
       setFilteredFavoriteRecipes(filteredRecipesAnyTipe);
     } else {
-      setFilteredFavoriteRecipes(favoriteRecipes);
+      setFilteredFavoriteRecipes(favoriteRecipesLS);
     }
   };
 

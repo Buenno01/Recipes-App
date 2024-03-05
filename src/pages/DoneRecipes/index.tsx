@@ -1,60 +1,39 @@
 import { useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
-import { useDoneRecipesContext } from '../../contexts/DoneRecipesContext';
 import DoneRecipe from '../../components/DoneRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
-import { formatToDoneRecipeType } from '../../utils/formatToDoneRecipeType';
+import ButtonsFilterBy from '../../components/ButtonsFilterBy';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 function DoneRecipes() {
-  const { doneRecipesContext } = useDoneRecipesContext();
+  const [doneRecipesLS,
+    setDoneRecipesLS] = useLocalStorage<DoneRecipeType[]>('doneRecipes', []);
   const [filteredDoneRecipes,
-    setFilteredDoneRecipes] = useState<DoneRecipeType[]>(doneRecipesContext);
+    setFilteredDoneRecipes] = useState<DoneRecipeType[]>(doneRecipesLS);
 
   useEffect(() => {
-    setFilteredDoneRecipes(doneRecipesContext);
-  }, [doneRecipesContext]);
+    setFilteredDoneRecipes(doneRecipesLS);
+  }, [doneRecipesLS, setDoneRecipesLS]);
 
   const handleFilterByType = (event: React.MouseEvent<HTMLButtonElement>) => {
     const { currentTarget } = event;
     const type = currentTarget.id.replace(/(filter-by-)|(-btn)/g, '');
-    // filter (return: {type: string, [key:string]:any }[])
     if (type !== 'all') {
-      const filteredRecipesAnyTipe = filterRecipesByType(doneRecipesContext, type);
-      // convert to DoneRecipes[]
-      const convertedFilteredRecipes = filteredRecipesAnyTipe
-        .map((filteredRecipeAnyTipe) => formatToDoneRecipeType(filteredRecipeAnyTipe));
-      setFilteredDoneRecipes(convertedFilteredRecipes);
+      const filteredRecipesAnyTipe = filterRecipesByType(
+        doneRecipesLS,
+        type,
+      ) as DoneRecipeType[];
+      setFilteredDoneRecipes(filteredRecipesAnyTipe);
     } else {
-      setFilteredDoneRecipes(doneRecipesContext);
+      setFilteredDoneRecipes(doneRecipesLS);
     }
   };
 
   return (
     <div>
-      <button
-        id="filter-by-all-btn"
-        data-testid="filter-by-all-btn"
-        onClick={ handleFilterByType }
-      >
-        All
-      </button>
-      {' | '}
-      <button
-        data-testid="filter-by-meal-btn"
-        id="filter-by-meal-btn"
-        onClick={ handleFilterByType }
-      >
-        Meals
-      </button>
-      {' | '}
-      <button
-        id="filter-by-drink-btn"
-        data-testid="filter-by-drink-btn"
-        onClick={ handleFilterByType }
-      >
-        Drinks
-      </button>
-      {
+      <ButtonsFilterBy onClick={ handleFilterByType } />
+      <div data-testid="all-done-recipes">
+        {
         filteredDoneRecipes && filteredDoneRecipes
           .map((filteredDoneRecipe: DoneRecipeType, index: number) => {
             return (
@@ -64,6 +43,7 @@ function DoneRecipes() {
             );
           })
       }
+      </div>
     </div>
   );
 }

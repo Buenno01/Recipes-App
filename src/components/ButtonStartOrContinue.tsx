@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useDoneRecipesContext } from '../contexts/DoneRecipesContext';
 import { RecipeOptionsType } from '../@types/RecipeOptionsType';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { DoneRecipeType } from '../@types/DoneRecipeType';
 
 type ButtonStartOrContinueProps = {
   recipeType: RecipeOptionsType;
@@ -11,8 +12,8 @@ type ButtonStartOrContinueProps = {
 function ButtonStartOrContinue({ id = '', recipeType,
   ingredientList }: ButtonStartOrContinueProps) {
   const navigate = useNavigate();
-  const { doneRecipesContext } = useDoneRecipesContext();
-  if (doneRecipesContext.some((doneRecipe) => doneRecipe.id === id)) return '';
+  const [doneRecipesLS] = useLocalStorage<DoneRecipeType[]>('doneRecipes', []);
+  if (doneRecipesLS.some((doneRecipe) => doneRecipe.id === id)) return '';
 
   const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes') || '{}');
 

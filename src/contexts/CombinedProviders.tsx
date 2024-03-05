@@ -1,18 +1,12 @@
-import DoneRecipesProvider from './DoneRecipesContext/DoneRecipeProvider';
-import FavoriteRecipesProvider from './FavoriteRecipesContext/FavoriteRecipesProvider';
-
-type CombinedProvidersProps = {
+/* type CombinedProvidersProps = {
   children: React.ReactNode;
 };
 
 function CombinedProviders({ children }: CombinedProvidersProps) {
   return (
-    <FavoriteRecipesProvider>
-      <DoneRecipesProvider>
-        {children}
-      </DoneRecipesProvider>
-    </FavoriteRecipesProvider>
+    { children }
   );
 }
 
 export default CombinedProviders;
+*/

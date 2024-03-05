@@ -1,63 +1,38 @@
-import userEvent from '@testing-library/user-event';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
-import { DoneRecipesContext } from '../contexts/DoneRecipesContext';
-import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
 import { renderWithRouter } from './utils';
 import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
+import mockLocalStorage from './mocks/mockLocalStorage';
 
 const INITIAL_ENTRIES = { initialEntries: ['/done-recipes'] };
 const INDEX_MOCK = [0, 1];
+const copiedLinkRes = 'Link copied!';
 
 describe('Copy to clipboard', () => {
-  // Comentários para futuro mock se realmente necessário
-  // const urlMock = `/${DONE_RECIPES_MOCK[INDEX_MOCK[0]].type}s/${DONE_RECIPES_MOCK[INDEX_MOCK[0]].id}`;
-  // const originalClipboard = navigator.clipboard;
-
-  /* const CLIPBOARD_MOCK = {
-    ...navigator.clipboard,
-    writeText: vi.fn(),
-    readText: vi.fn().mockReturnValue(urlMock),
-  };
-
-  Object.defineProperty(navigator, 'clipboard', {
-    value: CLIPBOARD_MOCK,
-    writable: true,
-    configurable: true,
-  });
-*/
-
   test('Copied element response', async () => {
-    renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
-        <App />
-      </DoneRecipesContext.Provider>,
+    mockLocalStorage.doneRecipes();
+    const { user } = renderWithRouter(
+      <App />,
       INITIAL_ENTRIES,
     );
-    const button = await screen.findByTestId(`${INDEX_MOCK[0]}-MY-horizontal-share-btn-onclick`);
+    const button = await screen.findByTestId(`${INDEX_MOCK[0]}-horizontal-share-btn`);
     expect(button).toBeInTheDocument();
-    // expect(CLIPBOARD_MOCK.writeText).toHaveBeenCalledTimes(0);
-    await userEvent.click(button);
-    const text = await screen.findByText('Link copied!');
+    await user.click(button);
+    const text = await screen.findByText(copiedLinkRes);
     expect(text).toBeInTheDocument();
-    // expect(CLIPBOARD_MOCK.writeText).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      const newText = screen.queryByText(copiedLinkRes);
+      expect(newText).toBeNull();
+    }, { timeout: 1000 });
   });
 
   test('Copied text should be "Link copied"!', async () => {
+    mockLocalStorage.doneRecipes();
     renderWithRouter(
-      <DoneRecipesContext.Provider value={ { doneRecipesContext: DONE_RECIPES_MOCK, setDoneRecipesContext: () => {} } }>
-        <App />
-      </DoneRecipesContext.Provider>,
+      <App />,
       INITIAL_ENTRIES,
     );
     const copiedText = await copyTextToClipBoard('test');
-    expect(copiedText).toBe('Link copied!');
+    expect(copiedText).toBe(copiedLinkRes);
   });
-/*
-  Object.defineProperty(navigator, 'clipboard', {
-    writable: true,
-    configurable: true,
-    value: originalClipboard,
-  });
-  */
 });

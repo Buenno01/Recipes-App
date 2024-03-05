@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouter } from './utils';
 import App from '../App';
@@ -11,11 +11,11 @@ const MARTINEZ_MOCK = 'Martinez';
 const SPICY_ARRABIATA_PENNE_MOCK = 'Spicy Arrabiata Penne';
 describe('Favorite Recipes Page Tests - Loaded Elements', () => {
   beforeEach(() => {
+    mockLocalStorage.favoriteRecipes();
     renderWithRouter(
       <App />,
       INITIAL_ENTRIES,
     );
-    mockLocalStorage.favoriteRecipes();
   });
 
   test('Title loaded.', () => {
@@ -46,12 +46,8 @@ describe('Favorite Recipes Page Tests - Loaded Elements', () => {
 });
 
 describe('localStorage: favoriteRecipes', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
   test('Null initial value', () => {
     mockLocalStorage.empty();
-
     renderWithRouter(
       <App />,
       INITIAL_ENTRIES,
@@ -61,7 +57,6 @@ describe('localStorage: favoriteRecipes', () => {
   });
   test('Some initial value', () => {
     mockLocalStorage.favoriteRecipes();
-
     renderWithRouter(
       <App />,
       INITIAL_ENTRIES,
@@ -74,6 +69,10 @@ describe('localStorage: favoriteRecipes', () => {
 describe('Response for Filter', () => {
   beforeEach(() => {
     mockLocalStorage.favoriteRecipes();
+    renderWithRouter(
+      <App />,
+      INITIAL_ENTRIES,
+    );
   });
   test('Return the right type for filter', () => {
     expect(formatType('meal')).toBe('meals');
@@ -84,10 +83,6 @@ describe('Response for Filter', () => {
   });
 
   test('Drink Filter Test', async () => {
-    renderWithRouter(
-      <App />,
-      INITIAL_ENTRIES,
-    );
     const button = screen.getByTestId('filter-by-drink-btn');
     await userEvent.click(button);
     const drink1 = screen.queryByText(MARTINEZ_MOCK);
@@ -97,12 +92,7 @@ describe('Response for Filter', () => {
   });
 
   test('Meal Filter Test', async () => {
-    renderWithRouter(
-      <App />,
-      INITIAL_ENTRIES,
-    );
     const button = screen.getByTestId('filter-by-meal-btn');
-
     await userEvent.click(button);
     const drink1 = screen.queryByText(MARTINEZ_MOCK);
     const food1 = screen.queryByText(SPICY_ARRABIATA_PENNE_MOCK);
@@ -112,10 +102,6 @@ describe('Response for Filter', () => {
   });
 
   test('Multiple Filters', async () => {
-    renderWithRouter(
-      <App />,
-      INITIAL_ENTRIES,
-    );
     const buttonMeal = screen.getByTestId('filter-by-meal-btn');
     const buttonDrink = screen.getByTestId('filter-by-drink-btn');
     const buttonAll = screen.getByTestId('filter-by-all-btn');
@@ -139,35 +125,38 @@ describe('Response for Filter', () => {
   });
 });
 
-describe('Redirect by click on image or Name', () => {
+describe('Redirect by click on image/name btn', () => {
   test('Image Click', async () => {
-    renderWithRouter(
+    mockLocalStorage.favoriteRecipes();
+    const { user } = renderWithRouter(
       <App />,
       INITIAL_ENTRIES,
     );
-    const imgBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-image-btn`);
-    await userEvent.click(imgBtn);
-    const imgElement = await screen.findByTestId('recipe-photo');
+    const imgBtn = await screen.findByTestId(`${INDEX_MOCK[0]}-horizontal-image-btn`);
+    await user.click(imgBtn);
+    await waitForElementToBeRemoved(() => screen.queryByText('Loading...'));
+    const imgElement = screen.getByTestId('recipe-photo');
     expect(imgElement).not.toBeNull();
-  });
-  test('Name Click', async () => {
-    renderWithRouter(
-      <App />,
-      INITIAL_ENTRIES,
-    );
-    const nameBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-name`);
-    await userEvent.click(nameBtn);
-    const nameElement = await screen.findByTestId('recipe-photo');
-    expect(nameElement).not.toBeNull();
   });
 });
 
-/* describe('Remoção de elemento favorito', () => {
-  mockLocalStorage.favoriteRecipes();
-  const { user } = renderWithRouter(<App />, INITIAL_ENTRIES);
-  const favoriteBtn = screen.getByTestId(`${INDEX_MOCK}-horizontal-favorite-btn`);
-  const recipe1 = screen.getByText('Martine');
-  expect(recipe1).toBeInTheDocument();
-  user.click(favoriteBtn);
+describe('Remove element by clicking', () => {
+  beforeEach(() => {
+    mockLocalStorage.favoriteRecipes();
+    renderWithRouter(
+      <App />,
+      INITIAL_ENTRIES,
+    );
+  });
+  test(('Click test'), async () => {
+    const favoriteBtn = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-favorite-btn`);
+    const name1 = screen.getByTestId(`${INDEX_MOCK[0]}-horizontal-name`);
+    const name2 = screen.getByTestId(`${INDEX_MOCK[1]}-horizontal-name`);
+    const allFavoriteRecipes = screen.getByTestId('all-favorite-recipes');
+    expect(name1.textContent).toBe(MARTINEZ_MOCK);
+    expect(name2.textContent).toBe(SPICY_ARRABIATA_PENNE_MOCK);
+    expect(allFavoriteRecipes.children.length).toBe(2);
+    await userEvent.click(favoriteBtn);
+    expect(allFavoriteRecipes.children.length).toBe(1);
+  });
 });
-*/

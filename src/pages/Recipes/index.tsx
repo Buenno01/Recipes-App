@@ -13,6 +13,7 @@ function Home() {
     loading,
     error,
     recipes,
+    category,
     setCategory,
     setType,
   } = useFetchRecipesWithFilter(recipeType);
@@ -27,6 +28,14 @@ function Home() {
 
   useEffect(() => { setType(recipeType); }, [recipeType, setType]);
 
+  const handleCategory = (thisCategory: string) => {
+    if (category === thisCategory) {
+      setCategory('');
+    } else {
+      setCategory(thisCategory);
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (error || !recipes) return <p>Error fetching recipes</p>;
   return (
@@ -37,7 +46,7 @@ function Home() {
           (!errorCategories && !loadingCategories)
           && categories.slice(0, 5).map((item) => (
             <li data-testid={ `${item}-category-filter` } key={ item }>
-              <button onClick={ () => { setCategory(item); } }>
+              <button onClick={ () => { handleCategory(item); } }>
                 {item}
               </button>
             </li>

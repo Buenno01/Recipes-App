@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderProps from '../@types/HeaderType';
+import SearchBar from './SearchBar';
 
-function Header({ titlePage, profileIcon, searchIcon, onSearchClick, isSearchVisible }:
+function Header({ titlePage, profileIcon, searchIcon }:
 HeaderProps) {
   const navigate = useNavigate();
+  const [isSearchVisible, setisSearchVisible] = useState(false);
 
   return (
     <header data-testid="header-layout">
@@ -29,7 +31,7 @@ HeaderProps) {
 
       {searchIcon && (
         <button
-          onClick={ onSearchClick }
+          onClick={ () => setisSearchVisible(!isSearchVisible) }
         >
           <img
             src="src/images/searchIcon.svg"
@@ -41,11 +43,8 @@ HeaderProps) {
       )}
 
       {isSearchVisible && (
-        <input
-          type="text"
-          placeholder="Search..."
-          data-testid="search-input"
-        />
+        <SearchBar />
+
       )}
     </header>
   );

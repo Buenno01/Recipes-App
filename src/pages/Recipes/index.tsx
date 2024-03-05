@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
 import useFetchCategories from '../../hooks/useFetchCategories';
@@ -63,14 +63,16 @@ function Home() {
       </ul>
       {
         recipes.slice(0, 12).map((recipe, index) => (
-          <div data-testid={ `${index}-recipe-card` } key={ recipe.name }>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ recipe.thumb }
-              alt={ recipe.name }
-            />
-            <p data-testid={ `${index}-card-name` }>{recipe.name}</p>
-          </div>
+          <Link key={ recipe.name } to={ `/${recipeType}/${recipe.id}` }>
+            <div data-testid={ `${index}-recipe-card` }>
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ recipe.thumb }
+                alt={ recipe.name }
+              />
+              <p data-testid={ `${index}-card-name` }>{recipe.name}</p>
+            </div>
+          </Link>
         ))
       }
     </div>

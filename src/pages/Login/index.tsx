@@ -29,28 +29,31 @@ function Login() {
   };
 
   return (
-    <div>
-      <input
-        type="email"
-        data-testid="email-input"
-        onChange={ handleEmailChange }
-        value={ email }
-      />
-      <input
-        type="password"
-        data-testid="password-input"
-        value={ password }
-        onChange={ handlePasswordChange }
-      />
-      <button
-        type="submit"
-        data-testid="login-submit-btn"
-        disabled={ !formIsValid }
-        onClick={ handleClick }
-      >
-        Enter
-      </button>
-    </div>
+    <>
+      <h1>Login</h1>
+      <form>
+        <input
+          type="email"
+          data-testid="email-input"
+          onChange={ handleEmailChange }
+          value={ email }
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          value={ password }
+          onChange={ handlePasswordChange }
+        />
+        <button
+          type="submit"
+          data-testid="login-submit-btn"
+          disabled={ !formIsValid }
+          onClick={ handleClick }
+        >
+          Enter
+        </button>
+      </form>
+    </>
   );
 }
 

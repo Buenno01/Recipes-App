@@ -9,6 +9,10 @@ export const MOCK_IN_PROGRESS_STORAGE = JSON.stringify({
   },
 });
 
+export const MOCK_USER_STORAGE = JSON.stringify({
+  email: 'example@email.com',
+});
+
 export const MOCK_DONE_STORAGE = JSON.stringify(DONE_RECIPES_MOCK);
 
 export const MOCK_FAVORITE_STORAGE = JSON.stringify([
@@ -23,6 +27,7 @@ const mockLocalStorage = {
         case 'inProgressRecipes': return '{}';
         case 'doneRecipes': return MOCK_DONE_STORAGE;
         case 'favoriteRecipes': return '[]';
+        case 'user': return MOCK_USER_STORAGE;
         default: return null;
       }
     });
@@ -33,6 +38,7 @@ const mockLocalStorage = {
         case 'inProgressRecipes': return MOCK_IN_PROGRESS_STORAGE;
         case 'doneRecipes': return '[]';
         case 'favoriteRecipes': return '[]';
+        case 'user': return MOCK_USER_STORAGE;
         default: return null;
       }
     });
@@ -43,6 +49,18 @@ const mockLocalStorage = {
         case 'inProgressRecipes': return '{}';
         case 'doneRecipes': return '[]';
         case 'favoriteRecipes': return MOCK_FAVORITE_STORAGE;
+        case 'user': return MOCK_USER_STORAGE;
+        default: return null;
+      }
+    });
+  },
+  profile: () => {
+    Storage.prototype.getItem = vi.fn((key: string) => {
+      switch (key) {
+        case 'inProgressRecipes': return '{}';
+        case 'doneRecipes': return '[]';
+        case 'favoriteRecipes': return '[]';
+        case 'user': return MOCK_USER_STORAGE;
         default: return null;
       }
     });
@@ -53,6 +71,7 @@ const mockLocalStorage = {
         case 'inProgressRecipes': return '{}';
         case 'doneRecipes': return '[]';
         case 'favoriteRecipes': return '[]';
+        case 'user': return '{}';
         default: return null;
       }
     });

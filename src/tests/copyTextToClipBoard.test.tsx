@@ -1,6 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
-import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
 import { renderWithRouter } from './utils';
 import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 import mockLocalStorage from './mocks/mockLocalStorage';

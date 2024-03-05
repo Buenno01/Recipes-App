@@ -35,7 +35,6 @@ function RecipeDetails() {
       <Video recipe={ recipe } />
       <Recomendations recomendations={ recomendations } />
       <ButtonStartOrContinue
-        ingredientList={ recipe.ingredients }
         id={ id }
         recipeType={ recipeType }
       />

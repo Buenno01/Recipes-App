@@ -1,12 +1,10 @@
-import { useState } from 'react';
 import { AnyRecipeType } from '../@types/AnyRecipeType';
 import blackHearticon from '../images/blackHeartIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
-import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 import formatToFavoriteRecipeType from '../utils/formatToFavoriteRecipeType';
-import { useFavoriteRecipesContext } from '../contexts/FavoriteRecipesContext';
 import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
+import ShareButton from './ShareButton';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 type DetailsHeaderProps = {
   recipe: AnyRecipeType;
@@ -14,25 +12,13 @@ type DetailsHeaderProps = {
 
 function DetailsHeader({ recipe }: DetailsHeaderProps) {
   const { thumb, name, category, type } = recipe;
-  const [copiedMessage, setCopiedMessage] = useState(false);
-  const { favoriteRecipes, setFavoriteRecipes } = useFavoriteRecipesContext();
+  const [favoriteRecipes,
+    setFavoriteRecipes] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', []);
   const isFav = favoriteRecipes.some(({ id }: FavoriteRecipeType) => id === recipe.id);
   let alcoholic: string | null = null;
   if (type === 'drinks') {
     alcoholic = recipe.alcoholic;
   }
-
-  const handleShare = async () => {
-    const windowLocation = window.location.href;
-    console.log(windowLocation);
-    await copyTextToClipBoard(windowLocation);
-
-    setCopiedMessage(true);
-
-    setTimeout(() => {
-      setCopiedMessage(false);
-    }, 500);
-  };
 
   const handleFavorite = () => {
     const formattedRecipe = formatToFavoriteRecipeType(recipe);
@@ -81,25 +67,13 @@ function DetailsHeader({ recipe }: DetailsHeaderProps) {
               alt="Favoritar"
             />
           </button>
-          <button onClick={ handleShare }>
-            <img
-              data-testid="share-btn"
-              src={ shareIcon }
-              alt="Compartilhar"
-            />
-          </button>
+          <ShareButton
+            dataTestID="share-btn"
+            alt="Compartilhar"
+            copyText={ window.location.href }
+          />
         </span>
       </div>
-      {
-        copiedMessage
-        && (
-          <span
-            className="absolute bottom-0 z-20 left-0 right-0 text-center text-white"
-          >
-            Link copied!
-          </span>
-        )
-      }
     </div>
   );
 }

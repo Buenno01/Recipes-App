@@ -3,7 +3,7 @@ import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import RecipeInProgress from '../pages/RecipeInProgress';
 import { renderWithRouterAndProviders } from './utils';
-import { globalFetchMock } from './mocks/mockGlobalFetch';
+import mockGlobalFetch from './mocks/mockGlobalFetch';
 import mockLocalStorage from './mocks/mockLocalStorage';
 
 const finishRecipeBtnTestId = 'finish-recipe-btn';
@@ -25,13 +25,13 @@ const DRINK_RECIPE_ROUTE = { initialEntries: ['/drinks/17256/in-progress'] };
 const SERCH_MEAL_BY_ID = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
 const SERCH_DRINK_BY_ID = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=17256';
 
-describe.skip('RecipeInProgress', () => {
+describe('RecipeInProgress', () => {
   beforeEach(() => {
     vi.resetAllMocks();
   });
   describe('should render correctly', () => {
     it('for meals', async () => {
-      const spy = globalFetchMock();
+      const spy = mockGlobalFetch();
       renderWithRouterAndProviders(<RecipeInProgress />, MEAL_RECIPE_ROUTE);
 
       await waitFor(() => {
@@ -46,7 +46,7 @@ describe.skip('RecipeInProgress', () => {
       expect(category).toHaveTextContent('Vegetarian');
     });
     it('for drinks', async () => {
-      const spy = globalFetchMock();
+      const spy = mockGlobalFetch();
       renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
 
       await waitFor(() => {
@@ -63,7 +63,7 @@ describe.skip('RecipeInProgress', () => {
   });
 
   it('should render the correct ingredients and measurements with checkbox', async () => {
-    const spy = globalFetchMock();
+    const spy = mockGlobalFetch();
     renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
 
     await waitFor(() => {
@@ -83,7 +83,7 @@ describe.skip('RecipeInProgress', () => {
   });
 
   it('should crossed out the ingredient\'s text when the checkbox is checked', async () => {
-    const spy = globalFetchMock();
+    const spy = mockGlobalFetch();
     renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
 
     await waitFor(() => {
@@ -108,7 +108,7 @@ describe.skip('RecipeInProgress', () => {
   });
 
   it('should save the progress of a recipe properly', async () => {
-    globalFetchMock();
+    mockGlobalFetch();
     mockLocalStorage.inProgressRecipes();
     const storageSpy = vi.spyOn(Storage.prototype, 'setItem');
     renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
@@ -130,7 +130,7 @@ describe.skip('RecipeInProgress', () => {
   });
 
   it('should disable the finish button until all ingredients are checked', async () => {
-    globalFetchMock();
+    mockGlobalFetch();
     mockLocalStorage.inProgressRecipes();
     renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
 
@@ -148,7 +148,7 @@ describe.skip('RecipeInProgress', () => {
   });
 
   it('should redirect to the correct page when the finish button is clicked', async () => {
-    globalFetchMock();
+    mockGlobalFetch();
     mockLocalStorage.inProgressRecipes();
     renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
 

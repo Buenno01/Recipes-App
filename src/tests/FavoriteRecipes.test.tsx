@@ -1,6 +1,6 @@
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouter } from './utils';
+import { renderWithRouterAndProviders } from './utils';
 import App from '../App';
 import { formatType } from '../utils/formatType';
 import mockLocalStorage from './mocks/mockLocalStorage';
@@ -12,7 +12,7 @@ const SPICY_ARRABIATA_PENNE_MOCK = 'Spicy Arrabiata Penne';
 describe('Favorite Recipes Page Tests - Loaded Elements', () => {
   beforeEach(() => {
     mockLocalStorage.favoriteRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -48,7 +48,7 @@ describe('Favorite Recipes Page Tests - Loaded Elements', () => {
 describe('localStorage: favoriteRecipes', () => {
   test('Null initial value', () => {
     mockLocalStorage.empty();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -57,7 +57,7 @@ describe('localStorage: favoriteRecipes', () => {
   });
   test('Some initial value', () => {
     mockLocalStorage.favoriteRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -69,7 +69,7 @@ describe('localStorage: favoriteRecipes', () => {
 describe('Response for Filter', () => {
   beforeEach(() => {
     mockLocalStorage.favoriteRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -128,7 +128,7 @@ describe('Response for Filter', () => {
 describe('Redirect by click on image/name btn', () => {
   test('Image Click', async () => {
     mockLocalStorage.favoriteRecipes();
-    const { user } = renderWithRouter(
+    const { user } = renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -143,7 +143,7 @@ describe('Redirect by click on image/name btn', () => {
 describe('Remove element by clicking', () => {
   beforeEach(() => {
     mockLocalStorage.favoriteRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );

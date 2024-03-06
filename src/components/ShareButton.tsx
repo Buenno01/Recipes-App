@@ -12,7 +12,8 @@ function ShareButton({ copyText, dataTestID, alt }: ShareButtonProps) {
   const [copiedMessage, setCopiedMessage] = useState(false);
 
   const handleShare = async () => {
-    await copyTextToClipBoard(copyText);
+    const message = copyText.replace('/in-progress', '');
+    await copyTextToClipBoard(message);
 
     setCopiedMessage(true);
 

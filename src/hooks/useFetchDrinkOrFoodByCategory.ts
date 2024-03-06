@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { fetchAny } from '../services/fetchApi';
 import { AnyRecipeType } from '../@types/AnyRecipeType';
+import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 
-const useFetchDrinkOrFoodByCategory = (category: string, type: string) => {
+const useFetchDrinkOrFoodByCategory = (category: string, type: RecipeOptionsType) => {
   const [recipes, setRecipes] = useState<AnyRecipeType[] | string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

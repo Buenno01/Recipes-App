@@ -1,81 +1,70 @@
 import { AnyRecipeType } from '../@types/AnyRecipeType';
-import { DrinkRecipeType } from '../@types/DrinkRecipeType';
-import { MealRecipeType } from '../@types/MealRecipeType';
+import { BasicRecipeInfoType } from '../@types/BasicRecipeInfoType';
 import { RecipeOptionsType } from '../@types/RecipeOptionsType';
-import { formatCategories, formatRecipeListToType, formatRecipeType } from './utils';
+import {
+  formatCategories,
+  formatRecipeListToBasic,
+  formatRecipeListToType,
+} from './utils';
 
 const BASE_MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/';
 const BASE_DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
-const BY_NAME = 'search.php?s=';
-const BY_ID = 'lookup.php?i=';
-const BY_CATEGORY = 'filter.php?c=';
-const GET_CATEGORIES = 'list.php?c=list';
 
-export const fetchMealById = async (id: string): Promise<MealRecipeType> => {
-  const response = await fetch(BASE_MEAL_URL + BY_ID + id);
-  const data = await response.json();
-  return formatRecipeType(data.meals[0]) as MealRecipeType;
+type EndpointOptions = {
+  name: string;
+  category: string;
+  id: string;
+  firstLetter: string;
+  ingredient: string;
+  categories: string;
 };
 
-export const fetchMealByName = async (name: string = ''): Promise<MealRecipeType[]> => {
-  const response = await fetch(BASE_MEAL_URL + BY_NAME + name);
-  const data = await response.json();
-  return formatRecipeListToType(data.meals, 'meals') as MealRecipeType[];
+export type EndpointOptionsKeys = keyof EndpointOptions;
+
+const ENDPOINTS: EndpointOptions = {
+  name: 'search.php?s=',
+  category: 'filter.php?c=',
+  id: 'lookup.php?i=',
+  firstLetter: 'search.php?f=',
+  ingredient: 'filter.php?i=',
+  categories: 'list.php?c=list',
 };
 
-export const fetchMealByCategory = async (category: string = '')
-: Promise<MealRecipeType[] | string[]> => {
-  let response;
-  if (category === '') {
-    response = await fetch(BASE_MEAL_URL + GET_CATEGORIES);
-  } else {
-    response = await fetch(BASE_MEAL_URL + BY_CATEGORY + category);
-  }
+const returnResolved = async (url: string) => {
+  const response = await fetch(url);
   const data = await response.json();
-  if (category === '') return formatCategories(data.meals) as string[];
-  return formatRecipeListToType(data.meals, 'meals') as MealRecipeType[];
+  return data;
 };
 
-export const fetchDrinkById = async (id: string): Promise<DrinkRecipeType> => {
-  const response = await fetch(BASE_DRINK_URL + BY_ID + id);
-  const data = await response.json();
-  return formatRecipeType(data.drinks[0]) as DrinkRecipeType;
-};
+const buildUrl = (
+  which: RecipeOptionsType,
+  endpoint: EndpointOptionsKeys,
+  param: string = '',
+): string => {
+  let url = which === 'meals' ? BASE_MEAL_URL : BASE_DRINK_URL;
+  url += ENDPOINTS[endpoint] + param;
 
-export const fetchDrinkByName = async (name: string = ''): Promise<DrinkRecipeType[]> => {
-  const response = await fetch(BASE_DRINK_URL + BY_NAME + name);
-  const data = await response.json();
-  return formatRecipeListToType(data.drinks, 'drinks') as DrinkRecipeType[];
-};
-
-export const fetchDrinkByCategory = async (category: string = '') => {
-  let response;
-  if (category === '') {
-    response = await fetch(BASE_DRINK_URL + GET_CATEGORIES);
-  } else {
-    response = await fetch(BASE_DRINK_URL + BY_CATEGORY + category);
-  }
-  const data = await response.json();
-  if (category === '') return formatCategories(data.drinks) as string[];
-  return formatRecipeListToType(data.drinks, 'drinks') as DrinkRecipeType[];
+  return url;
 };
 
 export const fetchAny = async (
   param: string,
   recipeType: RecipeOptionsType,
-  endpoint: 'name' | 'category' | 'id',
-): Promise<AnyRecipeType | AnyRecipeType[] | string[] | undefined> => {
+  endpoint: EndpointOptionsKeys,
+): Promise<BasicRecipeInfoType[] | AnyRecipeType[] | string[]> => {
+  buildUrl(recipeType, endpoint, param);
+  const response = await returnResolved(buildUrl(recipeType, endpoint, param));
   switch (endpoint) {
     case 'name':
-      if (recipeType === 'meals') return fetchMealByName(param);
-      return fetchDrinkByName(param);
     case 'category':
-      if (recipeType === 'meals') return fetchMealByCategory(param);
-      return fetchDrinkByCategory(param);
+    case 'firstLetter':
     case 'id':
-      if (recipeType === 'meals') return fetchMealById(param);
-      return fetchDrinkById(param);
+      return formatRecipeListToType(response[recipeType]) as AnyRecipeType[];
+    case 'ingredient':
+      return formatRecipeListToBasic(response[recipeType]) as BasicRecipeInfoType[];
+    case 'categories':
+      return formatCategories(response[recipeType]) as string[];
     default:
-      return undefined;
+      return [];
   }
 };

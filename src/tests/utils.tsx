@@ -2,6 +2,7 @@ import { render } from '@testing-library/react';
 import { ReactElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import RecipesProvider from '../contexts/RecipesContext/RecipesProvider';
 // import CombinedProviders from '../contexts/CombinedProviders';
 
 const wrapWithRouter = (ui: ReactElement, initialEntries = ['/']) => {
@@ -13,12 +14,7 @@ const wrapWithRouter = (ui: ReactElement, initialEntries = ['/']) => {
   );
 };
 
-// const wrapWithProviders = (ui: ReactElement) => CombinedProviders({ children: ui });
-
-/* export const renderWithContext = (ui: ReactElement) => {
-  // está faltando o provider do contexto
-  return render(wrapWithProviders(ui));
-}; */
+const wrapWithProviders = (ui: ReactElement) => <RecipesProvider>{ ui }</RecipesProvider>;
 
 export const renderWithRouter = (ui: ReactElement, { initialEntries = ['/'] } = {}) => {
   return {
@@ -33,7 +29,6 @@ export const renderWithRouterAndProviders = (
 ) => {
   return {
     user: userEvent.setup(),
-    // ...render(wrapWithProviders(wrapWithRouter(ui, initialEntries))),
-    ...render((wrapWithRouter(ui, initialEntries))),
+    ...render(wrapWithProviders(wrapWithRouter(ui, initialEntries))),
   };
 };

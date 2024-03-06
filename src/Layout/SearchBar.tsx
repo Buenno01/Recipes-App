@@ -1,34 +1,61 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useRecipesContext } from '../contexts/RecipesContext';
+import { FetchParamsType } from '../@types/RecipesContextType';
 
 function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState('name');
+  const initialState: FetchParamsType = {
+    param: '',
+    recipeType: undefined,
+    endpoint: 'name',
+  };
+  const [form, setForm] = useState<FetchParamsType>(initialState);
+  const { fetchParams, setFetchParams } = useRecipesContext();
+  const { pathname } = useLocation();
+  const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
 
-  const handleSearchTypeChange = (type: string) => {
-    setSearchType(type);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  const handleSearch = () => {
-    // onSearch(searchTerm, searchType);
+  const handleSubmit = () => {
+    if (form.endpoint === 'firstLetter' && form.param.length > 1) {
+      window.alert('Your search must have only 1 (one) character');
+    } else {
+      setFetchParams({ ...fetchParams, param: form.param, endpoint: form.endpoint });
+    }
   };
+
+  useEffect(() => {
+    setFetchParams({ ...fetchParams, recipeType });
+  }, [recipeType]);
 
   return (
-    <form>
+    <form
+      onSubmit={ (e) => {
+        e.preventDefault();
+        handleSubmit();
+      } }
+    >
       <input
+        name="param"
         type="text"
         placeholder="Search..."
-        value={ searchTerm }
-        onChange={ (e) => setSearchTerm(e.target.value) }
+        value={ form.param }
+        onChange={ handleChange }
         data-testid="search-input"
       />
       <div>
         <label>
           <input
+            defaultChecked
             type="radio"
-            name="searchType"
+            name="endpoint"
             value="name"
-            checked={ searchType === 'name' }
-            onChange={ () => handleSearchTypeChange('name') }
+            onChange={ handleChange }
             data-testid="name-search-radio"
           />
           Name
@@ -36,10 +63,9 @@ function SearchBar() {
         <label>
           <input
             type="radio"
-            name="searchType"
+            name="endpoint"
             value="ingredient"
-            checked={ searchType === 'ingredient' }
-            onChange={ () => handleSearchTypeChange('ingredient') }
+            onChange={ handleChange }
             data-testid="ingredient-search-radio"
           />
           Ingredient
@@ -47,17 +73,16 @@ function SearchBar() {
         <label>
           <input
             type="radio"
-            name="searchType"
+            name="endpoint"
             value="firstLetter"
-            checked={ searchType === 'firstLetter' }
-            onChange={ () => handleSearchTypeChange('firstLetter') }
+            onChange={ handleChange }
             data-testid="first-letter-search-radio"
           />
           First Letter
         </label>
       </div>
       <button
-        onClick={ handleSearch }
+        type="submit"
         data-testid="exec-search-btn"
       >
         Search

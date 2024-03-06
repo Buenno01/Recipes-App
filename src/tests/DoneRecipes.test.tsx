@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { DONE_RECIPES_MOCK } from './mocks/doneRecipesMock';
-import { renderWithRouter } from './utils';
+import { renderWithRouterAndProviders } from './utils';
 import App from '../App';
 import { formatType } from '../utils/formatType';
 import mockLocalStorage from './mocks/mockLocalStorage';
@@ -11,7 +11,7 @@ const INDEX_MOCK = [0, 1];
 describe('Done Recipes Page Tests - Loaded Elements', () => {
   beforeEach(() => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -62,7 +62,7 @@ describe('localStorage: doneRecipes', () => {
   });
   test('Null initial value', () => {
     mockLocalStorage.empty();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -71,7 +71,7 @@ describe('localStorage: doneRecipes', () => {
   });
   test('Some initial value', () => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -94,7 +94,7 @@ describe('Response for Filter', () => {
 
   test('Drink Filter Test', async () => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -108,7 +108,7 @@ describe('Response for Filter', () => {
 
   test('Meal Filter Test', async () => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -122,7 +122,7 @@ describe('Response for Filter', () => {
 
   test('Multiple Filters', async () => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -152,7 +152,7 @@ describe('Response for Filter', () => {
 describe('Redirect by click on image or Name', () => {
   test('Image Click', async () => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -163,7 +163,7 @@ describe('Redirect by click on image or Name', () => {
   });
   test('Name Click', async () => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );

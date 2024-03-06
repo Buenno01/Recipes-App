@@ -15,13 +15,21 @@ const BY_INGREDIENT_MEALS = /filter.php\?i=beef/i;
 const BY_INGREDIENT_DRINKS = /filter.php\?i=vodka/i;
 const NOT_FOUND = /non-existent/i;
 
-export const globalFetchMock = () => vi
+const mockGlobalFetch = (error = false, loading = false) => vi
   .spyOn(global, 'fetch')
   .mockImplementation((endpoint) => Promise.resolve(Promise.resolve({
-    json: async () => mockEndPoints(endpoint),
+    json: async () => checkErrorOrLoading(error, loading, endpoint),
     ok: true,
     status: 200,
   } as Response)));
+
+const checkErrorOrLoading = (error: boolean, loading: boolean, endpoint: any) => {
+  if (error) throw new Error('Error fetching data');
+  if (loading) {
+    return setTimeout(() => mockEndPoints(endpoint), 3000);
+  }
+  return mockEndPoints(endpoint);
+};
 
 const mockEndPoints = (endpoint: any) => {
   const endpointString = endpoint.toString();
@@ -69,3 +77,5 @@ const mockDrinks = (endpoint: string) => {
 
   return returnedData;
 };
+
+export default mockGlobalFetch;

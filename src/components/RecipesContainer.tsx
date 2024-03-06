@@ -1,8 +1,8 @@
-import { AnyRecipeType } from '../@types/AnyRecipeType';
+import { BasicRecipeInfoType } from '../@types/BasicRecipeInfoType';
 import RecipesList from './RecipesList';
 
 type RecipesContainerProps = {
-  recipes: AnyRecipeType[];
+  recipes: BasicRecipeInfoType[];
   loading: boolean;
   error: string;
 };
@@ -18,7 +18,6 @@ function RecipesContainer({ recipes, loading, error }: RecipesContainerProps) {
             key={ recipe.name }
             recipe={ recipe }
             index={ index }
-            recipeType={ recipe.type }
           />
         ))
       }

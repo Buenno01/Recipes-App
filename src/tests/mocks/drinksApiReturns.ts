@@ -108,3 +108,13 @@ export const ByCategory = {
     { ...thisCategory, idDrink: '17243', strDrink: 'Mint JulepOD' },
   ],
 };
+
+export const ByFirstLetter = {
+  drinks: ByName.drinks.map((drink) => ({ ...drink, strDrink: `F${drink.strDrink}` })),
+};
+
+export const ByIngredient = {
+  drinks: ByName.drinks.map((drink) => ({
+    ...drink, strDrink: `Vodka ${drink.strDrink}`, strIngredient1: 'Vodka',
+  })),
+};

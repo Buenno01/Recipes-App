@@ -98,3 +98,13 @@ export const ByCategory = {
     { ...thisCategory, idMeal: '52782', strMeal: 'Burrito' },
   ],
 };
+
+export const ByFirstLetter = {
+  meals: ByName.meals.map((meal) => ({ ...meal, strMeal: `F${meal.strMeal}` })),
+};
+
+export const ByIngredient = {
+  meals: ByName.meals.map((meal) => ({
+    ...meal, strMeal: `Beef ${meal.strMeal}`, strIngredient1: 'Beef',
+  })),
+};

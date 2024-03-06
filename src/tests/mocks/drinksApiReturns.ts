@@ -118,3 +118,7 @@ export const ByIngredient = {
     ...drink, strDrink: `Vodka ${drink.strDrink}`, strIngredient1: 'Vodka',
   })),
 };
+
+export const NotFound = {
+  drinks: [],
+};

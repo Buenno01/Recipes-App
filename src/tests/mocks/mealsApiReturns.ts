@@ -108,3 +108,7 @@ export const ByIngredient = {
     ...meal, strMeal: `Beef ${meal.strMeal}`, strIngredient1: 'Beef',
   })),
 };
+
+export const NotFound = {
+  meals: [],
+};

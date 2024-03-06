@@ -13,6 +13,7 @@ const GET_CATEGORIES = /list.php\?c=list/;
 const BY_FIRST_LETTER = /search.php\?f=f/i;
 const BY_INGREDIENT_MEALS = /filter.php\?i=beef/i;
 const BY_INGREDIENT_DRINKS = /filter.php\?i=vodka/i;
+const NOT_FOUND = /non-existent/i;
 
 export const globalFetchMock = () => vi
   .spyOn(global, 'fetch')
@@ -44,6 +45,8 @@ const mockMeals = (endpoint: string) => {
 
   if (BY_INGREDIENT_MEALS.test(endpoint)) returnedData = mealsApiReturns.ByIngredient;
 
+  if (NOT_FOUND.test(endpoint)) returnedData = mealsApiReturns.NotFound;
+
   return returnedData;
 };
 
@@ -61,6 +64,8 @@ const mockDrinks = (endpoint: string) => {
   if (BY_NAME_DRINKS.test(endpoint)) returnedData = drinksApiReturns.ById;
 
   if (BY_INGREDIENT_DRINKS.test(endpoint)) returnedData = drinksApiReturns.ByIngredient;
+
+  if (NOT_FOUND.test(endpoint)) returnedData = drinksApiReturns.NotFound;
 
   return returnedData;
 };

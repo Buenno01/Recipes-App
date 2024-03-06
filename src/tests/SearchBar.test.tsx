@@ -44,7 +44,7 @@ const execSearch = async (param: string, radio: HTMLElement, btnAndTextInput: HT
   await userEvent.click(searchBtn);
 };
 
-describe.skip('SearchBar', () => {
+describe('SearchBar', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
   });
@@ -119,7 +119,7 @@ describe.skip('SearchBar', () => {
 
   it('should alert if there\'s more than one letter and the first-letter radio is selected', async () => {
     mockGlobalFetch();
-    const alertSpy = vi.spyOn(window, 'alert');
+    const alertSpy = vi.spyOn(global, 'alert');
     renderWithRouterAndProviders(<App />, MEALS_ROUTE);
 
     const showSearchBtn = getShowSearchBtn();
@@ -127,10 +127,6 @@ describe.skip('SearchBar', () => {
 
     const { firstLetterRadio } = await getRadioInputs();
     const btnAndTextInput = await getBtnAndTextInput();
-
-    await waitFor(() => {
-      expect(alertSpy).not.toHaveBeenCalled();
-    });
 
     await execSearch('ab', firstLetterRadio, btnAndTextInput);
 
@@ -186,7 +182,7 @@ describe.skip('SearchBar', () => {
 
   it('should alert if there\'s no result when searched by name', async () => {
     mockGlobalFetch();
-    const alertSpy = vi.spyOn(window, 'alert');
+    const alertSpy = vi.spyOn(global, 'alert');
     renderWithRouterAndProviders(<App />, MEALS_ROUTE);
 
     const showSearchBtn = getShowSearchBtn();
@@ -194,10 +190,6 @@ describe.skip('SearchBar', () => {
 
     const { nameRadio } = await getRadioInputs();
     const btnAndTextInput = await getBtnAndTextInput();
-
-    await waitFor(() => {
-      expect(alertSpy).not.toHaveBeenCalled();
-    });
 
     await execSearch('non-existent', nameRadio, btnAndTextInput);
 

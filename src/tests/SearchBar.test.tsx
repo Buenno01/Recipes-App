@@ -2,7 +2,7 @@ import { screen, waitFor } from '@testing-library/dom';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndProviders } from './utils';
-import { globalFetchMock } from './mocks/mockGlobalFetch';
+import mockGlobalFetch from './mocks/mockGlobalFetch';
 import App from '../App';
 
 const MEALS_ROUTE = { initialEntries: ['/meals'] };
@@ -50,7 +50,7 @@ describe.skip('SearchBar', () => {
   });
 
   it('should render when clicking the serch icon', async () => {
-    globalFetchMock();
+    mockGlobalFetch();
     renderWithRouterAndProviders(<App />, MEALS_ROUTE);
 
     const showSearchBtn = getShowSearchBtn();
@@ -63,7 +63,7 @@ describe.skip('SearchBar', () => {
 
   describe('should call the correct endpoint when the search btn is clicked', async () => {
     it('Meals', async () => {
-      const spy = globalFetchMock();
+      const spy = mockGlobalFetch();
       renderWithRouterAndProviders(<App />, MEALS_ROUTE);
 
       const showSearchBtn = getShowSearchBtn();
@@ -90,7 +90,7 @@ describe.skip('SearchBar', () => {
     });
 
     it('Drinks', async () => {
-      const spy = globalFetchMock();
+      const spy = mockGlobalFetch();
       renderWithRouterAndProviders(<App />, DRINKS_ROUTE);
 
       const showSearchBtn = getShowSearchBtn();
@@ -118,7 +118,7 @@ describe.skip('SearchBar', () => {
   });
 
   it('should alert if there\'s more than one letter and the first-letter radio is selected', async () => {
-    globalFetchMock();
+    mockGlobalFetch();
     const alertSpy = vi.spyOn(window, 'alert');
     renderWithRouterAndProviders(<App />, MEALS_ROUTE);
 
@@ -146,7 +146,7 @@ describe.skip('SearchBar', () => {
     });
 
     it('Meals', async () => {
-      const spy = globalFetchMock();
+      const spy = mockGlobalFetch();
       renderWithRouterAndProviders(<App />, MEALS_ROUTE);
 
       const showSearchBtn = getShowSearchBtn();
@@ -165,7 +165,7 @@ describe.skip('SearchBar', () => {
     });
 
     it('Drinks', async () => {
-      const spy = globalFetchMock();
+      const spy = mockGlobalFetch();
       renderWithRouterAndProviders(<App />, DRINKS_ROUTE);
 
       const showSearchBtn = getShowSearchBtn();
@@ -185,7 +185,7 @@ describe.skip('SearchBar', () => {
   });
 
   it('should alert if there\'s no result when searched by name', async () => {
-    globalFetchMock();
+    mockGlobalFetch();
     const alertSpy = vi.spyOn(window, 'alert');
     renderWithRouterAndProviders(<App />, MEALS_ROUTE);
 

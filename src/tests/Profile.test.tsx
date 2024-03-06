@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
-import { renderWithRouterAndProviders } from './utils';
+import { renderWithRouter } from './utils';
 import Profile from '../pages/Profile';
 import mockLocalStorage from './mocks/mockLocalStorage';
 import App from '../App';
@@ -18,7 +18,7 @@ const getEveryElement = async () => [
 describe('Profile', () => {
   it('should render the profile page', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<Profile />, PROFILE_ROUTE);
+    renderWithRouter(<Profile />, PROFILE_ROUTE);
 
     const everyElement = await getEveryElement();
     everyElement.forEach((element) => expect(element).toBeInTheDocument());
@@ -26,7 +26,7 @@ describe('Profile', () => {
 
   it('should render the profile page with the correct email', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<Profile />, PROFILE_ROUTE);
+    renderWithRouter(<Profile />, PROFILE_ROUTE);
 
     const [email] = await getEveryElement();
 
@@ -35,7 +35,7 @@ describe('Profile', () => {
 
   it('should have 3 buttons', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<Profile />, PROFILE_ROUTE);
+    renderWithRouter(<Profile />, PROFILE_ROUTE);
 
     const [, doneBtn, favoriteBtn, logoutBtn] = await getEveryElement();
     expect(doneBtn).toBeInTheDocument();
@@ -48,7 +48,7 @@ describe('Profile', () => {
 
   it('should redirect to the done recipes page', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<App />, PROFILE_ROUTE);
+    renderWithRouter(<App />, PROFILE_ROUTE);
 
     const [, doneBtn] = await getEveryElement();
     await userEvent.click(doneBtn);
@@ -57,7 +57,7 @@ describe('Profile', () => {
 
   it('should redirect to the favorite recipes page', async () => {
     mockLocalStorage.profile();
-    renderWithRouterAndProviders(<App />, PROFILE_ROUTE);
+    renderWithRouter(<App />, PROFILE_ROUTE);
 
     const [, , favoriteBtn] = await getEveryElement();
     await userEvent.click(favoriteBtn);
@@ -67,7 +67,7 @@ describe('Profile', () => {
   it('should redirect to the login page', async () => {
     mockLocalStorage.profile();
     const spy = vi.spyOn(Storage.prototype, 'clear');
-    renderWithRouterAndProviders(<App />, PROFILE_ROUTE);
+    renderWithRouter(<App />, PROFILE_ROUTE);
 
     const [, , , logoutBtn] = await getEveryElement();
 

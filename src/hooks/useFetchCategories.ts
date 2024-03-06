@@ -17,7 +17,7 @@ UseFetchCategoriesReturnType => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await fetchAny('', recipeType, 'category') as string[];
+        const data = await fetchAny('', recipeType, 'categories') as string[];
         setCategories(data);
       } catch (err) {
         if (err instanceof Error) {

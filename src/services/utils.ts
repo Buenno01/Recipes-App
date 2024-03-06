@@ -1,6 +1,8 @@
 import { AnyRecipeType } from '../@types/AnyRecipeType';
+import { BasicRecipeInfoType } from '../@types/BasicRecipeInfoType';
 import { DrinkRecipeType } from '../@types/DrinkRecipeType';
 import { MealRecipeType } from '../@types/MealRecipeType';
+import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 
 type GetIngredientsAndMeasuresReturnType = {
   ingredients: string[];
@@ -9,18 +11,21 @@ type GetIngredientsAndMeasuresReturnType = {
 
 type APICategoryType = { strCategory: string };
 
-export const formatRecipeType = (data: any): AnyRecipeType => {
-  let formattedData;
-  if (data?.idDrink) {
-    formattedData = formatToDrinkRecipeType(data);
-  } else {
-    formattedData = formatToMealRecipeType(data);
-  }
-
-  return formattedData as AnyRecipeType;
+export const formatRecipeListToBasic = (
+  data: any[],
+): BasicRecipeInfoType[] => {
+  if (!data) return [];
+  const type = checkRecipeType(data[0]);
+  return data.map((item) => ({
+    name: type === 'meals' ? item.strMeal : item.strDrink,
+    thumb: type === 'meals' ? item.strMealThumb : item.strDrinkThumb,
+    id: type === 'meals' ? item.idMeal : item.idDrink,
+  }));
 };
 
-export const formatRecipeListToType = (data: any[], type: string): AnyRecipeType[] => {
+export const formatRecipeListToType = (data: any[]): AnyRecipeType[] => {
+  if (!data) return [];
+  const type = checkRecipeType(data[0]);
   if (type === 'meals') {
     return data.map((item) => formatToMealRecipeType(item));
   }
@@ -90,4 +95,8 @@ function formatToDrinkRecipeType(data: any): DrinkRecipeType {
     glass: data.strGlass,
     imageAttribution: data.strImageAttribution,
   } as DrinkRecipeType;
+}
+
+function checkRecipeType(data: any): RecipeOptionsType {
+  return data.idMeal ? 'meals' : 'drinks';
 }

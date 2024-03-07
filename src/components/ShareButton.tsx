@@ -24,7 +24,7 @@ function ShareButton({ copyText, dataTestID, alt }: ShareButtonProps) {
 
   return (
     <>
-      <button onClick={ handleShare }>
+      <button className="h-8 w-8" onClick={ handleShare }>
         <img
           data-testid={ dataTestID }
           src={ shareIcon }

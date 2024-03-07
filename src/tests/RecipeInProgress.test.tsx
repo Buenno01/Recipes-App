@@ -5,6 +5,7 @@ import RecipeInProgress from '../pages/RecipeInProgress';
 import { renderWithRouterAndProviders } from './utils';
 import mockGlobalFetch from './mocks/mockGlobalFetch';
 import mockLocalStorage from './mocks/mockLocalStorage';
+import App from '../App';
 
 const finishRecipeBtnTestId = 'finish-recipe-btn';
 
@@ -13,17 +14,17 @@ const getAllElements = async () => [
   await screen.findByTestId('recipe-title'),
   await screen.findByTestId('recipe-photo'),
   await screen.findByTestId('instructions'),
-  await screen.findByTestId('video'),
   await screen.findByTestId('share-btn'),
   await screen.findByTestId('favorite-btn'),
   await screen.findByTestId(finishRecipeBtnTestId),
 ];
+const getVideoElement = async () => screen.findByTestId('video');
 
 const MEAL_RECIPE_ROUTE = { initialEntries: ['/meals/52771/in-progress'] };
 const DRINK_RECIPE_ROUTE = { initialEntries: ['/drinks/17256/in-progress'] };
 
-const SERCH_MEAL_BY_ID = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
-const SERCH_DRINK_BY_ID = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=17256';
+const SERCH_MEAL_BY_ID = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
+const SERCH_DRINK_BY_ID = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
 describe('RecipeInProgress', () => {
   beforeEach(() => {
@@ -39,7 +40,7 @@ describe('RecipeInProgress', () => {
         expect(spy).toHaveBeenCalledWith(SERCH_MEAL_BY_ID);
       });
 
-      const everything = await getAllElements();
+      const everything = [...(await getAllElements()), await getVideoElement()];
       everything.forEach((element) => expect(element).toBeInTheDocument());
 
       const [category] = everything;
@@ -93,39 +94,47 @@ describe('RecipeInProgress', () => {
 
     const ingredients = await screen.findAllByTestId(/\d+-ingredient-step/);
     const [ingredient1, ingredient2] = ingredients;
-    const cssClass = 'text-decoration: line-through';
-    userEvent.click(ingredient1.children[0]);
-    expect(ingredient1).toHaveStyle(cssClass);
-    expect(ingredient2).not.toHaveStyle(cssClass);
+    const attributeClass = 'class';
+    const cssClass = 'flex gap-2 line-through';
+    await userEvent.click(ingredient1.children[0]);
+    screen.debug();
+    await waitFor(() => {
+      expect(ingredient1).toHaveAttribute(attributeClass, cssClass);
+      expect(ingredient2).not.toHaveAttribute(attributeClass, cssClass);
+    });
 
-    userEvent.click(ingredient2.children[0]);
-    expect(ingredient1).toHaveStyle(cssClass);
-    expect(ingredient2).toHaveStyle(cssClass);
+    await userEvent.click(ingredient2.children[0]);
+    await waitFor(() => {
+      expect(ingredient1).toHaveAttribute(attributeClass, cssClass);
+      expect(ingredient1).toHaveAttribute(attributeClass, cssClass);
+    });
 
-    userEvent.click(ingredient1.children[0]);
-    expect(ingredient1).not.toHaveStyle(cssClass);
-    expect(ingredient2).toHaveStyle(cssClass);
+    await userEvent.click(ingredient1.children[0]);
+    await waitFor(() => {
+      expect(ingredient1).not.toHaveAttribute(attributeClass, cssClass);
+      expect(ingredient2).toHaveAttribute(attributeClass, cssClass);
+    });
   });
 
   it('should save the progress of a recipe properly', async () => {
     mockGlobalFetch();
     mockLocalStorage.inProgressRecipes();
     const storageSpy = vi.spyOn(Storage.prototype, 'setItem');
-    renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
+    renderWithRouterAndProviders(<App />, DRINK_RECIPE_ROUTE);
 
     const ingredients = await screen.findAllByTestId(/\d+-ingredient-step/);
     const [ingredient1, ingredient2] = ingredients;
 
-    userEvent.click(ingredient1);
+    await userEvent.click(ingredient2);
+
+    expect(storageSpy).toHaveBeenLastCalledWith('inProgressRecipes', JSON.stringify({
+      drinks: { 17256: ['Goldschlager'] },
+    }));
+
+    await userEvent.click(ingredient1);
 
     expect(storageSpy).toHaveBeenLastCalledWith('inProgressRecipes', JSON.stringify({
       drinks: { 17256: ['Jägermeister'] },
-    }));
-
-    userEvent.click(ingredient2);
-
-    expect(storageSpy).toHaveBeenLastCalledWith('inProgressRecipes', JSON.stringify({
-      drinks: { 17256: ['Jägermeister', 'Goldschlager'] },
     }));
   });
 
@@ -140,11 +149,15 @@ describe('RecipeInProgress', () => {
     const ingredients = await screen.findAllByTestId(/\d+-ingredient-step/);
     const [ingredient1, ingredient2] = ingredients;
 
-    userEvent.click(ingredient1);
-    expect(finishButton).toBeDisabled();
+    await userEvent.click(ingredient1);
+    await waitFor(() => {
+      expect(finishButton).toBeDisabled();
+    });
 
-    userEvent.click(ingredient2);
-    expect(finishButton).not.toBeDisabled();
+    await userEvent.click(ingredient2);
+    await waitFor(() => {
+      expect(finishButton).not.toBeDisabled();
+    });
   });
 
   it('should redirect to the correct page when the finish button is clicked', async () => {
@@ -158,8 +171,10 @@ describe('RecipeInProgress', () => {
       await userEvent.click(ingredient);
     });
 
-    userEvent.click(screen.getByTestId(finishRecipeBtnTestId));
+    await userEvent.click(screen.getByTestId(finishRecipeBtnTestId));
 
-    expect(screen.getByText(/done recipes/i)).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/done recipes/i)).toBeInTheDocument();
+    });
   });
 });

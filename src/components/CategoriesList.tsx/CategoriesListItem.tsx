@@ -8,13 +8,15 @@ type CategoriesListItemProps = {
 
 function CategoriesListItem({ category, handleClick }: CategoriesListItemProps) {
   return (
-    <li key={ category }>
+    <li className="flex flex-col text-center gap-1" key={ category }>
       <CategoryBtn
         onClick={ handleClick }
         data-testid={ `${category}-category-filter` }
         category={ category }
       />
-      {category}
+      <span className="text-xxs font-light text-gray-500">
+        {category}
+      </span>
     </li>
   );
 }

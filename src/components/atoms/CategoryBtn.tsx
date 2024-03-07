@@ -14,7 +14,8 @@ function CategoryBtn({ category, ...rest }: CategoryBtnProps) {
     <button
       { ...rest }
       data-testid={ `${category}-category-filter` }
-      className="h-12 w-12 rounded-full border flex items-center justify-center"
+      className="h-11 w-11 rounded-full border-primary-yellow
+      border-2 flex items-center justify-center p-1"
     >
       <img
         src={ `src/assets/images/category-${imageAddress}-icon.svg` }

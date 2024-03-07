@@ -13,17 +13,23 @@ function DoneRecipe(props: DoneRecipeProps) {
     nav(url);
   };
   return (
-    <div className="flex h-64 mb-4 border border-gray-400">
-      <div className="w-1/2 h-full flex-shrink-0">
+    <div className="flex h-48 mb-4 border border-gray-400 h-full">
+      <div className="w-1/2 flex-shrink-0">
         <ClickableImage
           recipe={ doneRecipe }
           onClick={ handleClick }
           index={ index }
         />
       </div>
-      <div className="w-1/2 h-full pt-4 text-left pl-4">
-        <CategoryAndName onClick={ handleClick } recipe={ doneRecipe } index={ index } />
-        <div className="mt-10">
+      <div className="flex-col text-left">
+        <div className="flex-col mt-2">
+          <CategoryAndName
+            onClick={ handleClick }
+            recipe={ doneRecipe }
+            index={ index }
+          />
+        </div>
+        <div className="mt-4">
           <span>Done in: </span>
           <span
             data-testid={ `${index}-horizontal-done-date` }
@@ -31,24 +37,24 @@ function DoneRecipe(props: DoneRecipeProps) {
             {formatDate(doneRecipe.doneDate)}
           </span>
         </div>
-        <div className="flex">
+        <div className="flex justify-evenly mt-8">
           {
       doneRecipe.tags?.map((tagName: string, tagIndex: number) => {
         if (tagIndex >= 2) return;
         return (
-          <p
+          <span
             key={ tagName }
             data-testid={ `${index}-${tagName}-horizontal-tag` }
-            className="px-2 ml-2 mt-16 bg-gray-200 rounded-full"
+            className="px-2 bg-gray-200 rounded-full"
           >
             {tagName}
-          </p>
+          </span>
         );
       })
 }
         </div>
       </div>
-      <div className="w-1/6 h-full mt-4">
+      <div className="w-1/6 mt-4">
         <ShareButton
           alt="Compatilhar"
           dataTestID={ `${index}-horizontal-share-btn` }

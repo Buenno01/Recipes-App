@@ -30,7 +30,7 @@ function FavoriteRecipe(props: FavoriteRecipeProps) {
   return (
     isFav
     && (
-      <div className="flex h-64 mb-1 border border-gray-400">
+      <div className="flex h-48 mb-4 border border-gray-400">
         <div className="w-1/2 h-full flex-shrink-0">
           <ClickableImage
             recipe={ favoriteRecipe }
@@ -59,7 +59,7 @@ function FavoriteRecipe(props: FavoriteRecipeProps) {
                 data-testid={ `${index}-horizontal-favorite-btn` }
                 src={ blackHearticon }
                 alt="Favoritar"
-                className="h-12"
+                className="h-8"
               />
             </button>
           </div>

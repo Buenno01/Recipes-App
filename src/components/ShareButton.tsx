@@ -29,6 +29,7 @@ function ShareButton({ copyText, dataTestID, alt }: ShareButtonProps) {
           data-testid={ dataTestID }
           src={ shareIcon }
           alt={ alt }
+          className="h-8"
         />
       </button>
       {

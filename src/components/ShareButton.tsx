@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
-import shareIcon from '../images/shareIcon.svg';
+import shareIcon from '../assets/images/shareIcon.svg';
 
 type ShareButtonProps = {
   copyText: string,

@@ -1,6 +1,6 @@
 import { AnyRecipeType } from '../@types/AnyRecipeType';
-import blackHearticon from '../images/blackHeartIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHearticon from '../assets/images/blackHeartIcon.svg';
+import whiteHeartIcon from '../assets/images/whiteHeartIcon.svg';
 import formatToFavoriteRecipeType from '../utils/formatToFavoriteRecipeType';
 import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 import ShareButton from './ShareButton';

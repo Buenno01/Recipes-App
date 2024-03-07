@@ -18,7 +18,7 @@ HeaderProps) {
          >
 
            <img
-             src="/src/images/profileIcon.svg"
+             src="/src/assets/images/profileIcon.svg"
              alt=""
              data-testid="profile-top-btn"
            />
@@ -34,7 +34,7 @@ HeaderProps) {
           onClick={ () => setisSearchVisible(!isSearchVisible) }
         >
           <img
-            src="src/images/searchIcon.svg"
+            src="src/assets/images/searchIcon.svg"
             alt=""
             data-testid="search-top-btn"
 

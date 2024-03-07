@@ -202,11 +202,11 @@ describe('RecipeDetails', () => {
     const favoriteButton = await screen.findByTestId(FAV_BTN_TESTID);
     expect(favoriteButton).toBeInTheDocument();
 
-    expect(favoriteButton).toHaveAttribute('src', '/src/images/whiteHeartIcon.svg');
+    expect(favoriteButton).toHaveAttribute('src', '/src/assets/images/whiteHeartIcon.svg');
 
     await userEvent.click(favoriteButton);
 
-    expect(favoriteButton).toHaveAttribute('src', '/src/images/blackHeartIcon.svg');
+    expect(favoriteButton).toHaveAttribute('src', '/src/assets/images/blackHeartIcon.svg');
   });
 
   describe('Start Recipe Button', () => {

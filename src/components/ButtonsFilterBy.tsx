@@ -1,6 +1,6 @@
 import React from 'react';
-import mealIcon from '../images/mealIcon.svg';
-import drinkIcon from '../images/drinkIcon.svg';
+import mealIcon from '../assets/images/mealIcon.svg';
+import drinkIcon from '../assets/images/drinkIcon.svg';
 
 type ButtonsFilterByProps = {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;

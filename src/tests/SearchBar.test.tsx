@@ -191,7 +191,7 @@ describe('SearchBar', () => {
     const { nameRadio } = await getRadioInputs();
     const btnAndTextInput = await getBtnAndTextInput();
 
-    await execSearch('non-existent', nameRadio, btnAndTextInput);
+    await execSearch('xablau', nameRadio, btnAndTextInput);
 
     await waitFor(() => {
       expect(alertSpy).toHaveBeenCalled();

@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
 import blackHearticon from '../../images/blackHeartIcon.svg';
 import ShareButton from '../ShareButton';
-import ClickableImageAndName from '../ClickableImageAndName';
-import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
+import ClickableImage from '../ClickableImage';
+import CategoryAndName from '../CategoryAndName';
 
 function FavoriteRecipe(props: FavoriteRecipeProps) {
   const nav = useNavigate();
@@ -30,29 +30,42 @@ function FavoriteRecipe(props: FavoriteRecipeProps) {
   return (
     isFav
     && (
-      <div>
-        <ClickableImageAndName
-          recipe={ favoriteRecipe }
-          onClick={ handleClick }
-          index={ index }
-        />
-        <CategoryDrinkOrMeal recipe={ favoriteRecipe } index={ index } />
-        <button
-          data-testid={ `${index}-horizontal-favorite-true-btn` }
-          onClick={ handleFavorite }
-        >
-          <img
-            data-testid={ `${index}-horizontal-favorite-btn` }
-            src={ blackHearticon }
-            alt="Favoritar"
+      <div className="flex h-48 mb-4 border border-gray-400">
+        <div className="w-1/2 h-full flex-shrink-0">
+          <ClickableImage
+            recipe={ favoriteRecipe }
+            onClick={ handleClick }
+            index={ index }
           />
-        </button>
-        <ShareButton
-          alt="Compatilhar"
-          dataTestID={ `${index}-horizontal-share-btn` }
-          copyText={ window.location.origin + url }
-        />
-      </div>)
+        </div>
+        <div className="w-1/2 pt-4 text-left pl-4 flex-col">
+          <CategoryAndName
+            onClick={ handleClick }
+            recipe={ favoriteRecipe }
+            index={ index }
+          />
+
+          <div className="flex items-end pt-16 space-x-4">
+            <ShareButton
+              alt="Compatilhar"
+              dataTestID={ `${index}-horizontal-share-btn` }
+              copyText={ window.location.origin + url }
+            />
+            <button
+              data-testid={ `${index}-horizontal-favorite-true-btn` }
+              onClick={ handleFavorite }
+            >
+              <img
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src={ blackHearticon }
+                alt="Favoritar"
+                className="h-8"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   );
 }
 

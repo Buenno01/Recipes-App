@@ -32,7 +32,10 @@ function DoneRecipes() {
   return (
     <div>
       <ButtonsFilterBy onClick={ handleFilterByType } />
-      <div data-testid="all-done-recipes">
+      <div
+        data-testid="all-done-recipes"
+        className="mx-4"
+      >
         {
         filteredDoneRecipes && filteredDoneRecipes
           .map((filteredDoneRecipe: DoneRecipeType, index: number) => {

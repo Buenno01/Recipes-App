@@ -1,14 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { AnyRecipeType } from '../../@types/AnyRecipeType';
+import { Link, useLocation } from 'react-router-dom';
+import { BasicRecipeInfoType } from '../../@types/BasicRecipeInfoType';
 
 type RecipesListItemProps = {
-  recipe: AnyRecipeType;
-  recipeType: string;
+  recipe: BasicRecipeInfoType;
   index: number;
 };
 
-function RecipesListItem({ index, recipe, recipeType }: RecipesListItemProps) {
+function RecipesListItem({ index, recipe }: RecipesListItemProps) {
+  const { pathname } = useLocation();
+  const recipeType = pathname.includes('meals') ? 'meals' : 'drinks';
   return (
     <Link key={ recipe.name } to={ `/${recipeType}/${recipe.id}` }>
       <div data-testid={ `${index}-recipe-card` }>

@@ -1,235 +1,81 @@
 import { vi } from 'vitest';
-import { mealMock } from './mock';
+import * as drinksApiReturns from './drinksApiReturns';
+import * as mealsApiReturns from './mealsApiReturns';
 
-const BASE_MEAL_URL = 'https://www.themealdb.com/api/json/v1/1/';
-// const BASE_DRINK_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
-const BY_NAME = 'search.php?s=';
-const BY_ID = 'lookup.php?i=';
-const BY_CATEGORY = 'filter.php?c=';
-const GET_CATEGORIES = 'list.php?c=list';
+const BASE_MEAL_URL = /https:\/\/www.themealdb.com\/api\/json\/v1\/1\//;
+const BASE_DRINK_URL = /https:\/\/www.thecocktaildb.com\/api\/json\/v1\/1\//;
+const BY_NAME = /search.php\?s=/;
+const BY_NAME_MEALS = /search.php\?s=Spicy Arrabiata Penne/i;
+const BY_NAME_DRINKS = /search.php\?s=Auburn Headbanger/i;
+const BY_CATEGORY_MEALS = /filter.php\?c=Beef/i;
+const BY_CATEGORY_DRINKS = /filter.php\?c=Ordinary Drink/i;
+const GET_CATEGORIES = /list.php\?c=list/;
+const BY_FIRST_LETTER = /search.php\?f=f/i;
+const BY_INGREDIENT_MEALS = /filter.php\?i=beef/i;
+const BY_INGREDIENT_DRINKS = /filter.php\?i=vodka/i;
+const NOT_FOUND = /non-existent/i;
 
-export const globalFetchMock = () => vi
+const mockGlobalFetch = (error = false, loading = false) => vi
   .spyOn(global, 'fetch')
   .mockImplementation((endpoint) => Promise.resolve(Promise.resolve({
-    json: async () => mockEndPoints(endpoint),
+    json: async () => checkErrorOrLoading(error, loading, endpoint),
     ok: true,
     status: 200,
   } as Response)));
 
-const mockEndPoints = (endpoint: any) => {
-  switch (endpoint) {
-    case BASE_MEAL_URL + BY_ID:
-      return mealMock;
-    case BASE_MEAL_URL + BY_NAME:
-      return mealsListApiReturn;
-    case `${BASE_MEAL_URL + BY_CATEGORY}Beef`:
-      return mealsListByCategory;
-    case BASE_MEAL_URL + GET_CATEGORIES:
-      return mealsCategories;
-    default:
-      return {};
+const checkErrorOrLoading = (error: boolean, loading: boolean, endpoint: any) => {
+  if (error) throw new Error('Error fetching data');
+  if (loading) {
+    return setTimeout(() => mockEndPoints(endpoint), 3000);
   }
+  return mockEndPoints(endpoint);
 };
 
-const mealsListApiReturn = {
-  meals: [
-    mealMock.meals[0],
-    {
-      ...mealMock.meals[0],
-      idMeal: '52772',
-      strMeal: 'Teriyaki Chicken Casserole',
-      strCategory: 'Chicken',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52773',
-      strMeal: 'Pasta a La Maluquita',
-      strCategory: 'Pasta',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52774',
-      strMeal: 'Beef with Garlic',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52775',
-      strMeal: 'Salad',
-      strCategory: 'Vegetarian',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52776',
-      strMeal: 'Sushi',
-      strCategory: 'Seafood',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52777',
-      strMeal: 'Burguer',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52778',
-      strMeal: 'Fries',
-      strCategory: 'Side',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52779',
-      strMeal: 'Pizza',
-      strCategory: 'Vegetarian',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52780',
-      strMeal: 'Taco',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52781',
-      strMeal: 'Hot Dog',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52782',
-      strMeal: 'Burrito',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52783',
-      strMeal: 'Beets',
-      strCategory: 'Vegetarian',
-    },
-  ],
+const mockEndPoints = (endpoint: any) => {
+  const endpointString = endpoint.toString();
+  if (BASE_MEAL_URL.test(endpointString)) return mockMeals(endpointString);
+  if (BASE_DRINK_URL.test(endpointString)) return mockDrinks(endpointString);
+  return {};
 };
 
-const mealsListByCategory = {
-  meals: [
-    mealMock.meals[0],
-    {
-      ...mealMock.meals[0],
-      idMeal: '52772',
-      strMeal: 'Beef 1',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52773',
-      strMeal: 'Beef 2',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52774',
-      strMeal: 'Beef with Garlic',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52775',
-      strMeal: 'Beef a la maluquitos',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52776',
-      strMeal: 'Beef Sushi',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52777',
-      strMeal: 'Burguer',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52778',
-      strMeal: 'Beef with Fries',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52779',
-      strMeal: 'Beef Pizza',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52780',
-      strMeal: 'Taco',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52781',
-      strMeal: 'Hot Dog',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52782',
-      strMeal: 'Burrito',
-      strCategory: 'Beef',
-    },
-    {
-      ...mealMock.meals[0],
-      idMeal: '52783',
-      strMeal: 'Beets with Beefs',
-      strCategory: 'Beef',
-    },
-  ],
+const mockMeals = (endpoint: string) => {
+  let returnedData: any = mealsApiReturns.ById;
+
+  if (GET_CATEGORIES.test(endpoint)) returnedData = mealsApiReturns.GetCategories;
+
+  if (BY_NAME.test(endpoint)) returnedData = mealsApiReturns.ByName;
+
+  if (BY_FIRST_LETTER.test(endpoint)) returnedData = mealsApiReturns.ByFirstLetter;
+
+  if (BY_CATEGORY_MEALS.test(endpoint)) returnedData = mealsApiReturns.ByCategory;
+
+  if (BY_NAME_MEALS.test(endpoint)) returnedData = mealsApiReturns.ById;
+
+  if (BY_INGREDIENT_MEALS.test(endpoint)) returnedData = mealsApiReturns.ByIngredient;
+
+  if (NOT_FOUND.test(endpoint)) returnedData = mealsApiReturns.NotFound;
+
+  return returnedData;
 };
 
-const mealsCategories = {
-  meals: [
-    {
-      strCategory: 'Beef',
-    },
-    {
-      strCategory: 'Chicken',
-    },
-    {
-      strCategory: 'Vegetarian',
-    },
-    {
-      strCategory: 'Seafood',
-    },
-    {
-      strCategory: 'Side',
-    },
-    {
-      strCategory: 'Pasta',
-    },
-    {
-      strCategory: 'Dessert',
-    },
-    {
-      strCategory: 'Breakfast',
-    },
-    {
-      strCategory: 'Goat',
-    },
-    {
-      strCategory: 'Lamb',
-    },
-    {
-      strCategory: 'Pork',
-    },
-    {
-      strCategory: 'Starter',
-    },
-    {
-      strCategory: 'Vegan',
-    },
-    {
-      strCategory: 'Miscellaneous',
-    },
-  ],
+const mockDrinks = (endpoint: string) => {
+  let returnedData: any = drinksApiReturns.ById;
+
+  if (GET_CATEGORIES.test(endpoint)) returnedData = drinksApiReturns.GetCategories;
+
+  if (BY_NAME.test(endpoint)) returnedData = drinksApiReturns.ByName;
+
+  if (BY_FIRST_LETTER.test(endpoint)) returnedData = drinksApiReturns.ByFirstLetter;
+
+  if (BY_CATEGORY_DRINKS.test(endpoint)) returnedData = drinksApiReturns.ByCategory;
+
+  if (BY_NAME_DRINKS.test(endpoint)) returnedData = drinksApiReturns.ById;
+
+  if (BY_INGREDIENT_DRINKS.test(endpoint)) returnedData = drinksApiReturns.ByIngredient;
+
+  if (NOT_FOUND.test(endpoint)) returnedData = drinksApiReturns.NotFound;
+
+  return returnedData;
 };
+
+export default mockGlobalFetch;

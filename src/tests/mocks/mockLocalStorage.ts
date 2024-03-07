@@ -1,11 +1,11 @@
 import { vi } from 'vitest';
 import { DONE_RECIPES_MOCK } from './doneRecipesMock';
-import { formattedDrinkMock as drinkRecipe, favoriteDrinkMock } from './drinkMocks';
+import { favoriteDrinkMock } from './drinkMocks';
 import { favoriteMealMock } from './mealMocks';
 
 export const MOCK_IN_PROGRESS_STORAGE = JSON.stringify({
   drinks: {
-    17256: drinkRecipe.ingredients,
+    17256: [],
   },
 });
 

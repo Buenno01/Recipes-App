@@ -36,7 +36,7 @@ function FavoriteRecipes() {
   return (
     <div>
       <ButtonsFilterBy onClick={ handleFilterByType } data-testid="filterBy-buttons" />
-      <div data-testid="all-favorite-recipes">
+      <div data-testid="all-favorite-recipes" className="mx-4">
         {
         filteredFavoriteRecipes && filteredFavoriteRecipes
           .map((filteredFavoriteRecipe: FavoriteRecipeType, index: number) => {

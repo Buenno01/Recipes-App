@@ -1,5 +1,3 @@
-import React from 'react';
-
 type IngredientListItemProps = {
   ingredient: string;
   measure: string;
@@ -8,14 +6,11 @@ type IngredientListItemProps = {
 
 function IngredientListItem({ ingredient, measure, index }: IngredientListItemProps) {
   return (
-    <li
-      data-testid={ `${index}-ingredient-name-and-measure` }
-    >
-      <label className="flex gap-2">
-        <input type="checkbox" name={ `ingredient-${ingredient}` } value={ ingredient } />
+    <li>
+      <p data-testid={ `${index}-ingredient-name-and-measure` }>
         {measure ? `${measure} - ` : ''}
         {ingredient}
-      </label>
+      </p>
     </li>
   );
 }

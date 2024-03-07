@@ -22,7 +22,7 @@ const useFetchDrinkOrFoodById = (id: string, type: RecipeOptionsType)
 
         const data = await fetchAny(id, type, 'id');
 
-        setRecipe(data as AnyRecipeType);
+        setRecipe(data[0] as AnyRecipeType);
       } catch (err) {
         if (err instanceof Error) {
           setError(err.message ?? 'Error fetching data');

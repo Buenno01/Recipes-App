@@ -10,7 +10,6 @@ function Layout() {
   const [titlePage, setTitlePage] = useState('');
   const [profileIcon, setProfileIcon] = useState(false);
   const [searchIcon, setSeachIcon] = useState(false);
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   useEffect(() => {
     switch (location.pathname) {
@@ -62,10 +61,6 @@ function Layout() {
     }
   }, [location.pathname]);
 
-  const toggleSearchVisibility = () => {
-    setIsSearchVisible(!isSearchVisible);
-  };
-
   return (
     <>
       {isHeaderVisible && (
@@ -73,8 +68,6 @@ function Layout() {
           titlePage={ titlePage }
           profileIcon={ profileIcon }
           searchIcon={ searchIcon }
-          onSearchClick={ toggleSearchVisibility }
-          isSearchVisible={ isSearchVisible }
         />
       )}
       <Outlet />

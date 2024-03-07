@@ -6,11 +6,9 @@ import { DoneRecipeType } from '../@types/DoneRecipeType';
 type ButtonStartOrContinueProps = {
   recipeType: RecipeOptionsType;
   id: string | undefined;
-  ingredientList: string[];
 };
 
-function ButtonStartOrContinue({ id = '', recipeType,
-  ingredientList }: ButtonStartOrContinueProps) {
+function ButtonStartOrContinue({ id = '', recipeType }: ButtonStartOrContinueProps) {
   const navigate = useNavigate();
   const [doneRecipesLS] = useLocalStorage<DoneRecipeType[]>('doneRecipes', []);
   if (doneRecipesLS.some((doneRecipe) => doneRecipe.id === id)) return '';
@@ -27,7 +25,7 @@ function ButtonStartOrContinue({ id = '', recipeType,
         ...inProgressRecipes,
         [recipeType]: {
           ...inProgressRecipes[recipeType],
-          [id]: ingredientList,
+          [id]: [],
         },
       }));
 

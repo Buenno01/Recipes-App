@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
 import blackHearticon from '../../images/blackHeartIcon.svg';
 import ShareButton from '../ShareButton';
-import ClickableImageAndName from '../ClickableImage';
 import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
+import ClickableImage from '../ClickableImage';
 
 function FavoriteRecipe(props: FavoriteRecipeProps) {
   const nav = useNavigate();
@@ -31,12 +31,16 @@ function FavoriteRecipe(props: FavoriteRecipeProps) {
     isFav
     && (
       <div>
-        <ClickableImageAndName
+        <ClickableImage
           recipe={ favoriteRecipe }
           onClick={ handleClick }
           index={ index }
         />
-        <CategoryDrinkOrMeal recipe={ favoriteRecipe } index={ index } />
+        <CategoryDrinkOrMeal
+          recipe={ favoriteRecipe }
+          index={ index }
+          className="text-sm text-gray-500 text-left"
+        />
         <button
           data-testid={ `${index}-horizontal-favorite-true-btn` }
           onClick={ handleFavorite }

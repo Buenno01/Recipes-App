@@ -4,6 +4,7 @@ import ShareButton from '../ShareButton';
 import ClickableImage from '../ClickableImage';
 import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
 import { formatDate } from '../../utils/formatDate';
+import CategoryAndName from '../CategoryAndName';
 
 function DoneRecipe(props: DoneRecipeProps) {
   const nav = useNavigate();
@@ -22,18 +23,7 @@ function DoneRecipe(props: DoneRecipeProps) {
         />
       </div>
       <div className="w-full h-full mt-4 text-left pl-4">
-        <div className="">
-          <button onClick={ handleClick }>
-            <p data-testid={ `${index}-horizontal-name` } className="font-bold text-left">
-              {doneRecipe.name}
-            </p>
-          </button>
-          <CategoryDrinkOrMeal
-            recipe={ doneRecipe }
-            index={ index }
-            className="text-sm text-gray-500 text-left"
-          />
-        </div>
+        <CategoryAndName onClick={ handleClick } recipe={ doneRecipe } index={ index } />
         <div className="mt-10">
           <span>Done in: </span>
           <span

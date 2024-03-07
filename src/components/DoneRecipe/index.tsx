@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { DoneRecipeProps } from '../../@types/DoneRecipeType';
 import ShareButton from '../ShareButton';
 import ClickableImage from '../ClickableImage';
-import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
 import { formatDate } from '../../utils/formatDate';
 import CategoryAndName from '../CategoryAndName';
 

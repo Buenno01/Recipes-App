@@ -1,4 +1,3 @@
-import React from 'react';
 import CategoryDrinkOrMeal from './CategoryDrinkOrMeal';
 import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 import { DoneRecipeType } from '../@types/DoneRecipeType';

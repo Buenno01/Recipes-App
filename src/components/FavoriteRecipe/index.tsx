@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
 import blackHearticon from '../../images/blackHeartIcon.svg';
 import ShareButton from '../ShareButton';
-import ClickableImageAndName from '../ClickableImageAndName';
+import ClickableImageAndName from '../ClickableImage';
 import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
 
 function FavoriteRecipe(props: FavoriteRecipeProps) {

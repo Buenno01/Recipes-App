@@ -21,7 +21,7 @@ function DoneRecipe(props: DoneRecipeProps) {
           index={ index }
         />
       </div>
-      <div className="w-full h-full mt-4 text-left pl-4">
+      <div className="w-1/2 h-full pt-4 text-left pl-4">
         <CategoryAndName onClick={ handleClick } recipe={ doneRecipe } index={ index } />
         <div className="mt-10">
           <span>Done in: </span>
@@ -48,7 +48,7 @@ function DoneRecipe(props: DoneRecipeProps) {
 }
         </div>
       </div>
-      <div className="w-1/6 h-full mt-2 mr-4">
+      <div className="w-1/6 h-full mt-4">
         <ShareButton
           alt="Compatilhar"
           dataTestID={ `${index}-horizontal-share-btn` }

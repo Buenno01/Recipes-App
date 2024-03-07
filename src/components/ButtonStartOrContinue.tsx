@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { RecipeOptionsType } from '../@types/RecipeOptionsType';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { DoneRecipeType } from '../@types/DoneRecipeType';
+import BottomFixedBtn from './BottomFixedBtn';
 
 type ButtonStartOrContinueProps = {
   recipeType: RecipeOptionsType;
@@ -34,15 +35,9 @@ function ButtonStartOrContinue({ id = '', recipeType }: ButtonStartOrContinuePro
   };
 
   return (
-    <button
-      className="fixed bottom-0"
-      data-testid="start-recipe-btn"
-      onClick={ handleClick }
-    >
-      {
-        isInProgress
-      }
-    </button>
+    <BottomFixedBtn data-testid="start-recipe-btn" onClick={ handleClick }>
+      { isInProgress }
+    </BottomFixedBtn>
   );
 }
 

@@ -71,7 +71,7 @@ function Layout() {
         />
       )}
       <Outlet />
-      <div className="w-full h-8" />
+      <div className="w-full h-16" />
 
       {isFooterVisible && (
         <Footer />

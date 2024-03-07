@@ -11,7 +11,7 @@ export type FetchParamsType = {
 export type RecipesContextType = {
   fetchParams: FetchParamsType;
   setFetchParams: (params: FetchParamsType) => void;
-  recipes: BasicRecipeInfoType[];
+  recipes: BasicRecipeInfoType[] | undefined;
   error: string;
   loading: boolean;
 };

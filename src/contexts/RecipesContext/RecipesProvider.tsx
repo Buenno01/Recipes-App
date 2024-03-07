@@ -16,9 +16,9 @@ function RecipesProvider({ children }: RecipesProviderProps) {
     endpoint: 'name',
   };
   const [fetchParams, setFetchParams] = useState<FetchParamsType>(INITIAL_PARAMS);
-  const [recipes, setRecipes] = useState<BasicRecipeInfoType[]>([]);
+  const [recipes, setRecipes] = useState<BasicRecipeInfoType[] | undefined>(undefined);
   const [error, setError] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const { endpoint, param, recipeType } = fetchParams;
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function RecipesProvider({ children }: RecipesProviderProps) {
   const value: RecipesContextType = {
     fetchParams,
     setFetchParams,
-    recipes: recipes ?? [],
+    recipes,
     error,
     loading,
   };

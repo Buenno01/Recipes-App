@@ -28,15 +28,18 @@ function Home() {
   }, [recipeType]);
 
   useEffect(() => {
-    if (recipes.length === 1 && fetchParams.endpoint === 'name') {
-      const { id } = recipes[0];
-      navigate(`/${recipeType}/${id}`);
-    } else if (recipes.length === 0) {
-      alert("Sorry, we haven't found any recipes for these filters");
+    if (recipes) {
+      if (recipes.length === 1 && fetchParams.endpoint === 'name') {
+        const { id } = recipes[0];
+        navigate(`/${recipeType}/${id}`);
+      } else if (recipes.length === 0) {
+        console.log(recipes);
+
+        alert("Sorry, we haven't found any recipes for these filters");
+      }
     }
   }, [recipes]);
 
-  if (error || !recipes) return <p>Error fetching recipes</p>;
   return (
     <>
       <Categories
@@ -46,7 +49,7 @@ function Home() {
       <RecipesContainer
         error={ error }
         loading={ loading }
-        recipes={ recipes.slice(0, 12) }
+        recipes={ recipes }
       />
     </>
   );

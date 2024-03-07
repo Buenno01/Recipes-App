@@ -1,5 +1,6 @@
 import React from 'react';
 import { RecipeOptionsType } from '../@types/RecipeOptionsType';
+import DetailTopic from './DetailTopic';
 
 type VideoProps = {
   recipe: {
@@ -13,13 +14,17 @@ function Video({ recipe: { name, video = null, type } }: VideoProps) {
   if (type !== 'meals' || !video) return '';
 
   return (
-    <div>
-      <iframe
-        data-testid="video"
-        title={ name }
-        src={ video }
-      />
-    </div>
+    <DetailTopic.Root>
+      <DetailTopic.Title>Video</DetailTopic.Title>
+      <div className="w-full h-32">
+        <iframe
+          className="w-full"
+          data-testid="video"
+          title={ name }
+          src={ video }
+        />
+      </div>
+    </DetailTopic.Root>
   );
 }
 

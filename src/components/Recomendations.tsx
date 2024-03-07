@@ -1,5 +1,6 @@
 import React from 'react';
 import RecomendationsList from './RecomendationsList';
+import DetailTopic from './DetailTopic';
 
 type RecomendationsProps = {
   recomendations: {
@@ -10,8 +11,10 @@ type RecomendationsProps = {
 
 function Recomendations({ recomendations }: RecomendationsProps) {
   return (
-    <RecomendationsList.Root>
-      {
+    <DetailTopic.Root>
+      <DetailTopic.Title>Recommended</DetailTopic.Title>
+      <RecomendationsList.Root>
+        {
         recomendations.map((rec, index) => (
           <RecomendationsList.Item
             index={ index }
@@ -20,8 +23,9 @@ function Recomendations({ recomendations }: RecomendationsProps) {
             imgSrc={ rec.thumb }
           />
         ))
-      }
-    </RecomendationsList.Root>
+        }
+      </RecomendationsList.Root>
+    </DetailTopic.Root>
   );
 }
 

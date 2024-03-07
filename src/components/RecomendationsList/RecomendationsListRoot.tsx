@@ -6,7 +6,7 @@ type RecomendationsListRootProps = {
 
 function RecomendationsListRoot({ children }: RecomendationsListRootProps) {
   return (
-    <ul className="flex w-screen flex-nowrap overflow-x-scroll">
+    <ul className="flex w-full flex-nowrap overflow-x-scroll">
       { children }
     </ul>
   );

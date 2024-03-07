@@ -6,7 +6,7 @@ type IngredientListItemProps = {
 
 function IngredientListItem({ ingredient, measure, index }: IngredientListItemProps) {
   return (
-    <li>
+    <li className="list-disc ml-6">
       <p data-testid={ `${index}-ingredient-name-and-measure` }>
         {measure ? `${measure} - ` : ''}
         {ingredient}

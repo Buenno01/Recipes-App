@@ -2,7 +2,7 @@ import { BasicRecipeInfoType } from '../@types/BasicRecipeInfoType';
 import RecipesList from './RecipesList';
 
 type RecipesContainerProps = {
-  recipes: BasicRecipeInfoType[];
+  recipes: BasicRecipeInfoType[] | undefined;
   loading: boolean;
   error: string;
 };
@@ -13,7 +13,7 @@ function RecipesContainer({ recipes, loading, error }: RecipesContainerProps) {
   return (
     <RecipesList.Root>
       {
-        recipes.map((recipe, index) => (
+        recipes.slice(0, 12).map((recipe, index) => (
           <RecipesList.Item
             key={ recipe.name }
             recipe={ recipe }

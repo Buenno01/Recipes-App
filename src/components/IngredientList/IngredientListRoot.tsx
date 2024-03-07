@@ -1,4 +1,5 @@
 import React from 'react';
+import DetailTopic from '../DetailTopic';
 
 type IngredientListRootProps = {
   children: React.ReactNode;
@@ -6,9 +7,14 @@ type IngredientListRootProps = {
 
 function IngredientListRoot({ children }: IngredientListRootProps) {
   return (
-    <ul>
-      { children }
-    </ul>
+    <DetailTopic.Root>
+      <DetailTopic.Title>Ingredients</DetailTopic.Title>
+      <DetailTopic.Box>
+        <ul>
+          { children }
+        </ul>
+      </DetailTopic.Box>
+    </DetailTopic.Root>
   );
 }
 

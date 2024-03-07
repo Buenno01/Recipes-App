@@ -28,7 +28,7 @@ function Home() {
   }, [recipeType]);
 
   useEffect(() => {
-    if (recipes.length === 1) {
+    if (recipes.length === 1 && fetchParams.endpoint === 'name') {
       const { id } = recipes[0];
       navigate(`/${recipeType}/${id}`);
     } else if (recipes.length === 0) {

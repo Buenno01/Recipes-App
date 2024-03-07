@@ -7,6 +7,7 @@ import ButtonStartOrContinue from '../../components/ButtonStartOrContinue';
 import Ingredients from '../../components/Ingredients';
 import Video from '../../components/Video';
 import Title from '../../components/Title';
+import Instructions from '../../components/Instructions';
 
 function RecipeDetails() {
   const { id } = useParams();
@@ -29,9 +30,7 @@ function RecipeDetails() {
     <>
       <Title recipe={ recipe } />
       <Ingredients recipe={ recipe } />
-      <p data-testid="instructions">
-        {recipe.instructions}
-      </p>
+      <Instructions instructions={ recipe.instructions } />
       <Video recipe={ recipe } />
       <Recomendations recomendations={ recomendations } />
       <ButtonStartOrContinue

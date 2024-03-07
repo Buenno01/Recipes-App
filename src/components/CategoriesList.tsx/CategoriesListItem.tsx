@@ -1,4 +1,5 @@
 import React from 'react';
+import CategoryBtn from '../atoms/CategoryBtn';
 
 type CategoriesListItemProps = {
   category: string;
@@ -8,12 +9,12 @@ type CategoriesListItemProps = {
 function CategoriesListItem({ category, handleClick }: CategoriesListItemProps) {
   return (
     <li key={ category }>
-      <button
-        data-testid={ `${category}-category-filter` }
+      <CategoryBtn
         onClick={ handleClick }
-      >
-        {category}
-      </button>
+        data-testid={ `${category}-category-filter` }
+        category={ category }
+      />
+      {category}
     </li>
   );
 }

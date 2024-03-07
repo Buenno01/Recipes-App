@@ -13,7 +13,7 @@ function DoneRecipe(props: DoneRecipeProps) {
     nav(url);
   };
   return (
-    <div className="flex h-64 mb-1">
+    <div className="flex h-64 mb-4 border border-gray-400">
       <div className="w-1/2 h-full flex-shrink-0">
         <ClickableImage
           recipe={ doneRecipe }
@@ -48,7 +48,7 @@ function DoneRecipe(props: DoneRecipeProps) {
 }
         </div>
       </div>
-      <div className="w-1/6 h-full mt-4">
+      <div className="w-1/6 h-full mt-2 mr-4">
         <ShareButton
           alt="Compatilhar"
           dataTestID={ `${index}-horizontal-share-btn` }

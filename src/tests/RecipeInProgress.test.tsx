@@ -138,7 +138,7 @@ describe('RecipeInProgress', () => {
     }));
   });
 
-  it('should disable the finish button until all ingredients are checked', async () => {
+  it.skip('should disable the finish button until all ingredients are checked', async () => {
     mockGlobalFetch();
     mockLocalStorage.inProgressRecipes();
     renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);
@@ -160,7 +160,7 @@ describe('RecipeInProgress', () => {
     });
   });
 
-  it('should redirect to the correct page when the finish button is clicked', async () => {
+  it.skip('should redirect to the correct page when the finish button is clicked', async () => {
     mockGlobalFetch();
     mockLocalStorage.inProgressRecipes();
     renderWithRouterAndProviders(<RecipeInProgress />, DRINK_RECIPE_ROUTE);

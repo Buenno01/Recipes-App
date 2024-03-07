@@ -24,7 +24,7 @@ export const formatRecipeListToBasic = (
 };
 
 export const formatRecipeListToType = (data: any[]): AnyRecipeType[] => {
-  if (!data) return [];
+  if (!data || data.length === 0) return [];
   const type = checkRecipeType(data[0]);
   if (type === 'meals') {
     return data.map((item) => formatToMealRecipeType(item));

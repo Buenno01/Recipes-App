@@ -2,7 +2,7 @@ import { render } from '@testing-library/react';
 import { ReactElement } from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import RecipesProvider from '../contexts/RecipesContext/RecipesProvider';
+import CombinedProviders from '../contexts/CombinedProviders';
 // import CombinedProviders from '../contexts/CombinedProviders';
 
 const wrapWithRouter = (ui: ReactElement, initialEntries = ['/']) => {
@@ -14,7 +14,11 @@ const wrapWithRouter = (ui: ReactElement, initialEntries = ['/']) => {
   );
 };
 
-const wrapWithProviders = (ui: ReactElement) => <RecipesProvider>{ ui }</RecipesProvider>;
+const wrapWithProviders = (ui: ReactElement) => (
+  <CombinedProviders>
+    { ui }
+  </CombinedProviders>
+);
 
 export const renderWithRouter = (ui: ReactElement, { initialEntries = ['/'] } = {}) => {
   return {

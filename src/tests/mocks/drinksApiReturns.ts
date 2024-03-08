@@ -1,7 +1,7 @@
 export const ById = {
   drinks: [
     {
-      idDrink: '17020',
+      idDrink: '17256',
       strDrink: 'Auburn Headbanger',
       strDrinkAlternate: null,
       strTags: null,
@@ -74,7 +74,7 @@ const uva = 'suco de uva';
 export const ByName = {
   drinks: [
     ById.drinks[0],
-    { ...ById.drinks[0], idDrink: '17256', strDrink: 'Mojito' },
+    { ...ById.drinks[0], idDrink: '17257', strDrink: 'Mojito' },
     { ...ById.drinks[0], idDrink: '17255', strDrink: 'Cuba Libre' },
     { ...ById.drinks[0], idDrink: '17254', strDrink: 'Aperol Spritz' },
     { ...ById.drinks[0], idDrink: '17253', strDrink: 'Expresso Martini' },

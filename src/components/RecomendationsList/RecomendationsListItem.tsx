@@ -10,10 +10,14 @@ function RecomendationsListItem({ title, imgSrc, index }: RecomendationsListItem
   return (
     <li
       data-testid={ `${index}-recommendation-card` }
-      className="min-w-48"
+      className="min-w-40 h-40 flex flex-col items-center
+      gap-2 overflow-hidden rounded-lg relative border border-gray-300"
     >
       <img src={ imgSrc } alt={ title } />
-      <h3 data-testid={ `${index}-recommendation-title` }>
+      <h3
+        className="absolute bottom-0 w-full bg-white px-4"
+        data-testid={ `${index}-recommendation-title` }
+      >
         {title}
       </h3>
     </li>

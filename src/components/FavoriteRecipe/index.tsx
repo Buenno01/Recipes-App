@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { FavoriteRecipeProps } from '../../@types/FavoriteRecipeType';
-import blackHearticon from '../../images/blackHeartIcon.svg';
+import blackHearticon from '../../assets/images/blackHeartIcon.svg';
 import ShareButton from '../ShareButton';
 import ClickableImage from '../ClickableImage';
 import CategoryAndName from '../CategoryAndName';

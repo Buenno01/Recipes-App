@@ -13,7 +13,7 @@ const GET_CATEGORIES = /list.php\?c=list/;
 const BY_FIRST_LETTER = /search.php\?f=f/i;
 const BY_INGREDIENT_MEALS = /filter.php\?i=beef/i;
 const BY_INGREDIENT_DRINKS = /filter.php\?i=vodka/i;
-const NOT_FOUND = /non-existent/i;
+const NOT_FOUND = /xablau/i;
 
 const mockGlobalFetch = (error = false, loading = false) => vi
   .spyOn(global, 'fetch')

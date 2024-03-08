@@ -90,5 +90,5 @@ test('Teste se ao clicar no icone do Profile, é direcionado a rota "/profile" '
   expect(screen.getByText(/meals/i)).toBeInTheDocument();
 
   await user.click(btnProfile);
-  expect(screen.getByTestId('divProfilePage')).toBeInTheDocument();
+  expect(screen.getByText(/profile/i)).toBeInTheDocument();
 });

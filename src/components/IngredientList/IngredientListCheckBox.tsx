@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useInProgressContext } from '../../contexts/InProgressContext';
 
 type IngredientListCheckBoxProps = {
   ingredient: string;
@@ -13,27 +13,25 @@ IngredientListCheckBoxProps) {
   const { id } = useParams();
   const location = useLocation();
   const recipeType = location.pathname.includes('meals') ? 'meals' : 'drinks';
-  const [inProgress, setInProgress] = useLocalStorage(
-    'inProgressRecipes',
-    { drinks: {}, meals: {} },
-  );
-  const thisProgress = inProgress[recipeType][id]
-    ? inProgress[recipeType][id] : [];
-  const INITIAL_STATE = !!thisProgress.includes(ingredient);
-  const [isChecked, setIsChecked] = useState(INITIAL_STATE);
+  const { progress, addIngredient, removeIngredient } = useInProgressContext();
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleChange = () => {
-    if (!isChecked) {
-      setInProgress({ ...inProgress,
-        [recipeType]: { ...inProgress[recipeType],
-          [id]: [...thisProgress, ingredient] } });
+    if (isChecked) {
+      removeIngredient(recipeType, id || '', ingredient);
     } else {
-      setInProgress({ ...inProgress,
-        [recipeType]: { ...inProgress[recipeType],
-          [id]: thisProgress.filter((i : string) => i !== ingredient) } });
+      addIngredient(recipeType, id || '', ingredient);
     }
     setIsChecked(!isChecked);
   };
+
+  useEffect(() => {
+    if (id && progress[recipeType][id].includes(ingredient)) {
+      setIsChecked(true);
+    } else {
+      setIsChecked(false);
+    }
+  }, []);
   return (
     <li>
 

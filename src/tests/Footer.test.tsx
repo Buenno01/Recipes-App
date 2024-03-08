@@ -15,9 +15,9 @@ test('Testa se as imagens estão sendo exibidas corretamente" ', () => {
   renderWithRouter(<App />, { initialEntries: ['/meals'] });
   const { imgDrinks, imgMeals } = setup();
   expect(imgDrinks).toBeInTheDocument();
-  expect(imgDrinks).toHaveAttribute('src', 'src/images/drinkIcon.svg');
+  expect(imgDrinks).toHaveAttribute('src', 'src/assets/images/drinkIcon.svg');
   expect(imgMeals).toBeInTheDocument();
-  expect(imgMeals).toHaveAttribute('src', 'src/images/mealIcon.svg');
+  expect(imgMeals).toHaveAttribute('src', 'src/assets/images/mealIcon.svg');
 });
 
 test('Teste se ao clicar no icone do Meals, é direcionado a rota "/meals" ', async () => {

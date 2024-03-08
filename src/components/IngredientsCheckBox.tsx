@@ -10,7 +10,7 @@ type IngredientsProps = {
 
 function IngredientsCheckBox({ recipe: { ingredients, measures } }: IngredientsProps) {
   return (
-    <IngredientList.Root>
+    <IngredientList.Root className="text-black">
       {
       ingredients.map((ingredient, index) => {
         const measure = measures[index];

@@ -6,7 +6,7 @@ type CategoriesListRootProps = {
 
 function CategoriesListRoot({ children }: CategoriesListRootProps) {
   return (
-    <ul>
+    <ul className="flex justify-around py-4">
       {children}
     </ul>
   );

@@ -133,7 +133,7 @@ describe('RecipeInProgress', () => {
     await userEvent.click(ingredient1);
 
     expect(storageSpy).toHaveBeenLastCalledWith('inProgressRecipes', JSON.stringify({
-      drinks: { 17256: ['Jägermeister'] },
+      drinks: { 17256: ['Goldschlager', 'Jägermeister'] },
     }));
   });
 

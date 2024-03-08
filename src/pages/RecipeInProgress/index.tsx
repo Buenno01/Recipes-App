@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Video from '../../components/Video';
 import Title from '../../components/Title';
@@ -8,10 +8,12 @@ import IngredientsCheckBox from '../../components/IngredientsCheckBox';
 import Instructions from '../../components/Instructions';
 import BottomFixedBtn from '../../components/BottomFixedBtn';
 import { useInProgressContext } from '../../contexts/InProgressContext';
+import formatToDoneRecipeType from '../../utils/formatToDoneRecipeType';
 
 function RecipeInProgress() {
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
   const recipeType : RecipeOptionsType = location.pathname
     .includes('meals') ? 'meals' : 'drinks';
   const [disabled, setDisabled] = useState(true);
@@ -44,6 +46,13 @@ function RecipeInProgress() {
     }
   }, [id, recipeType, startNewRecipe]);
 
+  const handleFinishRecipe = () => {
+    if (!data || data.length === 0) return;
+    const formattedToDoneRecipes = formatToDoneRecipeType(data[0]);
+    finishRecipe(formattedToDoneRecipes);
+    navigate('/done-recipes');
+  };
+
   if (!data) return;
   return (
     <>
@@ -56,7 +65,7 @@ function RecipeInProgress() {
       <BottomFixedBtn
         data-testid="finish-recipe-btn"
         disabled={ disabled }
-        onClick={ () => finishRecipe(recipeType, id || '') }
+        onClick={ handleFinishRecipe }
       >
         Finish Recipe
       </BottomFixedBtn>

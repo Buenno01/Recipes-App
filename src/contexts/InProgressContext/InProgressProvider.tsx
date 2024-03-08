@@ -4,6 +4,7 @@ import { InProgressContextType } from '../../@types/InProgressContextType';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { InProgressStorageType } from '../../@types/InProgressStorageType';
 import { RecipeOptionsType } from '../../@types/RecipeOptionsType';
+import { DoneRecipeType } from '../../@types/DoneRecipeType';
 
 type InProgressProviderProps = {
   children: ReactNode;
@@ -15,6 +16,8 @@ function InProgressProvider({ children }: InProgressProviderProps) {
     'inProgressRecipes',
     initialStorage,
   );
+  const [doneRecipes,
+    setDoneRecipes] = useLocalStorage<DoneRecipeType[]>('doneRecipes', []);
 
   const addIngredient = (
     recipeType: RecipeOptionsType,
@@ -30,7 +33,8 @@ function InProgressProvider({ children }: InProgressProviderProps) {
     };
     setProgress(newProgress);
   };
-  const finishRecipe = (recipeType: RecipeOptionsType, recipeId: string) => {
+  const finishRecipe = (doneRecipe: DoneRecipeType) => {
+    setDoneRecipes([...doneRecipes, doneRecipe]);
   };
   const removeIngredient = (
     recipeType: RecipeOptionsType,

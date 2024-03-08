@@ -97,7 +97,6 @@ describe('RecipeInProgress', () => {
     const attributeClass = 'class';
     const cssClass = 'flex gap-2 line-through';
     await userEvent.click(ingredient1.children[0]);
-    screen.debug();
     await waitFor(() => {
       expect(ingredient1).toHaveAttribute(attributeClass, cssClass);
       expect(ingredient2).not.toHaveAttribute(attributeClass, cssClass);

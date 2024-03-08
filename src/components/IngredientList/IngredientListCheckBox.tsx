@@ -39,7 +39,7 @@ IngredientListCheckBoxProps) {
 
       <label
         data-testid={ `${index}-ingredient-step` }
-        className={ `flex gap-2 text-black ${isChecked && 'line-through'}` }
+        className={ `flex gap-2 ${isChecked && 'line-through'}` }
       >
         <input
           type="checkbox"

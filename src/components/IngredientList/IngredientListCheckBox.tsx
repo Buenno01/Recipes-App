@@ -30,7 +30,7 @@ IngredientListCheckBoxProps) {
     } else {
       setIsChecked(false);
     }
-  }, [progress]);
+  }, [progress, id, recipeType, ingredient]);
   return (
     <li>
 

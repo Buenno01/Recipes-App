@@ -22,6 +22,7 @@ IngredientListCheckBoxProps) {
     } else {
       addIngredient(recipeType, id || '', ingredient);
     }
+    setIsChecked(!isChecked);
   };
 
   useEffect(() => {
@@ -30,7 +31,7 @@ IngredientListCheckBoxProps) {
     } else {
       setIsChecked(false);
     }
-  }, [progress, id, recipeType, ingredient]);
+  }, []);
   return (
     <li>
 

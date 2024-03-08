@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 import shareIcon from '../assets/images/shareIcon.svg';
+import LinkCopiedMessage from './atoms/LinkCopiedMessage';
 
 type ShareButtonProps = {
   copyText: string,
@@ -23,26 +24,20 @@ function ShareButton({ copyText, dataTestID, alt }: ShareButtonProps) {
   };
 
   return (
-    <>
-      <button className="h-8 w-8" onClick={ handleShare }>
-        <img
-          data-testid={ dataTestID }
-          src={ shareIcon }
-          alt={ alt }
-          className="h-8"
-        />
-      </button>
+    <button className="h-8 w-8 relative" onClick={ handleShare }>
+      <img
+        data-testid={ dataTestID }
+        src={ shareIcon }
+        alt={ alt }
+        className="h-8"
+      />
       {
           copiedMessage
           && (
-            <span
-              className="absolute bottom-0 z-20 left-0 right-0 text-center text-white"
-            >
-              Link copied!
-            </span>
+            <LinkCopiedMessage />
           )
         }
-    </>
+    </button>
   );
 }
 

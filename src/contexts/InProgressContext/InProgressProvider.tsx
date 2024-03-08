@@ -59,7 +59,7 @@ function InProgressProvider({ children }: InProgressProviderProps) {
     setProgress(newProgress);
   };
   const value: InProgressContextType = {
-    progress: { meals: {}, drinks: {} },
+    progress,
     addIngredient,
     finishRecipe,
     removeIngredient,

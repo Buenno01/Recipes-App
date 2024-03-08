@@ -19,6 +19,7 @@ function RecipeInProgress() {
   const { data } = useFetch<'id'>(id || '', recipeType, 'id');
 
   const {
+    startNewRecipe,
     finishRecipe,
     progress,
   } = useInProgressContext();
@@ -36,6 +37,12 @@ function RecipeInProgress() {
       handleDisabled(progress[recipeType][id], data[0].ingredients);
     }
   }, [data, id, progress, recipeType]);
+
+  useEffect(() => {
+    if (id && progress[recipeType][id] === undefined) {
+      startNewRecipe(recipeType, id);
+    }
+  }, [id, recipeType, startNewRecipe]);
 
   if (!data) return;
   return (

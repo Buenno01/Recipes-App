@@ -33,8 +33,6 @@ function Home() {
         const { id } = recipes[0];
         navigate(`/${recipeType}/${id}`);
       } else if (recipes.length === 0) {
-        console.log(recipes);
-
         alert("Sorry, we haven't found any recipes for these filters");
       }
     }

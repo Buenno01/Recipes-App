@@ -10,6 +10,7 @@ function BottomFixedBtn({ children,
     <button
       { ...props }
       className="fixed bottom-0 h-14 rounded-lg w-11/12 bg-primary-yellow
+      hover:bg-hover-yellow active:bg-active-yellow disabled:bg-opacity-30
       text-white font-bold left-1/2 right-1/2 transform -translate-x-1/2
       uppercase text-lg mb-2"
     >

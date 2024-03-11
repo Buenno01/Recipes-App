@@ -1,8 +1,8 @@
 import React from 'react';
 import LinkButton from '../../components/LinkButton';
 import logoutBtn from '../../assets/images/logoutBtn.svg';
-import favoriteRecipesBtn from '../../assets/images/favoriteRecipesBtn.svg';
-import doneRecipesBtn from '../../assets/images/doneRecipesBtn.svg';
+import favoriteRecipesBtn from '../../assets/images/favoriteIcon.svg';
+import doneRecipesBtn from '../../assets/images/doneIcon.svg';
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user') || '{"email": ""}');

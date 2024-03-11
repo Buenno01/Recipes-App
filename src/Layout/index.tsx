@@ -2,35 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import getPageTitle from '../utils/getPageTitle';
-
-// Rota "/": não tem header.
-// Rota "/meals": tem o header com o título "Meals" e os ícones de perfil e pesquisa.
-// Rota "/drinks": tem o header com o título "Drinks" e os ícones de perfil e pesquisa.
-// Rota "/meals/:id": não tem header.
-// Rota "/drinks/:id": não tem header.
-// Rota "/meals/:id/in-progress": não tem header.
-// Rota "/drinks/:id/in-progress": não tem header.
-// Rota "/profile": tem o header com o título "Profile" e o ícone de perfil, mas sem o ícone de pesquisa.
-// Rota "/done-recipes": tem o header com o título "Done Recipes" e o ícone de perfil, mas sem o ícone de pesquisa.
-// Rota "/favorite-recipes": tem o header com o título "Favorite Recipes" e o ícone de perfil, mas sem o ícone de pesquisa.
-
-// Rota "/": não deve ter footer.
-// Rota "/meals": deve ter footer.
-// Rota "/drinks": deve ter footer.
-// Rota "/meals/:id": não deve ter footer.
-// Rota "/drinks/:id": não deve ter footer.
-// Rota "/meals/:id/in-progress": não deve ter footer.
-// Rota "/drinks/:id/in-progress": não deve ter footer.
-// Rota "/profile": deve ter footer.
-// Rota "/done-recipes": não deve ter footer.
-// Rota "/favorite-recipes": não deve ter footer.
 
 function Layout() {
   const { pathname } = useLocation();
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
-  const [titlePage, setTitlePage] = useState('');
   const [searchIcon, setSearchIcon] = useState(false);
 
   const DETAILS_MEALS = /^\/meals\/\d+\/?$/;
@@ -72,15 +48,12 @@ function Layout() {
       default:
         break;
     }
-    setTitlePage(getPageTitle(pathname));
   }, [pathname]);
 
   return (
     <>
       {isHeaderVisible && (
         <Header
-          titlePage={ titlePage }
-          profileIcon
           searchIcon={ searchIcon }
         />
       )}

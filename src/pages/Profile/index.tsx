@@ -34,7 +34,6 @@ function Profile() {
 
   return (
     <>
-      Perfil
       <p
         className="text-lg text-center text-primary-black font-bold"
         data-testid="profile-email"

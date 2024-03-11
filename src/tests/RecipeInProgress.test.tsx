@@ -181,7 +181,7 @@ describe('RecipeInProgress', () => {
     await userEvent.click(screen.getByTestId(finishRecipeBtnTestId));
 
     await waitFor(() => {
-      expect(screen.getByText(/done/i)).toBeInTheDocument();
+      expect(screen.getByText(/done recipes/i)).toBeInTheDocument();
     });
   });
 });

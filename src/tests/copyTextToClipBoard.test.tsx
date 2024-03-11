@@ -1,6 +1,6 @@
 import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
-import { renderWithRouter } from './utils';
+import { renderWithRouterAndProviders } from './utils';
 import { copyTextToClipBoard } from '../utils/copyTextToClipBoard';
 import mockLocalStorage from './mocks/mockLocalStorage';
 
@@ -11,7 +11,7 @@ const copiedLinkRes = 'Link copied!';
 describe('Copy to clipboard', () => {
   test('Copied element response', async () => {
     mockLocalStorage.doneRecipes();
-    const { user } = renderWithRouter(
+    const { user } = renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );
@@ -28,7 +28,7 @@ describe('Copy to clipboard', () => {
 
   test('Copied text should be "Link copied"!', async () => {
     mockLocalStorage.doneRecipes();
-    renderWithRouter(
+    renderWithRouterAndProviders(
       <App />,
       INITIAL_ENTRIES,
     );

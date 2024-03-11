@@ -35,21 +35,28 @@ function SearchBar() {
 
   return (
     <form
+      className="bg-primary-purple w-11/12 mx-auto rounded-lg
+      rounded-t-xl flex flex-col items-center"
       onSubmit={ (e) => {
         e.preventDefault();
         handleSubmit();
       } }
     >
       <input
+        className="w-full border border-gray-400 text-primary-black
+        rounded-md h-10 placeholder:font-light px-4"
         name="param"
         type="text"
-        placeholder="Search..."
+        placeholder="Search"
         value={ form.param }
         onChange={ handleChange }
         data-testid="search-input"
       />
-      <div>
-        <label>
+      <div
+        className="flex content-center justify-center gap-3
+      text-white text-xs font-light py-3"
+      >
+        <label className="flex gap-1">
           <input
             defaultChecked
             type="radio"
@@ -60,7 +67,7 @@ function SearchBar() {
           />
           Name
         </label>
-        <label>
+        <label className="flex gap-1">
           <input
             type="radio"
             name="endpoint"
@@ -70,7 +77,7 @@ function SearchBar() {
           />
           Ingredient
         </label>
-        <label>
+        <label className="flex gap-1">
           <input
             type="radio"
             name="endpoint"
@@ -82,6 +89,8 @@ function SearchBar() {
         </label>
       </div>
       <button
+        className="w-2/3 text-center mb-2 bg-primary-yellow
+        rounded-md uppercase font-bold text-white text-sm h-7"
         type="submit"
         data-testid="exec-search-btn"
       >

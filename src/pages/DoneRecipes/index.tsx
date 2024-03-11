@@ -4,6 +4,7 @@ import DoneRecipe from '../../components/DoneRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
 import { useInProgressContext } from '../../contexts/InProgressContext';
+import RecipesList from '../../components/RecipesList';
 
 function DoneRecipes() {
   /* const [doneRecipes,
@@ -34,9 +35,8 @@ function DoneRecipes() {
   return (
     <div>
       <ButtonsFilterBy onClick={ handleFilterByType } />
-      <div
+      <RecipesList.Root
         data-testid="all-done-recipes"
-        className="mx-4"
       >
         {
         filteredDoneRecipes && filteredDoneRecipes
@@ -48,7 +48,7 @@ function DoneRecipes() {
             );
           })
       }
-      </div>
+      </RecipesList.Root>
     </div>
   );
 }

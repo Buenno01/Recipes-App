@@ -13,7 +13,7 @@ function DoneRecipe(props: DoneRecipeProps) {
     nav(url);
   };
   return (
-    <div className="flex h-48 mb-4 border border-gray-400 h-full">
+    <div className="flex h-full mb-4 border border-gray-400">
       <div className="w-1/2 flex-shrink-0">
         <ClickableImage
           recipe={ doneRecipe }

@@ -1,7 +1,17 @@
+import React from 'react';
 import CategoryDrinkOrMeal from './CategoryDrinkOrMeal';
 import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
 import { DoneRecipeType } from '../@types/DoneRecipeType';
 
+function RecipeCardTitle() {
+  return (
+    <div>RecipeCardTitle</div>
+  );
+}
+
+export default RecipeCardTitle;
+
+/*
 type CategoryAndNameProps = {
   onClick: () => void,
   index: number,
@@ -25,3 +35,4 @@ function CategoryAndName({ onClick, index, recipe }: CategoryAndNameProps) {
 }
 
 export default CategoryAndName;
+*/

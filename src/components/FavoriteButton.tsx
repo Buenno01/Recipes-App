@@ -6,10 +6,11 @@ import blackHearticon from '../assets/images/blackHeartIcon.svg';
 import whiteHeartIcon from '../assets/images/whiteHeartIcon.svg';
 
 type FavoriteButtonProps = {
-  recipe: AnyRecipeType | FavoriteRecipeType;
+  recipe: AnyRecipeType | FavoriteRecipeType,
+  dataTestID?: string,
 };
 
-function FavoriteButton({ recipe }: FavoriteButtonProps) {
+function FavoriteButton({ recipe, dataTestID = 'favorite-btn' }: FavoriteButtonProps) {
   const [favoriteRecipes,
     setFavoriteRecipes] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', []);
 
@@ -32,7 +33,7 @@ function FavoriteButton({ recipe }: FavoriteButtonProps) {
     <button className="h-8 w-8" onClick={ handleFavorite }>
       <img
         className="w-full"
-        data-testid="favorite-btn"
+        data-testid={ dataTestID }
         src={ isFav ? blackHearticon : whiteHeartIcon }
         alt="Favoritar"
       />

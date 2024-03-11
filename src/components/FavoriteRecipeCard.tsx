@@ -56,9 +56,11 @@ function FavoriteRecipeCard({ favoriteRecipe, favoriteRecipesLS, index,
             />
             <button
               onClick={ handleFavorite }
-              data-testid={ `${index}-horizontal-favorite-btn` }
             >
-              <FavoriteButton recipe={ favoriteRecipe } />
+              <FavoriteButton
+                recipe={ favoriteRecipe }
+                dataTestID={ `${index}-horizontal-favorite-btn` }
+              />
             </button>
           </RecipeCard.Wrapper>
         </RecipeCard.Content>

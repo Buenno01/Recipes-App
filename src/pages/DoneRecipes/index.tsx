@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
-import DoneRecipe from '../../components/DoneRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
 import { useInProgressContext } from '../../contexts/InProgressContext';
 import RecipesList from '../../components/RecipesList';
+import DoneRecipeCard from '../../components/DoneRecipeCard';
 
 function DoneRecipes() {
   /* const [doneRecipes,
@@ -42,9 +42,11 @@ function DoneRecipes() {
         filteredDoneRecipes && filteredDoneRecipes
           .map((filteredDoneRecipe: DoneRecipeType, index: number) => {
             return (
-              <div key={ filteredDoneRecipe.id }>
-                <DoneRecipe doneRecipe={ filteredDoneRecipe } index={ index } />
-              </div>
+              <DoneRecipeCard
+                doneRecipe={ filteredDoneRecipe }
+                index={ index }
+                key={ index }
+              />
             );
           })
       }

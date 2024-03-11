@@ -1,8 +1,25 @@
 import React from 'react';
 
-function RecipeCardImage() {
+type RecipeCardImageProps = {
+  index: number,
+  name: string,
+  onClick: () => void,
+  source: string
+};
+
+function RecipeCardImage({ index, name, onClick, source }: RecipeCardImageProps) {
   return (
-    <div>RecipeCardImage</div>
+    <button
+      className="h-full w-1/2 relative"
+      data-testid={ `${index}-horizontal-image-btn` }
+      onClick={ onClick }
+    >
+      <img
+        alt={ name }
+        data-testid={ `${index}-horizontal-image` }
+        src={ source }
+      />
+    </button>
   );
 }
 

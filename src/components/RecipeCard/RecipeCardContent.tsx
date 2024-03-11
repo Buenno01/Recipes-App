@@ -1,8 +1,12 @@
 import React from 'react';
 
-function RecipeCardContent() {
+type RecipeCardContentProps = {
+  children: React.ReactNode
+};
+
+function RecipeCardContent({ children }: RecipeCardContentProps) {
   return (
-    <div>RecipeCardContent</div>
+    <div className="flex flex-col px-6 py-8 w-1/2 justify-between">{children}</div>
   );
 }
 

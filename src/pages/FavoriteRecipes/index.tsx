@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
-import FavoriteRecipe from '../../components/FavoriteRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
+import FavoriteRecipeCard from '../../components/FavoriteRecipeCard';
 
 function FavoriteRecipes() {
   const [favoriteRecipesLS, setFavoriteRecipesLS,
@@ -41,7 +41,7 @@ function FavoriteRecipes() {
         filteredFavoriteRecipes && filteredFavoriteRecipes
           .map((filteredFavoriteRecipe: FavoriteRecipeType, index: number) => {
             return (
-              <FavoriteRecipe
+              <FavoriteRecipeCard
                 favoriteRecipe={ filteredFavoriteRecipe }
                 index={ index }
                 favoriteRecipesLS={ favoriteRecipesLS }

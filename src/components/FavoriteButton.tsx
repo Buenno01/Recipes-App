@@ -6,7 +6,7 @@ import blackHearticon from '../assets/images/blackHeartIcon.svg';
 import whiteHeartIcon from '../assets/images/whiteHeartIcon.svg';
 
 type FavoriteButtonProps = {
-  recipe: AnyRecipeType;
+  recipe: AnyRecipeType | FavoriteRecipeType;
 };
 
 function FavoriteButton({ recipe }: FavoriteButtonProps) {
@@ -14,13 +14,16 @@ function FavoriteButton({ recipe }: FavoriteButtonProps) {
     setFavoriteRecipes] = useLocalStorage<FavoriteRecipeType[]>('favoriteRecipes', []);
 
   const handleFavorite = () => {
-    const formattedRecipe = formatToFavoriteRecipeType(recipe);
+    let formattedRecipe = recipe;
+    if (Object.keys(recipe).includes('thumb')) {
+      formattedRecipe = formatToFavoriteRecipeType(recipe as AnyRecipeType);
+    }
     if (isFav) {
       const newFavoriteRecipes = favoriteRecipes
         .filter((favorite: FavoriteRecipeType) => favorite.id !== recipe.id);
       setFavoriteRecipes(newFavoriteRecipes);
     } else {
-      setFavoriteRecipes([...favoriteRecipes, formattedRecipe]);
+      setFavoriteRecipes([...favoriteRecipes, formattedRecipe as FavoriteRecipeType]);
     }
   };
 

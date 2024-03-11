@@ -1,8 +1,11 @@
 import React from 'react';
 
-function RecipeCardRoot() {
+type RecipeCardRootProps = {
+  children: React.ReactNode
+};
+function RecipeCardRoot({ children }: RecipeCardRootProps) {
   return (
-    <div>RecipeCardRoot</div>
+    <div className="flex w-full h-48 overflow-hidden rounded-lg border">{children}</div>
   );
 }
 

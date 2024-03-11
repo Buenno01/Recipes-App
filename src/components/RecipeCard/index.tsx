@@ -7,11 +7,11 @@ import RecipeCardWrapper from './RecipeCardWrapper';
 
 const RecipeCard = {
   Root: RecipeCardRoot,
-
   Image: RecipeCardImage,
   Title: RecipeCardTitle,
   Tags: RecipeCardTags,
   Content: RecipeCardContent,
   Wrapper: RecipeCardWrapper,
 };
+
 export default RecipeCard;

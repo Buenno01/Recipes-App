@@ -1,25 +1,17 @@
 import React from 'react';
-import CategoryDrinkOrMeal from './CategoryDrinkOrMeal';
-import { FavoriteRecipeType } from '../@types/FavoriteRecipeType';
-import { DoneRecipeType } from '../@types/DoneRecipeType';
+import { DoneRecipeType } from '../../@types/DoneRecipeType';
+import { FavoriteRecipeType } from '../../@types/FavoriteRecipeType';
+import CategoryDrinkOrMeal from '../CategoryDrinkOrMeal';
 
-function RecipeCardTitle() {
-  return (
-    <div>RecipeCardTitle</div>
-  );
-}
-
-export default RecipeCardTitle;
-
-/*
-type CategoryAndNameProps = {
+type RecipeCardTitleProps = {
   onClick: () => void,
   index: number,
   recipe: DoneRecipeType | FavoriteRecipeType
 };
-function CategoryAndName({ onClick, index, recipe }: CategoryAndNameProps) {
+
+function RecipeCardTitle({ onClick, index, recipe }: RecipeCardTitleProps) {
   return (
-    <>
+    <div className="flex flex-col">
       <button onClick={ onClick }>
         <p data-testid={ `${index}-horizontal-name` } className="font-bold text-left">
           {recipe.name}
@@ -30,9 +22,8 @@ function CategoryAndName({ onClick, index, recipe }: CategoryAndNameProps) {
         index={ index }
         className="text-sm text-gray-500 text-left"
       />
-    </>
+    </div>
   );
 }
 
-export default CategoryAndName;
-*/
+export default RecipeCardTitle;

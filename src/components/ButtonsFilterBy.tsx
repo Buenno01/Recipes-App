@@ -1,6 +1,7 @@
 import React from 'react';
 import mealIcon from '../assets/images/mealIcon.svg';
 import drinkIcon from '../assets/images/drinkIcon.svg';
+import allIcon from '../assets/images/🦆 icon _fast food outline_.svg';
 
 type ButtonsFilterByProps = {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
@@ -21,13 +22,8 @@ function ButtonsFilterBy({ onClick }: ButtonsFilterByProps) {
           className={ circle }
         >
           <img
-            src={ mealIcon }
-            alt="Meals Icon"
-            className={ icon }
-          />
-          <img
-            src={ drinkIcon }
-            alt="Drinks Icon"
+            src={ allIcon }
+            alt="All Icon"
             className={ icon }
           />
         </div>

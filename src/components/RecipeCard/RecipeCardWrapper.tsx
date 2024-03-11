@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
-function RecipeCardWrapper() {
+interface RecipeCardWrapperProps extends HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode
+}
+
+function RecipeCardWrapper({ children, className, ...rest }: RecipeCardWrapperProps) {
   return (
-    <div>RecipeCardWrapper</div>
+    <div
+      { ...rest }
+      className={ twMerge('flex justify-between', className) }
+    >
+      {children}
+    </div>
   );
 }
 

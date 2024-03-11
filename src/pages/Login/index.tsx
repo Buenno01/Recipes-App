@@ -1,59 +1,21 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/images/logoRecipesAppLarge.svg';
+import tomato from '../../assets/images/tomates.png';
+import LoginForm from './LoginForm';
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-
-  const handleEmailChange = (event: any) => {
-    setEmail(event.target.value);
-  };
-  const handlePasswordChange = (event:any) => {
-    setPassword(event.target.value);
-  };
-
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const validEmail = emailRegex.test(email);
-
-  const validPassword = password.length > 6;
-
-  const formIsValid = (validEmail && validPassword);
-
-  const user = { email };
-  const userData = JSON.stringify(user);
-
-  const handleClick = () => {
-    localStorage.setItem('user', userData);
-    navigate('/meals');
-  };
-
   return (
-    <>
-      <h1>Login</h1>
-      <form>
-        <input
-          type="email"
-          data-testid="email-input"
-          onChange={ handleEmailChange }
-          value={ email }
-        />
-        <input
-          type="password"
-          data-testid="password-input"
-          value={ password }
-          onChange={ handlePasswordChange }
-        />
-        <button
-          type="submit"
-          data-testid="login-submit-btn"
-          disabled={ !formIsValid }
-          onClick={ handleClick }
-        >
-          Enter
-        </button>
-      </form>
-    </>
+    <div className="h-screen w-screen relative">
+      <span
+        className="absolute flex flex-col justify-between items-center
+       z-10 h-screen w-screen py-7"
+      >
+        <img className="w-48" src={ logo } alt="Recipes App" />
+        <LoginForm />
+      </span>
+      <div className="absolute w-screen h-1/2 bg-primary-purple top-0 z-0">
+        <img className="absolute top-28" src={ tomato } alt="Tomatoes" />
+      </div>
+    </div>
   );
 }
 

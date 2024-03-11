@@ -7,13 +7,17 @@ function Login() {
     <div className="h-screen w-screen relative">
       <span
         className="absolute flex flex-col justify-between items-center
-       z-10 h-screen w-screen py-7"
+        z-10 h-screen w-screen py-7"
       >
         <img className="w-48" src={ logo } alt="Recipes App" />
         <LoginForm />
       </span>
       <div className="absolute w-screen h-1/2 bg-primary-purple top-0 z-0">
-        <img className="absolute top-28" src={ tomato } alt="Tomatoes" />
+        <img
+          className="absolute bottom-0 translate-y-32"
+          src={ tomato }
+          alt="Tomatoes"
+        />
       </div>
     </div>
   );

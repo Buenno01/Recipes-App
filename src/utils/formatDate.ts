@@ -1,6 +1,6 @@
-export function formatDate(originalDate: string) {
-  // date = Year-Month-Day Hour-Minute-Second
-  const [dateAndHour] = originalDate.split(' ');
-  const [year, month, day] = dateAndHour.split('-');
-  return `${day}/${month}/${year}`;
+export function formatDate(isoDate: string): string {
+  const date = new Date(isoDate);
+  const formattedDate = date.toLocaleDateString('pt-BR');
+  const formattedTime = date.toLocaleTimeString('pt-BR');
+  return `${formattedDate} - ${formattedTime}`;
 }

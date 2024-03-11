@@ -7,6 +7,7 @@ const INITIAL_STATE: InProgressContextType = {
   finishRecipe: () => {},
   removeIngredient: () => {},
   startNewRecipe: () => {},
+  doneRecipes: [],
 };
 
 const InProgressContext = createContext<InProgressContextType>(INITIAL_STATE);

@@ -15,6 +15,7 @@ HeaderProps) {
   return (
     <TopMenu.Root>
       <HeaderMenu
+        setSearchBarVisibility={ setSearchBarVisibility }
         searchIcon={ searchIcon }
         toggleSearchBarVisibility={ () => setSearchBarVisibility(!searchBarVisibility) }
       />

@@ -6,7 +6,7 @@ function Footer() {
   return (
     <footer
       data-testid="footer"
-      className="flex justify-around fixed bottom-0 bg-slate-800 w-full"
+      className="flex justify-around fixed bottom-0 bg-primary-purple py-1 w-full"
     >
       <button data-testid="btn-drinks" onClick={ () => navigate('/drinks') }>
         <img

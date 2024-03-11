@@ -53,7 +53,11 @@ function LoginForm() {
         />
         <button
           type="submit"
-          className="bg-primary-yellow w-full h-8 rounded-md text-white font-bold"
+          className="bg-primary-yellow w-full h-8 rounded-md text-white font-bold
+          hover:bg-hover-yellow active:bg-active-yellow uppercase
+          disabled:bg-opacity-30
+          disabled:hover:bg-primary-yellow disabled:hover:bg-opacity-30
+          disabled:active:bg-primary-yellow disabled:active:bg-opacity-30"
           data-testid="login-submit-btn"
           disabled={ !formIsValid }
           onClick={ handleClick }

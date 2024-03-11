@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DoneRecipeType } from '../../@types/DoneRecipeType';
 import DoneRecipe from '../../components/DoneRecipe';
 import { filterRecipesByType } from '../../utils/filterByType';
 import ButtonsFilterBy from '../../components/ButtonsFilterBy';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
 import { useInProgressContext } from '../../contexts/InProgressContext';
 
 function DoneRecipes() {

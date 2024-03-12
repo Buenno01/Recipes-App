@@ -68,6 +68,7 @@ function InProgressProvider({ children }: InProgressProviderProps) {
     finishRecipe,
     removeIngredient,
     startNewRecipe,
+    doneRecipes,
   };
   return (
     <InProgressContext.Provider value={ value }>

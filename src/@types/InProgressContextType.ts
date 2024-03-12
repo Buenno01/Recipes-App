@@ -9,4 +9,5 @@ export type InProgressContextType = {
   addIngredient: (recipeType: RecipeOptionsType, id: string, ingredient: string) => void;
   removeIngredient: (recipeType: RecipeOptionsType,
     id: string, ingredient: string) => void;
+  doneRecipes: DoneRecipeType[]
 };

@@ -15,6 +15,7 @@ function RecipeCardImage({ index, name, onClick, source }: RecipeCardImageProps)
       onClick={ onClick }
     >
       <img
+        className="absolute inset-0 w-full h-full object-cover"
         alt={ name }
         data-testid={ `${index}-horizontal-image` }
         src={ source }
